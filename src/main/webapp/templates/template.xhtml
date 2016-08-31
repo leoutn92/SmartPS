@@ -6,9 +6,13 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
 
-    <body>
+    <h:head>
+    	<title>SmartPS</title>
+    </h:head>
+    
+    <h:body>
 
- 	<p:layout>
+ 	<p:layout fullPage="true">
  		<p:layoutUnit position="north">
  			<h:panelGrid columns="2">
  				<h:graphicImage value="../resources/images/logo-utn.jpg"/>
@@ -19,7 +23,7 @@
  			</h:panelGrid>
  		</p:layoutUnit>
  		
- 		<p:layoutUnit position="East">
+ 		<p:layoutUnit position="west">
 			<h:form>
  			
  			<p:menu>
@@ -37,7 +41,12 @@
 		    </p:menu>
 		    </h:form>
  		</p:layoutUnit>
+ 		<p:layoutUnit position="center">
+ 			<p:panel>
+ 				<ui:insert name="content"> blablabal</ui:insert>
+ 			</p:panel>
+ 		</p:layoutUnit>
  	</p:layout>
 
-    </body>
+    </h:body>
 </html>
