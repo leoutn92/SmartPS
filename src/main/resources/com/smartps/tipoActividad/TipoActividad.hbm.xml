@@ -13,13 +13,11 @@
         <property name="descripsion" type="string">
             <column name="descripsion" length="200" not-null="true" unique="false" />
         </property>
-        <!--
         <set name="listPS" table="PS" inverse="true" lazy="true" fetch="select">
             <key>
                 <column name="id_tipo_actividad" not-null="true" />
             </key>
-            <one-to-many class="com.smartPS.model.PS" />
+            <one-to-many class="com.smartps.model.PS" />
         </set>
-        -->
     </class>
 </hibernate-mapping>

@@ -10,13 +10,7 @@
 		<many-to-one name="alumno" class="com.smartps.model.Alumno" fetch="select">
             <column name="legajo" not-null="true" />
         </many-to-one>
-        <!--
-        <composite-id>
-    		<key-property name="legajo" type="java.lang.Integer" column="legajo"/> 
-    		<key-property name="cicloLectivo" type="java.lang.Integer" column="ciclo_lectivo"/>
-    		<key-property name="cuatrimestre" type="java.lang.Integer" column="cuatrimestre"/>  
-		</composite-id>
-		<many-to-one name="area" class="com.smartps.model.Area" fetch="select">
+        <many-to-one name="area" class="com.smartps.model.Area" fetch="select">
             <column name="id_area" not-null="true" />
         </many-to-one>
         <many-to-one name="estado" class="com.smartps.model.Estado" fetch="select">
@@ -28,28 +22,38 @@
         <many-to-one name="tipoActividad" class="com.smartps.model.TipoActividad" fetch="select">
             <column name="id_tipo_actividad" not-null="true" />
         </many-to-one>
+        <!--
+        <composite-id>
+    		<key-property name="legajo" type="java.lang.Integer" column="legajo"/> 
+    		<key-property name="cicloLectivo" type="java.lang.Integer" column="ciclo_lectivo"/>
+    		<key-property name="cuatrimestre" type="java.lang.Integer" column="cuatrimestre"/>  
+		</composite-id>
         -->
+        <property name="cicloLectivo" type="java.lang.Integer">
+            <column name="ciclo_lectivo" length="5" not-null="true" unique="false" />
+        </property>
+        <property name="cuatrimestre" type="java.lang.Integer">
+            <column name="cuatrimestre" length="5" not-null="true" unique="false" />
+        </property>  
         <property name="titulo" type="string">
             <column name="titulo" length="200" not-null="true" unique="false" />
         </property>
         <property name="nroDisposicion" type="java.lang.Integer">
             <column name="nro_disposicion" length="20" not-null="false" unique="false" />
         </property>
-        <!--    
         <set name="informeFinal" table="informe_final"
 				inverse="true" lazy="true" fetch="select">
             <key>
                 <column name="id" not-null="false" />
             </key>
-            <one-to-many class="com.smartPS.model.PS" />
-        </set>
+            <one-to-many class="com.smartps.model.PS" />
+        </set> 
         <set name="planDeTrabajo" table="plan_de_trabajo"
 				inverse="true" lazy="true" fetch="select">
             <key>
                 <column name="legajo" not-null="false" />
             </key>
-            <one-to-many class="com.smartPS.model.PS" />
+            <one-to-many class="com.smartps.model.PS" />
         </set>
-        -->
     </class>
 </hibernate-mapping>

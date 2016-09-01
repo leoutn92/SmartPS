@@ -7,13 +7,9 @@
             <column name="id_informe_final" />
             <generator class="identity" />
         </id>
-        <!--
 		<many-to-one name="ps" class="com.smartps.model.PS" >
-     		<column name="legajo" />
-     		<column name="ciclo_lectivo" />
-     		<column name="cuatrimestre"/>
+     		<column name="id_ps" />
   		</many-to-one>
-  		-->
         <property name="fechaDePresentacion" type="java.util.Date">
             <column name="fecha_presentacion" not-null="true" unique="false" />
         </property>
