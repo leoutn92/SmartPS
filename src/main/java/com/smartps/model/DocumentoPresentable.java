@@ -2,18 +2,11 @@ package com.smartps.model;
 
 import java.util.Date;
 
-public class DocumentoPresentable extends DocumentoDelAlumno {
-	private int legajo;
+public class DocumentoPresentable  {
 	private Date fechaDePresentacion;
 	private Date fechaAprobDesaprob;
 	private String observaciones;
 	private String DirDocumentoDigital;
-	public int getLegajo() {
-		return legajo;
-	}
-	public void setLegajo(int legajo) {
-		this.legajo = legajo;
-	}
 	public Date getFechaDePresentacion() {
 		return fechaDePresentacion;
 	}

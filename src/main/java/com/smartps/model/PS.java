@@ -4,7 +4,8 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
-public class PS extends DocumentoDelAlumno implements Serializable {
+public class PS implements Serializable {
+		private int id;
 		private int cicloLectivo;
 		private int cuatrimestre;
 		private String titulo;
@@ -13,8 +14,12 @@ public class PS extends DocumentoDelAlumno implements Serializable {
 		private Estado estado;
 		private Organizacion organizacion;
 		private TipoActividad tipoActividad;
+		private Alumno alumno;
 		private Set<InformeFinal> informeFinal = new HashSet<InformeFinal>(0);
 		private Set<PlanDeTrabajo> planDeTrabajo = new HashSet<PlanDeTrabajo>(0);
+		public PS() {
+			
+		}
 		public int getCicloLectivo() {
 			return cicloLectivo;
 		}
@@ -74,5 +79,17 @@ public class PS extends DocumentoDelAlumno implements Serializable {
 		}
 		public void setPlanDeTrabajo(Set<PlanDeTrabajo> planDeTrabajo) {
 			this.planDeTrabajo = planDeTrabajo;
+		}
+		public Alumno getAlumno() {
+			return alumno;
+		}
+		public void setAlumno(Alumno alumno) {
+			this.alumno = alumno;
+		}
+		public int getId() {
+			return id;
+		}
+		public void setId(int id) {
+			this.id = id;
 		}
 }
