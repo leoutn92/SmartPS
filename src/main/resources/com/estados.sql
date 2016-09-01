@@ -1,0 +1,11 @@
+insert into estado(nombre) values ('plan presentado');
+insert into estado(nombre) values ('plan observado');
+insert into estado(nombre) values ('plan aprobado');
+insert into estado(nombre) values ('plan rechazado');
+insert into estado(nombre) values ('plan vencido');
+insert into estado(nombre) values ('informe presentado');
+insert into estado(nombre) values ('informe observado');
+insert into estado(nombre) values ('informe aprobado');
+insert into estado(nombre) values ('informe vencido');
+insert into estado(nombre) values ('PS aprobada');
+insert into estado(nombre) values ('PS cancelada');

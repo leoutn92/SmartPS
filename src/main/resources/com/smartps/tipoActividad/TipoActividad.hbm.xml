@@ -12,8 +12,7 @@
         </property>
         <property name="descripsion" type="string">
             <column name="descripsion" length="200" not-null="true" unique="false" />
-        </property>
-        <!--
+        </property>       
         <set name="listPS" table="PS" inverse="true" lazy="true" fetch="select">
             <key>
                 <column name="id_tipo_actividad" not-null="true" />
@@ -21,4 +20,4 @@
             <one-to-many class="com.smartps.model.PS" />
         </set>
     </class>
-</hibernate-mapping>
+</hibernate-mapping> 
