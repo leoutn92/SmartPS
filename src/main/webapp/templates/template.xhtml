@@ -27,15 +27,16 @@
 			<h:form>
  			
  			<p:menu>
+		        <p:menuitem value="Inicio" outcome="index" icon="ui-icon-home"/>		        
 		        <p:submenu label="PS">
-		            <p:menuitem value="Nueva" icon="ui-icon-disk"/>
-		            <p:menuitem value="Buscar"/>
+		            <p:menuitem value="Nueva" outcome="presentacionplan" icon="ui-icon-disk"/>
+		            <p:menuitem value="Buscar" icon="ui-icon-search"/>
 		        </p:submenu>
 		        <p:submenu label="Informes">
 		            <p:menuitem value="Por tipo"/>
 		        </p:submenu>
 		        <p:submenu label="Ayuda">
-		            <p:menuitem value="External" url="http://www.primefaces.org" icon="ui-icon-home"/>
+		            <p:menuitem value="External" url="http://www.primefaces.org" icon="ui-icon-help"/>
 		            <p:menuitem value="Internal" />
 		        </p:submenu>
 		    </p:menu>
@@ -43,7 +44,9 @@
  		</p:layoutUnit>
  		<p:layoutUnit position="center">
  			<p:panel>
- 				<ui:insert name="content"> blablabal</ui:insert>
+ 				<h:form>
+ 					<ui:insert name="content"> blablabal</ui:insert>
+ 				</h:form>
  			</p:panel>
  		</p:layoutUnit>
  	</p:layout>
