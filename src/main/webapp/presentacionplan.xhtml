@@ -13,15 +13,21 @@
     <h:body>
 
  	<ui:composition template="/templates/template.xhtml">
+ 		
  		<ui:define name="content">
+ 			<h:form>
  			<p:wizard>
  				<p:tab id="alumno" title="Alumno">
  					
- 					<h:panelGrid columns="3">
+ 					<h:panelGrid columns="4">
  						<p:outputLabel value="Nro de legajo"/>
- 						<p:inputText id="legajo" required="true"/>
- 						<p:message for="legajo"/>				 						
+ 						<p:inputText id="legajo" required="true" value="#{altaPS.legajo}"/>
+ 						<p:commandButton value="Buscar" action="#{altaPS.buscarAlumno()}" update="nombre"/>
+ 						<p:message for="legajo"/>
+ 						<p:outputLabel id="nombre" value="#{altaPS.alumno.nombre}"/>				 						
  					</h:panelGrid>
+ 					
+ 					
  					
  				</p:tab>
  				
@@ -32,7 +38,9 @@
  				</p:tab>
  				
  			</p:wizard>
+ 			</h:form>
  		</ui:define>
+ 		
  	</ui:composition>
 
     </h:body>
