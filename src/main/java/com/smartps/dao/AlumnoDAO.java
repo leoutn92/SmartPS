@@ -3,6 +3,9 @@ package com.smartps.dao;
 //import java.util.List;
 import javax.persistence.EntityManager;
 
+import org.hibernate.Session;
+
+import com.smartps.util.HibernateUtil;
 import com.smartps.model.Alumno;
 import com.smartps.dao.IAlumnoDAO;
 
@@ -21,6 +24,13 @@ public class AlumnoDAO implements IAlumnoDAO {
 	
 	public void delete(Alumno alumno){
 		entitymanager.remove(alumno);
+	}
+
+	@Override
+	public Alumno buscarAlumno(int legajo) {
+		Session session= HibernateUtil.getSessionFactory().openSession();
+		Alumno alu=(Alumno) session.get(Alumno.class,legajo);
+		return alu;
 	}
 	
 //	public List<Alumno> retriveALL(){}
