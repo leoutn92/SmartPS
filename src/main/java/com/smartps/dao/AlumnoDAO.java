@@ -11,6 +11,7 @@ import com.smartps.dao.IAlumnoDAO;
 
 public class AlumnoDAO implements IAlumnoDAO {
 
+	Session session= HibernateUtil.getSessionFactory().openSession();
 	EntityManager entitymanager;
 	
 	
@@ -28,7 +29,6 @@ public class AlumnoDAO implements IAlumnoDAO {
 
 	@Override
 	public Alumno buscarAlumno(int legajo) {
-		Session session= HibernateUtil.getSessionFactory().openSession();
 		Alumno alu=(Alumno) session.get(Alumno.class,legajo);
 		return alu;
 	}
