@@ -2,7 +2,7 @@
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
-    <class name="com.smartps.model.InformeFinal" table="informe_final" catalog="smartpsDB">
+    <class name="com.smartps.model.InformeFinal" table="InformeFinal" catalog="smartpsDB">
     	<id name="id" type="java.lang.Integer">
             <column name="id_informe_final" />
             <generator class="identity" />

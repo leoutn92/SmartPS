@@ -20,9 +20,9 @@
 	 				 			
 			    <h:panelGrid id="cursado" columns="2" >
 			        <h:outputLabel for="CicloLectivo" value="Ciclo Lectivo: " />
-			        <h:inputText id="CicloLectivo" value="" />
+			        <h:inputText id="CicloLectivo" value="#{GenerarReportePlanGrales.CicloLectivo}" />
 			        <h:outputLabel for="Cuatrimestre" value="Cuatrimestre: " />
-			        <h:inputText id="Cuatrimestre" value="" />
+			        <h:inputText id="Cuatrimestre" value="#{GenerarReportePlanGrales.Cuatrimestre}" />
 			    </h:panelGrid>
 
 			    <h:panelGrid id="periodo" columns="4" >
@@ -31,17 +31,63 @@
 			        </f:facet>
 			        
 					<p:outputLabel for="Desde" value="Desde: " />
-					<p:calendar id="Desde" value="#{calendarView.date1}" showOn="button" />
+					<p:calendar id="Desde" value="#{GenerarReportePlanGrales.Desde}" showOn="button" />
 		        
 					<p:outputLabel for="Hasta" value="Hasta: " />
-					<p:calendar id="Hasta" value="#{calendarView.date2}" showOn="button" />
-		        
-<!--			        <h:outputLabel for="Desde" value="Desde: " />
-			        <h:inputText id="Desde" value="" />
-			        <h:outputLabel for="Hasta" value="Hasta: " />
-			        <h:inputText id="Hasta" value="" />
--->			    </h:panelGrid>
+					<p:calendar id="Hasta" value="#{GenerarReportePlanGrales.Hasta}" showOn="button" />		        	
+			    </h:panelGrid>
 
+		        <div align="right">
+		        	<br />
+ 					<p:commandButton value="Generar Reporte" action="#{GenerarReportePlanGrales.generarReporte()}" />
+ 					<br />
+				</div>
+				
+
+				<p:dataTable var="planDeTrabajo" value="#{dtGenerarReportePlanGrales.planDeTrabajo}">
+				    <p:column headerText="Fecha de Presentacion">
+				        <h:outputText value="planDeTrabajo.fechaDePresentacion" />
+				    </p:column>
+				 
+				    <p:column headerText="Titulo de PS">
+				        <h:outputText value="" />
+				    </p:column>
+				 
+				    <p:column headerText="Estado de PS">
+				        <h:outputText value="" />
+				    </p:column>
+				 
+				    <p:column headerText="Area de PS">
+				        <h:outputText value="" />
+				    </p:column>
+				    
+					<p:column headerText="Tipo de PS">
+				        <h:outputText value="" />
+				    </p:column>
+				    
+				    <p:column headerText="Nombre del alumno">
+				        <h:outputText value="" />
+				    </p:column>
+				    
+					<p:column headerText="Año de ingreso">
+				        <h:outputText value="" />
+				    </p:column>
+				</p:dataTable>
+
+
+			    <h:panelGrid id="totales" columns="2" >
+			        <f:facet name="header">
+			        	<div align="left"><br/><h:outputText value="Totales"/></div>
+			        </f:facet>
+			        <h:outputLabel for="cantPlanesPresentados" value="Cantidad de Planes de Trabajo presentados: " />
+			        <h:inputText id="cantPlanesPresentados" value="" />
+			        <h:outputLabel for="porcPlanesAprob" value="Procentaje de Planes Aprobados: " />
+			        <h:inputText id="porcPlanesAprob" value="" />
+					<h:outputLabel for="porcPlanesDesaprob" value="Procentaje de Planes Desaprobados: " />
+			        <h:inputText id="porcPlanesDesaprob" value="" />
+			        <h:outputLabel for="porcPlanesVenc" value="Procentaje de Planes Vencidos" />
+			        <h:inputText id="porcPlanesVenc" value="" />
+			    </h:panelGrid>
 
 	 		</ui:define>	
 	 	</ui:composition>
