@@ -16,7 +16,9 @@ public class AlumnoDAO implements IAlumnoDAO {
 	
 	
 	public void save(Alumno alumno){
-		entitymanager.persist(alumno);
+		session.beginTransaction();
+		session.save(alumno);
+		session.getTransaction().commit();
 	}
 	
 	public void update(Alumno alumno){
