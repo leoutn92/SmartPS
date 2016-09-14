@@ -16,36 +16,39 @@
  		
  		<ui:define name="content">
  			<h:form>
- 			 					
-				<h:panelGrid columns="4">
-					<p:outputLabel value="Nro de legajo"/>
-					<p:inputText id="legajo" required="true" value="#{altaPS.legajo}"/>
-					<p:commandButton value="Buscar" action="#{altaPS.buscarAlumno()}" update="nombreAlumno" icon="ui-icon-search"/>
-					<p:message for="legajo"/>
-					<p:outputLabel value="Nombre del alumno:"/>
-					<p:outputLabel id="nombreAlumno" value="#{altaPS.alumno.nombre}"/>				 						
-				</h:panelGrid> 					
+ 			 	<p:fragment autoUpdate="true">				
+					<h:panelGrid columns="4">
+						<p:outputLabel value="Nro de legajo"/>
+						<p:inputText id="legajo" required="true" value="#{altaPS.ps.id}"/>
+						<p:commandButton value="Buscar" action="#{altaPS.buscarAlumno()}" icon="ui-icon-search"/>
+						<p:message for="legajo"/>
+						<p:outputLabel value="Nombre del alumno:"/>
+						<p:outputLabel value="#{altaPS.ps.alumno.nombre}"/>				 						
+					</h:panelGrid>
+				</p:fragment> 					
  				 	
  				
  				 	
  				 				
-
-<!-- 				<p:panelGrid columns="3"> -->
-<!-- 					<p:outputLabel value="Area de desarrollo de la PS"/>	 -->
-<!-- 			        <p:selectOneMenu id="area" value="#{altaPS.areaSelec}" converter="areaConverter" var="a"> -->
-			       		            
-<!-- 			            <f:selectItems value="#{altaPS.areas}" var="area" itemLabel="#{area.id}" itemValue="#{area}"/> -->
-<!-- 			            <p:ajax event="blur" update="areaSelec"/> -->
-<!-- 			            <p:column> -->
-<!-- 			            	<h:outputLabel value="#{a.nombre}"/> -->
-<!-- 			            </p:column> -->
-<!-- 			        </p:selectOneMenu> -->
-		        
-<!-- 		        	<p:outputLabel id="areaSelec" value="#{altaPS.areaSelec.descripsion}"/> -->
-<!-- 		        	<p:message for="area"/> -->
-		        	
-
-<!-- 	        	</p:panelGrid> -->
+				<p:fragment autoUpdate="true">
+					<p:panelGrid columns="4">
+						<p:outputLabel value="Area de desarrollo de la PS"/>	
+				        <p:selectOneMenu id ="menuAreas" value="#{altaPS.ps.area}" converter="areaConverter" var="a">
+				       		            
+				            <f:selectItems value="#{altaPS.areas}" var="area" itemLabel="#{area.id}" itemValue="#{area}"/>
+				            
+				            <p:column>
+				            	<h:outputLabel value="#{a.nombre}"/>
+				            </p:column>
+				        </p:selectOneMenu>
+			        
+			        	<p:outputLabel id="areaSelec" value="#{altaPS.ps.area.descripsion}"/>
+			        	<p:message for="menuAreas"/>
+			        	<p:commandButton update="areaSelec" />
+			        	
+	
+		        	</p:panelGrid>
+	        	</p:fragment>
 
  			</h:form>
  		</ui:define>

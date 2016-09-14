@@ -15,29 +15,14 @@ import com.smartps.model.PS;
 
 @ManagedBean
 public class AltaPS {
-	int legajo;
-	Alumno alumno;
-	List<Area> areas;
-	Area areaSelec;
+
+	List<Area> areas;	
 	PS ps;
-	
-	public Area getAreaSelec() {
-		return areaSelec;
-	}
-
-
-	public void setAreaSelec(Area areaSelec) {
-		this.areaSelec = areaSelec;
-	}
-
 
 	@PostConstruct
 	public void init(){
 		ps= new PS();
-		alumno= new Alumno();
-		areas= new AreaDAO().getAll();
-		
-		
+		areas= new AreaDAO().getAll();		
 	}
 
 	
@@ -60,27 +45,9 @@ public class AltaPS {
 		this.areas = areas;
 	}
 
-
-	public int getLegajo() {
-		return legajo;
-	}
-
-
-	public void setLegajo(int legajo) {
-		this.legajo = legajo;
-	}
-
-
-	public Alumno getAlumno() {
-		return alumno;
-	}
-
-	public void setAlumno(Alumno alumno) {
-		this.alumno = alumno;
-	}
 	
 	public void buscarAlumno(){
-		alumno= new AlumnoDAO().buscarAlumno(legajo);
+		ps.setAlumno( new AlumnoDAO().buscarAlumno(ps.getId()));
 	}
 	
 	
