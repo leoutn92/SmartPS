@@ -15,14 +15,13 @@
 	 	<ui:composition template="/templates/template.xhtml">
 	 		<ui:define name="content"> 
 
-	 			<h:outputLabel value="Estadisticas Generales de Planes de Trabajo de PS"/>
+	 			<h:outputLabel value="Estadisticas Generales de Informes Finales de PS"/>
 	 			<div><br /></div>
-	 				 			
 			    <h:panelGrid id="cursado" columns="2" >
-			        <h:outputLabel for="CicloLectivo" value="Ciclo Lectivo: " />
-			        <h:inputText id="CicloLectivo" value="#{GenerarReportePlanGrales.CicloLectivo}" />
-			        <h:outputLabel for="Cuatrimestre" value="Cuatrimestre: " />
-			        <h:inputText id="Cuatrimestre" value="#{GenerarReportePlanGrales.Cuatrimestre}" />
+			        <h:outputLabel for="cicloLectivo" value="Ciclo Lectivo: " />
+			        <h:inputText id="cicloLectivo" value="#{GenerarReportePG.cicloLectivo}" />
+			        <h:outputLabel for="cuatrimestre" value="Cuatrimestre: " />
+			        <h:inputText id="cuatrimestre" value="#{GenerarReportePlanGrales.cuatrimestre}" />
 			    </h:panelGrid>
 
 			    <h:panelGrid id="periodo" columns="4" >
@@ -30,23 +29,24 @@
 			        	<div align="left"><br/><h:outputText value="Periodo"/></div>
 			        </f:facet>
 			        
-					<p:outputLabel for="Desde" value="Desde: " />
-					<p:calendar id="Desde" value="#{GenerarReportePlanGrales.Desde}" showOn="button" />
+					<p:outputLabel for="desde" value="Desde: " />
+					<p:calendar id="desde" value="#{GenerarReportePG.desde}" showOn="button" />
 		        
-					<p:outputLabel for="Hasta" value="Hasta: " />
-					<p:calendar id="Hasta" value="#{GenerarReportePlanGrales.Hasta}" showOn="button" />		        	
+					<p:outputLabel for="hasta" value="Hasta: " />
+					<p:calendar id="hasta" value="#{GenerarReportePG.hasta}" showOn="button" />		        	
 			    </h:panelGrid>
 
 		        <div align="right">
 		        	<br />
- 					<p:commandButton value="Generar Reporte" action="#{GenerarReportePlanGrales.generarReporte()}" />
- 					<br />
+ 					<p:commandButton value="Generar Reporte" action="#{generarReportePG.mostrarEstadisticas }"/>
+ 					<br /><br></br>
 				</div>
-				
 
-				<p:dataTable var="planDeTrabajo" value="#{dtGenerarReportePlanGrales.planDeTrabajo}">
+	 			<div><br /></div>
+
+				<p:dataTable var="planesTrabajo" value="">
 				    <p:column headerText="Fecha de Presentacion">
-				        <h:outputText value="planDeTrabajo.fechaDePresentacion" />
+				        <h:outputText value="" />
 				    </p:column>
 				 
 				    <p:column headerText="Titulo de PS">
@@ -89,7 +89,8 @@
 			        <h:inputText id="porcPlanesVenc" value="" />
 			    </h:panelGrid>
 
-	 		</ui:define>	
+	 		</ui:define>
+	 		
 	 	</ui:composition>
 
     </h:body>

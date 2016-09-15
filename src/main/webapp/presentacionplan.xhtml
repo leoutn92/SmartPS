@@ -17,24 +17,35 @@
  		<ui:define name="content">
  			<h:form>
  			<p:wizard>
+ 	
  				<p:tab id="alumno" title="Alumno">
- 					
  					<h:panelGrid columns="4">
  						<p:outputLabel value="Nro de legajo"/>
  						<p:inputText id="legajo" required="true" value="#{altaPS.legajo}"/>
- 						<p:commandButton value="Buscar" action="#{altaPS.buscarAlumno()}" update="nombre"/>
+ 						<p:commandButton value="Buscar" action="#{altaPS.buscarAlumno()}" update="nombre2"/>
  						<p:message for="legajo"/>
- 						<p:outputLabel id="nombre" value="#{altaPS.alumno.nombre}"/>				 						
+ 						<p:outputLabel id="nombre2" value="#{altaPS.alumno.nombre}"/>				 						
  					</h:panelGrid>
- 					
- 					
- 					
  				</p:tab>
  				
  				<p:tab id="ps" title="PS">
+				<h:panelGrid columns="4">
+ 						<p:outputLabel value="ID: "/>
+ 						<p:inputText id="id2" required="true" value="#{generarReportePG.id}"/>
+ 						<p:commandButton value="Buscar" action="#{generarReportePG.buscarPS()}" update="titulo"/>
+ 						<p:message for="id2"/>
+ 						<p:outputLabel id="titulo" value="#{generarReportePG.ps.titulo}"/>				 						
+ 					</h:panelGrid>
  				</p:tab>
  				
  				<p:tab id="org" title="Organización">
+ 					<h:panelGrid columns="4">
+ 						<p:outputLabel value="ID: "/>
+ 						<p:inputText id="id" required="true" value="#{beanOrg.id}"/>
+ 						<p:commandButton value="Buscar" action="#{beanOrg.buscarOrg()}" update="nombre"/>
+ 						<p:message for="id"/>
+ 						<p:outputLabel id="nombre" value="#{beanOrg.organizacion.nombre}"/>				 						
+ 					</h:panelGrid> 		
  				</p:tab>
  				
  			</p:wizard>

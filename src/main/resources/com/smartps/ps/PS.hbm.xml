@@ -38,20 +38,20 @@
         <property name="titulo" type="string">
             <column name="titulo" length="200" not-null="true" unique="false" />
         </property>
-        <property name="nroDisposicion" type="java.lang.Integer">
+        <property name="nroDisposicion" type="string">
             <column name="nro_disposicion" length="20" not-null="false" unique="false" />
         </property>
-        <set name="informeFinal" table="informe_final"
+        <set name="informeFinal" table="InformeFinal"
 				inverse="true" lazy="true" fetch="select">
             <key>
-                <column name="id" not-null="false" />
+                <column name="id_informe" not-null="false" />
             </key>
             <one-to-many class="com.smartps.model.PS" />
         </set> 
-        <set name="planDeTrabajo" table="plan_de_trabajo"
+        <set name="planDeTrabajo" table="PlanDeTrabajo"
 				inverse="true" lazy="true" fetch="select">
             <key>
-                <column name="legajo" not-null="false" />
+                <column name="id_plan" not-null="false" />
             </key>
             <one-to-many class="com.smartps.model.PS" />
         </set>
