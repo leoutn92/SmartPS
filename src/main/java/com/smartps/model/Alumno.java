@@ -36,5 +36,9 @@ public class Alumno implements Serializable {
 	public void setListPS(Set<PS> listPS) {
 		this.listPS = listPS;
 	}
+	public void addPs(PS ps) {
+		// TODO Auto-generated method stub
+		this.listPS.add(ps);
+	}
 	
 }

@@ -6,7 +6,7 @@ public class DocumentoPresentable  {
 	private Date fechaDePresentacion;
 	private Date fechaAprobDesaprob;
 	private String observaciones;
-	private String DirDocumentoDigital;
+	private String DirDocumentoDigital = " ";
 	public Date getFechaDePresentacion() {
 		return fechaDePresentacion;
 	}

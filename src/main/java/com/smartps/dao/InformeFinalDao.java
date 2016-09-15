@@ -26,7 +26,9 @@ public class InformeFinalDao implements IGenericDAO<InformeFinal> {
 	@Override
 	public void delete(InformeFinal objeto) {
 		// TODO Auto-generated method stub
-		
+		session.beginTransaction();
+		session.delete(objeto);
+		session.getTransaction().commit();
 	}
 
 	public List<InformeFinal> getByIdPs(int idps) {

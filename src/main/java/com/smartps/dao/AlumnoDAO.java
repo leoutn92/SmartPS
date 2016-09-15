@@ -26,7 +26,9 @@ public class AlumnoDAO implements IAlumnoDAO {
 	}
 	
 	public void delete(Alumno alumno){
-		entitymanager.remove(alumno);
+		session.beginTransaction();
+		session.delete(alumno);
+		session.getTransaction().commit();
 	}
 
 	@Override

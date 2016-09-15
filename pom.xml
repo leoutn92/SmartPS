@@ -108,6 +108,10 @@
     		<artifactId>junit</artifactId>
     		<version>4.12</version>
 		</dependency>
-		
+		<dependency>
+			<groupId>org.modelmapper</groupId>
+			<artifactId>modelmapper</artifactId>
+			<version>0.7.3</version>
+		</dependency>		
 	</dependencies>
 </project>

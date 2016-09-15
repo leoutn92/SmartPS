@@ -37,5 +37,17 @@ public class EstadoDao implements IGenericDAO<Estado> {
 				.setParameter("nombre",nombre).getResultList();
 		return estados.get(0);
 	}
+	public String getById(Estado estado) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	public String getById(int id) {
+		// TODO Auto-generated method stub
+		Estado estado = session.get(Estado.class, id);
+		if (estado!=null) {
+			return estado.getNombre();
+		}
+		return null;
+	}
 	
 }
