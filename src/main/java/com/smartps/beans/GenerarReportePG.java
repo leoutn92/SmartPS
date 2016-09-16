@@ -2,9 +2,9 @@ package com.smartps.beans;
 
 import java.util.Date;
 import java.util.List;
-import java.util.ArrayList;
+import java.util.Set;
+import java.util.HashSet;
 
-import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 
 import com.smartps.dao.PSDAO;
@@ -16,6 +16,8 @@ import com.smartps.model.LineaDeReporte;
 public class GenerarReportePG {
 //GenerarReportePG = GenerarReportePlanesGeneral_hdu6 
 	
+	private PSDAO dao = new PSDAO();
+	
 	private List<PS> pslist;
 	private List<LineaDeReporte> linealist;
 	
@@ -26,46 +28,35 @@ public class GenerarReportePG {
 	private Date hasta;
 	
 	private LineaDeReporte linea;
-	
-	int id;
-	PS ps;
-	
-	@PostConstruct
-	public void init(){
-		ps = new PS();
-	}	
-	
-	public void buscarPS(){
-		ps= new PSDAO().findById(id);
-	}
-	
-	public void busquedaByFiltros(){
-		pslist = new PSDAO().findByCicloLectivo(cicloLectivo);
 
-/*		int cont = 0;
-		for (int i=0; i<pslist.size(); i++){
+	//contadores
+	private int cPP;
+	private int cPA;
+	private int cPD;
+	private int cPV;
+	
+	
+	public String busquedaByFiltros(){
 
-			List<PlanDeTrabajo> planes = new ArrayList<PlanDeTrabajo>(pslist.get(i)
-					.getPlanDeTrabajo().iterator().next().getFechaDePresentacion());
-			int tamaño = pslist.get(i).getPlanDeTrabajo().size();
-System.out.println("corre? "+tamaño);
-			for (int j=0; j<tamaño; j++){
-				linea.setFechaDePresentacion(pslist.get(i)
-						.getPlanDeTrabajo().iterator().next().getFechaDePresentacion());
-				linea.setFechaDePresentacion(planes.get(j).getFechaDePresentacion());
-				linea.setTitulo(pslist.get(i).getTitulo());
-				linea.setEstado(pslist.get(i).getEstado().getNombre());
-				linea.setArea(pslist.get(i).getArea().getNombre());
-				linea.setTipoActividad(pslist.get(i).getTipoActividad().getNombre());
-				linea.setAlumno(pslist.get(i).getAlumno().getNombre());
-				linea.setIngreso(pslist.get(i).getAlumno().getCicloLectivo());
-				linealist.add(cont, linea);
-				cont++;
-				
-			}
-			
+		//Listado		
+		System.out.println(cicloLectivo);
+		pslist = dao.findByCicloLectivo(cicloLectivo);
+		pslist.addAll(dao.findByCuatrimestre(cuatrimestre));
+
+		Set<PS> sinrepe = new HashSet<PS>(0);
+		sinrepe.addAll(pslist);
+		pslist.clear();
+		pslist.addAll(sinrepe);
+		
+		if (pslist.size()==0){
+			return "estPTGralesNohay";
+		} else {
+			return "estPTGralesListado";
 		}
-*/
+		
+		//Totales
+		
+
 	}
 
 	public List<PS> getPslist() {
@@ -106,22 +97,6 @@ System.out.println("corre? "+tamaño);
 
 	public void setHasta(Date hasta) {
 		this.hasta = hasta;
-	}
-
-	public PS getPs() {
-		return ps;
-	}
-
-	public void setPs(PS ps) {
-		this.ps = ps;
-	}
-
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
 	}
 
 	public List<LineaDeReporte> getLinealist() {

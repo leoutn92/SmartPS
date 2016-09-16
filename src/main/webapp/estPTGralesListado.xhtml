@@ -15,13 +15,13 @@
 	 	<ui:composition template="/templates/template.xhtml">
 	 		<ui:define name="content"> 
 
-	 			<h:outputLabel value="Estadisticas Generales de Informes Finales de PS"/>
+	 			<h:outputLabel value="Estadisticas Generales de Planes de Trabajo de PS"/>
 	 			<div><br /></div>
 			    <h:panelGrid id="cursado" columns="2" >
 			        <h:outputLabel for="cicloLectivo" value="Ciclo Lectivo: " />
-			        <h:inputText id="cicloLectivo" value="#{GenerarReportePG.cicloLectivo}" />
+			        <h:inputText id="cicloLectivo" value="#{generarReportePG.cicloLectivo}" />
 			        <h:outputLabel for="cuatrimestre" value="Cuatrimestre: " />
-			        <h:inputText id="cuatrimestre" value="#{GenerarReportePlanGrales.cuatrimestre}" />
+			        <h:inputText id="cuatrimestre" value="#{generarReportePG.cuatrimestre}" />
 			    </h:panelGrid>
 
 			    <h:panelGrid id="periodo" columns="4" >
@@ -30,52 +30,59 @@
 			        </f:facet>
 			        
 					<p:outputLabel for="desde" value="Desde: " />
-					<p:calendar id="desde" value="#{GenerarReportePG.desde}" showOn="button" />
+					<p:calendar id="desde" value="#{generarReportePG.desde}" showOn="button" />
 		        
 					<p:outputLabel for="hasta" value="Hasta: " />
-					<p:calendar id="hasta" value="#{GenerarReportePG.hasta}" showOn="button" />		        	
+					<p:calendar id="hasta" value="#{generarReportePG.hasta}" showOn="button" />		        	
 			    </h:panelGrid>
-
-		        <div align="right">
-		        	<br />
- 					<p:commandButton value="Generar Reporte" action="#{generarReportePG.mostrarEstadisticas }"/>
- 					<br /><br></br>
-				</div>
 
 	 			<div><br /></div>
 
-				<p:dataTable var="planesTrabajo" value="">
+		        <div align="right">
+		        	<br />
+ 					<p:commandButton value="Generar Reporte" action="#{generarReportePG.busquedaByFiltros()}" update="lineas" />
+ 					<br /><br></br>
+				</div>
+	 			<div><br /></div>
+
+				<p:dataTable id="lineas" var="ps" rowKey="#{ps.id}" paginator="true" row="10"
+							value="#{generarReportePG.pslist}">
+				
+					<f:facet name="header">
+						Listado de Planes de Trabajo
+					</f:facet>
+				
 				    <p:column headerText="Fecha de Presentacion">
-				        <h:outputText value="" />
+				        #{ps.planDeTrabajo}
 				    </p:column>
 				 
 				    <p:column headerText="Titulo de PS">
-				        <h:outputText value="" />
+				        #{ps.titulo}
 				    </p:column>
 				 
 				    <p:column headerText="Estado de PS">
-				        <h:outputText value="" />
+				        #{ps.estado.nombre}
 				    </p:column>
 				 
 				    <p:column headerText="Area de PS">
-				        <h:outputText value="" />
+				        #{ps.area.nombre}
 				    </p:column>
 				    
 					<p:column headerText="Tipo de PS">
-				        <h:outputText value="" />
+				        #{ps.tipoActividad.nombre}
 				    </p:column>
 				    
 				    <p:column headerText="Nombre del alumno">
-				        <h:outputText value="" />
+				        #{ps.alumno.nombre}
 				    </p:column>
 				    
 					<p:column headerText="Año de ingreso">
-				        <h:outputText value="" />
+				        #{ps.alumno.cicloLectivo}
 				    </p:column>
 				</p:dataTable>
 
 
-			    <h:panelGrid id="totales" columns="2" >
+<!-- 		    <h:panelGrid id="totales" columns="2" >
 			        <f:facet name="header">
 			        	<div align="left"><br/><h:outputText value="Totales"/></div>
 			        </f:facet>
@@ -88,7 +95,7 @@
 			        <h:outputLabel for="porcPlanesVenc" value="Procentaje de Planes Vencidos" />
 			        <h:inputText id="porcPlanesVenc" value="" />
 			    </h:panelGrid>
-
+-->
 	 		</ui:define>
 	 		
 	 	</ui:composition>

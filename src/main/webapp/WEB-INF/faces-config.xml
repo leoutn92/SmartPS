@@ -5,4 +5,28 @@
     xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_2.xsd"
     version="2.2">
 
+	<navigation-rule>
+		<from-view-id>/estPTGrales.xhtml</from-view-id>
+		<navigation-case>
+			<from-outcome>estPTGralesListado</from-outcome>
+			<to-view-id>/estPTGralesListado.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		
+		<navigation-case>
+			<from-outcome>estPTGralesNohay</from-outcome>
+			<to-view-id>/estPTGralesNohay.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+	</navigation-rule>
+	
+	<navigation-rule>
+		<from-view-id>/index.xhtml</from-view-id>
+		<navigation-case>
+			<from-outcome>presentacionplan</from-outcome>
+			<to-view-id>/presentacionplan.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>		
+	</navigation-rule>
+
 </faces-config>

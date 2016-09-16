@@ -21,7 +21,7 @@
 			        <h:outputLabel for="cicloLectivo" value="Ciclo Lectivo: " />
 			        <h:inputText id="cicloLectivo" value="#{generarReportePG.cicloLectivo}" />
 			        <h:outputLabel for="cuatrimestre" value="Cuatrimestre: " />
-			        <h:inputText id="cuatrimestre" value="#{generarReportePlanGrales.cuatrimestre}" />
+			        <h:inputText id="cuatrimestre" value="#{generarReportePG.cuatrimestre}" />
 			    </h:panelGrid>
 
 			    <h:panelGrid id="periodo" columns="4" >
@@ -38,7 +38,7 @@
 
 		        <div align="right">
 		        	<br />
- 					<p:commandButton value="Generar Reporte" action="#{generarReportePG.mostrarEstadisticas }"/>
+ 					<p:commandButton value="Generar Reporte" action="#{generarReportePG.busquedaByFiltros()}"/>
  					<br /><br></br>
 				</div>
 

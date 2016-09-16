@@ -1,10 +1,12 @@
 package com.smartps.model;
 
-import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 public class LineaDeReporte {
 
-	private Date fechaDePresentacion;
+	private int id;
+	private Set<PlanDeTrabajo> planDeTrabajo = new HashSet<PlanDeTrabajo>(0);
 	private String titulo;
 	private String estado;
 	private String area;
@@ -13,11 +15,17 @@ public class LineaDeReporte {
 	private int ingreso;
 	
 	
-	public Date getFechaDePresentacion() {
-		return fechaDePresentacion;
+	public int getId() {
+		return id;
 	}
-	public void setFechaDePresentacion(Date fechaDePresentacion) {
-		this.fechaDePresentacion = fechaDePresentacion;
+	public void setId(int id) {
+		this.id = id;
+	}
+	public Set<PlanDeTrabajo> getPlanDeTrabajo() {
+		return planDeTrabajo;
+	}
+	public void setPlanDeTrabajo(Set<PlanDeTrabajo> planDeTrabajo) {
+		this.planDeTrabajo = planDeTrabajo;
 	}
 	public String getTitulo() {
 		return titulo;
