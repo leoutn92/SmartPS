@@ -1,5 +1,9 @@
 package com.smartps.beans.registrarPresentacionInforme;
 
+import javax.faces.bean.ApplicationScoped;
+import javax.faces.bean.ManagedBean;
+@ManagedBean
+@ApplicationScoped
 public class LineaTablaInformes {
 	private String nombreAlumno;
 	private int legajo;

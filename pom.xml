@@ -96,12 +96,13 @@
 		    <version>5.2.2.Final</version>
 		</dependency>
 		
-
+		<!--
 		<dependency>
 			<groupId>javassist</groupId>
 			<artifactId>javassist</artifactId>
 			<version>3.12.1.GA</version>
 		</dependency>
+		-->
 		<!--  test -->
 		<dependency>
     		<groupId>junit</groupId>

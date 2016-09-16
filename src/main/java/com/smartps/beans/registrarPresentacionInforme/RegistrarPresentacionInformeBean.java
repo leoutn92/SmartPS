@@ -1,8 +1,14 @@
 package com.smartps.beans.registrarPresentacionInforme;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import javax.annotation.PostConstruct;
+import javax.faces.bean.ManagedBean;
+import javax.faces.event.ActionEvent;
+import javax.faces.view.ViewScoped;
 
 import com.smartps.dao.EstadoDao;
 import com.smartps.dao.InformeFinalDao;
@@ -12,19 +18,39 @@ import com.smartps.model.Alumno;
 import com.smartps.model.InformeFinal;
 import com.smartps.model.PS;
 import com.smartps.model.PlanDeTrabajo;
-
-public class RegistrarPresentacionInformeBean {
-	private int legajo;
-	private String nombreAlumno;
-	private String psTitle;
-	private Alumno alumno = new Alumno();
-	private PS ps = new PS();
-	private List<PS> pss = new ArrayList<PS>();
-	private Date fechaPresentacion = new Date();
+@ManagedBean
+@ViewScoped
+public class RegistrarPresentacionInformeBean implements Serializable {
+	int legajo;
+	LineaTablaInformes linea;
+	String nombreAlumno;
+	String psTitle;
+	CriteriosParaFiltrarPs criterios = new CriteriosParaFiltrarPs();
+	Alumno alumno = new Alumno();
+	PS ps = new PS();
+	List<PS> pss = new ArrayList<PS>();
+	Date fechaPresentacion = new Date();
 	EstadoDao estadoDAO = new EstadoDao();
 	PSDao psDao = new PSDao(); 
 	InformeFinalDao inFinalDao = new InformeFinalDao();
 	PlanDeTrabajoDao planDeTrabajoDao = new PlanDeTrabajoDao();
+	List<LineaTablaInformes> tablaInformes;
+	@PostConstruct
+	public void init(){
+		this.updateTablaInformes();
+	}	
+	public CriteriosParaFiltrarPs getCriterios() {
+		return criterios;
+	}
+	public void setCriterios(CriteriosParaFiltrarPs criterios) {
+		this.criterios = criterios;
+	}
+	public List<LineaTablaInformes> getTablaInformes() {
+		return tablaInformes;
+	}
+	public void setTablaInformes(List<LineaTablaInformes> tablaInformes) {
+		this.tablaInformes = tablaInformes;
+	}
 	public int getLegajo() {
 		return legajo;
 	}
@@ -101,9 +127,19 @@ public class RegistrarPresentacionInformeBean {
 	public void setAlumno(Alumno alumno) {
 		this.alumno = alumno;
 	}
+	public void buttonAction(ActionEvent actionEvent) {
+		this.updateTablaInformes();
+    }
+	public void updateTablaInformes() {
+		CriteriosParaFiltrarPs newCriterios=new CriteriosParaFiltrarPs();
+		newCriterios.setLegajo(this.legajo);
+		newCriterios.setNombreAlumno(nombreAlumno);
+		newCriterios.setPsTitle(psTitle);
+		this.tablaInformes = this.searchPsParaPresentarInforme(newCriterios);
+	}
 	public List<LineaTablaInformes> searchPsParaPresentarInforme(CriteriosParaFiltrarPs criterios) {
 		// TODO Auto-generated method stub
-		List<LineaTablaInformes> tablaInformes= new ArrayList<LineaTablaInformes>(); 
+		List<LineaTablaInformes> tablaInformes= new ArrayList<LineaTablaInformes>();
 		List<PS> pssConPlanAprobado = psDao.searchPs(criterios,this.getIdEstadoPlanAprobado());
 		List<PS> pssConInformeObservado = psDao.searchPs(criterios,this.getIdEstadoInformeObservado());
 		pssConPlanAprobado.addAll(pssConInformeObservado);
@@ -121,6 +157,6 @@ public class RegistrarPresentacionInformeBean {
 			}
 			tablaInformes.add(linea);
 		}
-		return tablaInformes;
+		return tablaInformes; 
 	}	
 }

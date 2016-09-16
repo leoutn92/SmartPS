@@ -5,7 +5,7 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
-
+      
     <h:head>
     	<title>SmartPS</title>
     </h:head>
@@ -13,8 +13,38 @@
     <h:body>
 
  	<ui:composition template="/templates/template.xhtml">
- 		<ui:define name="content"> Nuevo Informe</ui:define>
+ 			<ui:define name="content">
+ 			Nuevo Informe
+    		<h:panelGrid columns="2">
+    		<h:outputText value="Legajo"/>   
+        	<h:inputText id="legajo" value="#{registrarPresentacionInformeBean.legajo}"/>   
+        	<h:outputText value="Nombre Alumno" />   
+        	<p:inputText id="nomAlumno" value="#{registrarPresentacionInformeBean.nombreAlumno}">
+        	</p:inputText>
+        	<h:outputText value="Titulo de Ps" />   
+        	<p:inputText id="psTitle" value="#{registrarPresentacionInformeBean.psTitle}">
+        	</p:inputText>    
+    		</h:panelGrid>
+    		<p:keyFilter for="legajo" mask="num" />
+    		<p:commandButton value="Buscar" actionListener="#{registrarPresentacionInformeBean.buttonAction}" update="tabla"/>
+			<p:dataTable id="tabla" var="linea" value="#{registrarPresentacionInformeBean.tablaInformes}">
+				<p:column headerText="nombre alumno">
+			         #{linea.nombreAlumno}
+			    </p:column>
+			    <p:column headerText="legajo">
+			         #{linea.legajo}
+			    </p:column>
+			    <p:column headerText="estado">
+			         #{linea.estado}
+			    </p:column>
+			    <p:column headerText="dirPlan">
+			         #{linea.dirPlan}
+			    </p:column>
+			    <p:column headerText="dirPlan">
+			         #{linea.psTitle}
+			    </p:column>
+			</p:dataTable>
+		</ui:define>
  	</ui:composition>
-
     </h:body>
 </html>

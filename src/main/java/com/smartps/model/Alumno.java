@@ -3,15 +3,15 @@ package com.smartps.model;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
-import java.lang.Integer;
 public class Alumno implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private int legajo;
 	private String nombre;
 	private int cicloLectivo;
 	private Set<PS> listPS = new HashSet<PS>(0);
-	public Alumno() {
-		
-	}
 	public int getLegajo() {
 		return legajo;
 	}

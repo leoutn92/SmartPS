@@ -109,13 +109,15 @@ public class RegistrarPresentacionInformeBeanTest {
 	public void succesSearchPsParaPresentarInformeByPsTitle() { 
 		CriteriosParaFiltrarPs criterios = new CriteriosParaFiltrarPs();
 		criterios.setPsTitle(psTitle);
+		registrarPresentacionInformeBean.setCriterios(criterios);
 		PlanDeTrabajo plan= new PlanDeTrabajo();
 		PS ps = psdao.buscarPorLegajo(legajo1).get(0);
 		plan.setPs(ps);
 		Date date= new Date();
 		plan.setFechaDePresentacion(date);
 		planDeTrabajoDao.save(plan);
-		List<LineaTablaInformes> tablaInformes = registrarPresentacionInformeBean.searchPsParaPresentarInforme(criterios);
+		registrarPresentacionInformeBean.searchPsParaPresentarInforme(criterios);
+		List<LineaTablaInformes> tablaInformes=registrarPresentacionInformeBean.getTablaInformes();
 		assertEquals(tablaInformes.isEmpty(),false);
 		assertEquals(tablaInformes.size()==2,true);
 		assertEquals(tablaInformes.get(0).getDirPlan()!=null,true);
@@ -124,7 +126,9 @@ public class RegistrarPresentacionInformeBeanTest {
 	public void succesSearchPsParaPresentarInformeByNombreAlumno() {
 		CriteriosParaFiltrarPs criterios = new CriteriosParaFiltrarPs();
 		criterios.setNombreAlumno(nombreAlumno);
-		List<LineaTablaInformes> tablaInformes = registrarPresentacionInformeBean.searchPsParaPresentarInforme(criterios);
+		registrarPresentacionInformeBean.setCriterios(criterios);
+		registrarPresentacionInformeBean.searchPsParaPresentarInforme(criterios);
+		List<LineaTablaInformes> tablaInformes=registrarPresentacionInformeBean.getTablaInformes();
 		assertEquals(tablaInformes.isEmpty(),false);
 		assertEquals(tablaInformes.size()==2,true);
 	}
@@ -132,7 +136,9 @@ public class RegistrarPresentacionInformeBeanTest {
 	public void succesSearchPsParaPresentarInformeByLegajo() {
 		CriteriosParaFiltrarPs criterios = new CriteriosParaFiltrarPs();
 		criterios.setLegajo(legajo1);
-		List<LineaTablaInformes> tablaInformes = registrarPresentacionInformeBean.searchPsParaPresentarInforme(criterios);
+		registrarPresentacionInformeBean.setCriterios(criterios);
+		registrarPresentacionInformeBean.searchPsParaPresentarInforme(criterios);
+		List<LineaTablaInformes> tablaInformes = registrarPresentacionInformeBean.getTablaInformes();
 		assertEquals(tablaInformes.isEmpty(),false);
 		assertEquals(tablaInformes.size()==1,true);
 	}
