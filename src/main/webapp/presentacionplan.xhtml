@@ -28,13 +28,13 @@
  					</h:panelGrid>
  				</p:tab>
  				
- 				<p:tab id="ps" title="PS">
+ 				<p:tab id="plan" title="Plan">
 				<h:panelGrid columns="4">
  						<p:outputLabel value="ID: "/>
- 						<p:inputText id="id2" required="true" value="#{generarReportePG.id}"/>
- 						<p:commandButton value="Buscar" action="#{generarReportePG.buscarPS()}" update="titulo"/>
+ 						<p:inputText id="id2" required="true" value="#{beanOrg.id}"/>
+ 						<p:commandButton value="Buscar" action="#{beanOrg.buscarOrg()}" update="titulo"/>
  						<p:message for="id2"/>
- 						<p:outputLabel id="titulo" value="#{generarReportePG.ps.titulo}"/>				 						
+ 						<p:outputLabel id="titulo" value="#{beanOrg.plan.fechaDePresentacion}"/>				 						
  					</h:panelGrid>
  				</p:tab>
  				

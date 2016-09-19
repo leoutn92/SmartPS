@@ -19,7 +19,7 @@
 	 			<div><br /></div>
 			    <h:panelGrid id="cursado" columns="2" >
 			        <h:outputLabel for="cicloLectivo" value="Ciclo Lectivo: " />
-			        <h:inputText id="cicloLectivo" value="#{generarReportePG.cicloLectivo}" />
+			        <h:inputText id="cicloLectivo" requiere="false" placeholder="2016" value="#{generarReportePG.cicloLectivo}" />
 			        <h:outputLabel for="cuatrimestre" value="Cuatrimestre: " />
 			        <h:inputText id="cuatrimestre" value="#{generarReportePG.cuatrimestre}" />
 			    </h:panelGrid>
@@ -45,39 +45,39 @@
 				</div>
 	 			<div><br /></div>
 
-				<p:dataTable id="lineas" var="ps" rowKey="#{ps.id}" paginator="true" row="10"
-							value="#{generarReportePG.pslist}">
+				<p:dataTable id="lineas" var="linea" rowKey="#{linea.id}" paginator="true" row="10"
+							value="#{generarReportePG.linealist}">
 				
 					<f:facet name="header">
 						Listado de Planes de Trabajo
 					</f:facet>
 				
 				    <p:column headerText="Fecha de Presentacion">
-				        #{ps.planDeTrabajo}
+				        #{linea.fechaDePresentacion}
 				    </p:column>
 				 
 				    <p:column headerText="Titulo de PS">
-				        #{ps.titulo}
+				        #{linea.titulo}
 				    </p:column>
 				 
 				    <p:column headerText="Estado de PS">
-				        #{ps.estado.nombre}
+				        #{linea.estado}
 				    </p:column>
 				 
 				    <p:column headerText="Area de PS">
-				        #{ps.area.nombre}
+				        #{linea.area}
 				    </p:column>
 				    
 					<p:column headerText="Tipo de PS">
-				        #{ps.tipoActividad.nombre}
+				        #{linea.tipoActividad}
 				    </p:column>
 				    
 				    <p:column headerText="Nombre del alumno">
-				        #{ps.alumno.nombre}
+				        #{linea.alumno}
 				    </p:column>
 				    
 					<p:column headerText="Año de ingreso">
-				        #{ps.alumno.cicloLectivo}
+				        #{linea.ingreso}
 				    </p:column>
 				</p:dataTable>
 

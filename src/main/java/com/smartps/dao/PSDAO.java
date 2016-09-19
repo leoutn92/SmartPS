@@ -6,6 +6,7 @@ import java.util.Date;
 import org.hibernate.Session;
 
 import com.smartps.model.PS;
+import com.smartps.model.PlanDeTrabajo;
 import com.smartps.util.HibernateUtil;
 
 
@@ -18,6 +19,13 @@ public class PSDAO implements IPSDAO {
 	public PS findById(int id) {
 		PS ps = (PS) session.get(PS.class, id);
 		return ps;
+	}
+
+	@Override
+	public List<PS> retrieveAll() {
+		List<PS> pslist = (List<PS>) session
+				.createQuery("SELECT p FROM PS p").getResultList();
+		return pslist;
 	}
 	
 	@Override
@@ -33,16 +41,6 @@ public class PSDAO implements IPSDAO {
 				.setParameter("cuatrimestre", cuatrimestre).getResultList();
 		return pslist;
 	}
-	
-	@Override
-	public List<PS> findByPeriodo(Date desde, Date hasta) {
-		List<PS> pslist=(List<PS>) session
-				.createQuery("SELECT s FROM PS s INNER JOIN PlanDeTrabajo t ON (s.id_ps=t.id_ps)"
-						+ "WHERE (t.fecha_presentacion > :desde) AND (t.fecha_presentacion < :hasta)")
-				.setParameter("desde", desde).setParameter("hasta", hasta).getResultList();		
-		return pslist;
-	}
-	
 	
 	@Override
 	public void save(PS objeto) {

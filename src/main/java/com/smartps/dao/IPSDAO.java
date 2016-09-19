@@ -10,10 +10,10 @@ public interface IPSDAO extends IGenericDAO<PS> {
 
 	PS findById(int id);
 	
+	List<PS> retrieveAll();
+	
 	List<PS> findByCicloLectivo(int cicloLectivo);
 	
 	List<PS> findByCuatrimestre(int cuatrimestre);
-	
-	List<PS> findByPeriodo(Date desde, Date hasta);
 	
 }
