@@ -15,40 +15,91 @@
  	<ui:composition template="/templates/template.xhtml">
  		
  		<ui:define name="content">
- 			<h:form>
- 			 	<p:fragment autoUpdate="true">				
-					<h:panelGrid columns="4">
+ 			<h:form> 				
+
+ 				<p:outputLabel value="Registracion de nuevo plan de PS" />
+ 				
+ 				<p:panel header="Alumno"> 			 	
+ 			 	<p:fragment autoUpdate="true">
+ 			 		<p:panelGrid columns="4">									
 						<p:outputLabel value="Nro de legajo"/>
 						<p:inputText id="legajo" required="true" value="#{altaPS.ps.id}"/>
 						<p:commandButton value="Buscar" action="#{altaPS.buscarAlumno()}" icon="ui-icon-search"/>
-						<p:message for="legajo"/>
+<!-- 						<p:message for="legajo"/> -->
 						<p:outputLabel value="Nombre del alumno:"/>
-						<p:outputLabel value="#{altaPS.ps.alumno.nombre}"/>				 						
-					</h:panelGrid>
-				</p:fragment> 					
+						<p:outputLabel value="#{altaPS.ps.alumno.nombre}"/>
+					</p:panelGrid>				 											
+				</p:fragment>
+				</p:panel>
+				
+				
+				
+				<p:panel header="Datos del Plan"> 					
+ 					<p:panelGrid columns="1">		 				
+			 			<p:panelGrid>
+		 				<p:outputLabel value="Fecha de presentación:" />
+		        		<p:calendar showOn="button" />
+	        		</p:panelGrid>
+	        		
+					<p:fragment autoUpdate="true">
+						<h:panelGrid cellpadding="0" columns="3">
+							<p:outputLabel value="Area"/>
+							<p:selectOneMenu value="#{altaPS.areaSelec}">
+								<p:ajax listener="#{altaPS.cambioArea}"/>
+								<f:selectItem itemLabel="Seleccione uno" itemValue=""/>
+								<f:selectItems value="#{altaPS.areas}" var="area" itemLabel="#{area.nombre}" itemValue="#{area.id}"/>							
+							</p:selectOneMenu>
+							<p:outputLabel value="#{altaPS.ps.area.descripsion}"/>
+						</h:panelGrid>
+					</p:fragment>
+					
+					<p:fragment autoUpdate="true">
+						<h:panelGrid columns="2" cellpadding="0">
+			        		<p:outputLabel value="Tipo"/>	        	
+			        		<p:selectOneMenu value="#{altaPS.actSelec}">
+			        			<p:ajax listener="#{altaPS.cambioAct}"/>
+			        			<f:selectItem itemLabel="Seleccione uno" itemValue="" noSelectionOption="true"/>
+			        			<f:selectItems value="#{altaPS.tiposActividades}" var="act" itemLabel="#{act.nombre}" itemValue="#{act.id}"/>
+			        		</p:selectOneMenu>
+			        		<p:outputLabel value="#{altaPS.ps.tipoActividad.descripsion}"/>
+		        		</h:panelGrid>
+		        	</p:fragment>
+		        	
+	        		<p:panelGrid>
+						<p:outputLabel value="Título de la PS"/>
+						<p:inputText value="#{altaPS.ps.titulo}"/>
+					</p:panelGrid>
+				
+					
+					<p:row>
+						<h:panelGrid columns="4">
+							<p:outputLabel value="Cuatrimestre"/>
+							<p:inputText value="#{altaPS.ps.cuatrimestre}"/>
+							<p:outputLabel value="Ciclo lectivo"/>
+							<p:inputText value="#{altaPS.ps.cicloLectivo}"/>
+						</h:panelGrid>
+						
+					</p:row>
+					
+					
+					
+					
+					
+		        	<p:fragment autoUpdate="true">
+	        			<p:outputLabel value="Organización donde realiza la PS"/>
+	        			<p:selectOneMenu value="#{altaPS.orgSelec}" filter="true" >
+		        			<p:ajax listener="#{altaPS.cambioOrg}"/>
+		        			<f:selectItem itemLabel="Seleccione uno" itemValue="" noSelectionOption="true"/>
+		        			<f:selectItems value="#{altaPS.organizaciones}" var="org" itemLabel="#{org.nombre}" itemValue="#{org.id}"/>
+	        			</p:selectOneMenu>	        			
+	        			<p:outputLabel value="#{altaPS.ps.organizacion.descripsion}"/>
+		        	</p:fragment>
+		        	
+		        	<p:commandButton value="Guardar Presentación" actionListener="#{altaPS.guardarPS}" icon="ui-icon-save"/>
+       					
+					</p:panelGrid>			
  				 	
- 				
- 				 	
- 				 				
-				<p:fragment autoUpdate="true">
-					<p:panelGrid columns="4">
-						<p:outputLabel value="Area de desarrollo de la PS"/>	
-				        <p:selectOneMenu id ="menuAreas" value="#{altaPS.ps.area}" converter="areaConverter" var="a">
-				       		            
-				            <f:selectItems value="#{altaPS.areas}" var="area" itemLabel="#{area.id}" itemValue="#{area}"/>
-				            
-				            <p:column>
-				            	<h:outputLabel value="#{a.nombre}"/>
-				            </p:column>
-				        </p:selectOneMenu>
-			        
-			        	<p:outputLabel id="areaSelec" value="#{altaPS.ps.area.descripsion}"/>
-			        	<p:message for="menuAreas"/>
-			        	<p:commandButton update="areaSelec" />
-			        	
-	
-		        	</p:panelGrid>
-	        	</p:fragment>
+	        	</p:panel>
 
  			</h:form>
  		</ui:define>

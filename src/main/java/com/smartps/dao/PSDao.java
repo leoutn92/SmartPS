@@ -11,9 +11,16 @@ import com.smartps.util.HibernateUtil;
 
 public class PSDao implements IPSDao {
 	public SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+	public Session session= sessionFactory.openSession();
 	EntityManager entitymanager;
+	
+	
 	public void save(PS ps){
-		entitymanager.persist(ps);
+		session.beginTransaction();
+		session.save(ps);
+		session.getTransaction().commit();
+		session.close();
+		
 	}
 	public List<PS> buscarPorLegajo(int legajo) {
 		Session session =sessionFactory.openSession();
@@ -25,4 +32,5 @@ public class PSDao implements IPSDao {
 		// TODO Auto-generated method stub
 		Session session =sessionFactory.openSession();
 	}
+	
 }
