@@ -4,7 +4,6 @@ import java.util.Date;
 
 public class LineaDeReporte {
 
-	private int id;
 	private Date fechaDePresentacion;
 	private String titulo;
 	private String estado;
@@ -14,14 +13,6 @@ public class LineaDeReporte {
 	private int ingreso;
 	
 	
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
-
 	public Date getFechaDePresentacion() {
 		return fechaDePresentacion;
 	}

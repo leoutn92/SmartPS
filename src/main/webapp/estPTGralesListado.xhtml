@@ -18,6 +18,9 @@
 	 			<h:outputLabel value="Estadisticas Generales de Planes de Trabajo de PS"/>
 	 			<div><br /></div>
 			    <h:panelGrid id="cursado" columns="2" >
+			    	<f:facet name="header">
+			        	<div align="left"><br/><h:outputText value="Momento de inscripcion del alumno a la catedra PS"/></div>
+			        </f:facet>
 			        <h:outputLabel for="cicloLectivo" value="Ciclo Lectivo: " />
 			        <h:inputText id="cicloLectivo" requiere="false" placeholder="2016" value="#{generarReportePG.cicloLectivo}" />
 			        <h:outputLabel for="cuatrimestre" value="Cuatrimestre: " />
@@ -40,13 +43,13 @@
 
 		        <div align="right">
 		        	<br />
- 					<p:commandButton value="Generar Reporte" action="#{generarReportePG.busquedaByFiltros()}" update="lineas" />
+ 					<p:commandButton value="Generar Reporte" action="#{generarReportePG.busquedaByFiltros()}" update="lineas"/>
  					<br /><br></br>
 				</div>
 	 			<div><br /></div>
 
-				<p:dataTable id="lineas" var="linea" rowKey="#{linea.id}" paginator="true" row="10"
-							value="#{generarReportePG.linealist}">
+				<p:dataTable id="lineas" var="linea" paginator="true" row="10"
+							value="#{generarReportePG.resultlist}">
 				
 					<f:facet name="header">
 						Listado de Planes de Trabajo
@@ -82,20 +85,20 @@
 				</p:dataTable>
 
 
-<!-- 		    <h:panelGrid id="totales" columns="2" >
+ 		 	   <h:panelGrid id="totales" columns="2" >
 			        <f:facet name="header">
 			        	<div align="left"><br/><h:outputText value="Totales"/></div>
 			        </f:facet>
 			        <h:outputLabel for="cantPlanesPresentados" value="Cantidad de Planes de Trabajo presentados: " />
-			        <h:inputText id="cantPlanesPresentados" value="" />
+			        <h:inputText id="cantPlanesPresentados" value="#{generarReportePG.cPP}" />
 			        <h:outputLabel for="porcPlanesAprob" value="Procentaje de Planes Aprobados: " />
-			        <h:inputText id="porcPlanesAprob" value="" />
+			        <h:inputText id="porcPlanesAprob" value="#{generarReportePG.cPA}" />
 					<h:outputLabel for="porcPlanesDesaprob" value="Procentaje de Planes Desaprobados: " />
-			        <h:inputText id="porcPlanesDesaprob" value="" />
+			        <h:inputText id="porcPlanesDesaprob" value="#{generarReportePG.cPD}" />
 			        <h:outputLabel for="porcPlanesVenc" value="Procentaje de Planes Vencidos" />
-			        <h:inputText id="porcPlanesVenc" value="" />
+			        <h:inputText id="porcPlanesVenc" value="#{generarReportePG.cPV}" />
 			    </h:panelGrid>
--->
+
 	 		</ui:define>
 	 		
 	 	</ui:composition>
