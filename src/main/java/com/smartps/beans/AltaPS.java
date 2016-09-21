@@ -7,10 +7,10 @@ import javax.faces.bean.ManagedBean;
 //import javax.faces.bean.ViewScoped;
 
 import com.smartps.dao.AlumnoDAO;
-import com.smartps.dao.AreaDAO;
+import com.smartps.dao.AreaDao;
 import com.smartps.dao.OrganizacionDAO;
 import com.smartps.dao.PSDao;
-import com.smartps.dao.TipoActividadDAO;
+import com.smartps.dao.TipoActividadDao;
 import com.smartps.model.Area;
 import com.smartps.model.Organizacion;
 import com.smartps.model.PS;
@@ -93,9 +93,9 @@ public class AltaPS {
 	@PostConstruct
 	public void init(){
 		ps= new PS();
-		areas= new AreaDAO().getAll();		
+		areas= new AreaDao().getAll();		
 		organizaciones = OrganizacionDAO.getInstance().getAll();
-		tiposActividades = TipoActividadDAO.getInstance().getAll();
+		tiposActividades = TipoActividadDao.getInstance().getAll();
 	}
 
 

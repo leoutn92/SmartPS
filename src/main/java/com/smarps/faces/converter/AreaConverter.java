@@ -7,7 +7,7 @@ import javax.faces.convert.Converter;
 import javax.faces.convert.ConverterException;
 import javax.faces.convert.FacesConverter;
 
-import com.smartps.dao.AreaDAO;
+import com.smartps.dao.AreaDao;
 import com.smartps.model.Area;
 
 /**
@@ -26,7 +26,7 @@ public class AreaConverter implements Converter {
 		System.out.println("valor del atributo pasado al converter "+value);
 		if (value !=null && value.trim().length()>0){
 			try{
-				Area area = new AreaDAO().buscarArea(Integer.parseInt(value));
+				Area area = new AreaDao().buscarArea(Integer.parseInt(value));
 				System.out.println(area.getDescripsion());
 				return area;				
 			} catch (NumberFormatException e){

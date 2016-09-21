@@ -5,3 +5,6 @@ insert into area values (2,"Redes","Mantenimiento");
 
 insert into organizacion values(1,"UTN Facultad Regional Resistencia","Trabajo de investigación");
 insert into organizacion values(2,"Globant","We create digital journeys");
+
+insert into tipo_actividad values(1,"Relacion Laboral","Jornada completa de 16 horas");
+insert into tipo_actividad values(2,"Proyecto independiente","Trabaja desde la comodidad de tu casa");
