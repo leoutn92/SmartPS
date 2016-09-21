@@ -9,10 +9,8 @@ import javax.faces.bean.ManagedBean;
 
 import com.smartps.dao.PSDAO;
 import com.smartps.dao.PlanDeTrabajoDAO;
-import com.smartps.dao.EstadoDAO;
 import com.smartps.model.PS;
 import com.smartps.model.PlanDeTrabajo;
-import com.smartps.model.Estado;
 import com.smartps.model.LineaDeReporte;
 
 @ManagedBean
@@ -21,7 +19,6 @@ public class GenerarReportePG {
 	
 	private PSDAO psdao = new PSDAO();
 	private PlanDeTrabajoDAO ptdao = new PlanDeTrabajoDAO();
-	private EstadoDAO estdao = new EstadoDAO();
 
 	private List<PS> pslist;
 	private List<PS> pslistCL;
@@ -38,10 +35,10 @@ public class GenerarReportePG {
 	private LineaDeReporte linea;
 
 	//contadores
-	private int cPP;
-	private int cPA;
-	private int cPD;
-	private int cPV;
+	private double cPP;
+	private double cPA;
+	private double cPD;
+	private double cPV;
 	
 	
 	@PostConstruct
@@ -149,31 +146,30 @@ public class GenerarReportePG {
 	//Totales
 		//Planes Presentados
 		cPP = resultlist.size();
+		
 		if (cPP!=0){
 			//Porcentaje Planes Aprobados
-	String nombre = "Plan aprobado";
-			int contPA = 0;
+			double contPA = 0;
 			for (int p=0; p<resultlist.size(); p++){
-				String nombre2 = resultlist.get(p).getEstado();
-				if (nombre != nombre2){
+				if (resultlist.get(p).getEstado().equals("Plan aprobado")){
 					contPA++;
 				}
 			}
 			cPA = ((contPA/cPP)*100);			
 			
 			//Porcentaje Planes Desaprobados
-			int contPD = 0;
+			double contPD = 0;
 			for (int q=0; q<resultlist.size(); q++){
-				if (resultlist.get(q).getEstado() == "Plan rechazado"){
+				if (resultlist.get(q).getEstado().equals("Plan rechazado")){
 					contPD++;
 				}
 			}
 			cPD = ((contPD/cPP)*100);
 			
 			//Porcentaje Planes Vencidos
-			int contPV = 0;
+			double contPV = 0;
 			for (int r=0; r<resultlist.size(); r++){
-				if (resultlist.get(r).getEstado()=="Plan vencido"){
+				if (resultlist.get(r).getEstado().equals("Plan vencido")){
 					contPV++;
 				}
 			}
@@ -291,35 +287,35 @@ public class GenerarReportePG {
 		this.linea = linea;
 	}
 
-	public int getcPP() {
+	public double getcPP() {
 		return cPP;
 	}
 
-	public void setcPP(int cPP) {
+	public void setcPP(double cPP) {
 		this.cPP = cPP;
 	}
 
-	public int getcPA() {
+	public double getcPA() {
 		return cPA;
 	}
 
-	public void setcPA(int cPA) {
+	public void setcPA(double cPA) {
 		this.cPA = cPA;
 	}
 
-	public int getcPD() {
+	public double getcPD() {
 		return cPD;
 	}
 
-	public void setcPD(int cPD) {
+	public void setcPD(double cPD) {
 		this.cPD = cPD;
 	}
 
-	public int getcPV() {
+	public double getcPV() {
 		return cPV;
 	}
 
-	public void setcPV(int cPV) {
+	public void setcPV(double cPV) {
 		this.cPV = cPV;
 	}
 
