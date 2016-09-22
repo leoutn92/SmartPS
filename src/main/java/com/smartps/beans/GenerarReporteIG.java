@@ -9,24 +9,24 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 
 import com.smartps.dao.PSDAO;
-import com.smartps.dao.PlanDeTrabajoDAO;
+import com.smartps.dao.InformeFinalDAO;
 import com.smartps.model.PS;
-import com.smartps.model.PlanDeTrabajo;
+import com.smartps.model.InformeFinal;
 import com.smartps.model.LineaDeReporte;
 
 @ManagedBean
 @RequestScoped
-public class GenerarReportePG {
+public class GenerarReporteIG {
 //GenerarReportePG = GenerarReportePlanesGeneral_hdu6 
 	
 	private PSDAO psdao = new PSDAO();
-	private PlanDeTrabajoDAO ptdao = new PlanDeTrabajoDAO();
+	private InformeFinalDAO ifdao = new InformeFinalDAO();
 
 	private List<PS> pslist;
 	private List<PS> pslistCL;
 	private List<PS> pslistCuatri;
-	private List<PlanDeTrabajo> planes;
-	private List<PlanDeTrabajo> planesPeriodo;	
+	private List<InformeFinal> informes;
+	private List<InformeFinal> informesPeriodo;	
 	private List<LineaDeReporte> linealist;
 	private List<LineaDeReporte> resultlist;
 	
@@ -48,8 +48,8 @@ public class GenerarReportePG {
 		pslist = new ArrayList<PS>();
 		pslistCL = new ArrayList<PS>();
 		pslistCuatri = new ArrayList<PS>();
-		planes = new ArrayList<PlanDeTrabajo>();
-		planesPeriodo = new ArrayList<PlanDeTrabajo>();
+		informes = new ArrayList<InformeFinal>();
+		informesPeriodo = new ArrayList<InformeFinal>();
 		linealist = new ArrayList<LineaDeReporte>();
 		resultlist = new ArrayList<LineaDeReporte>();
 	}
@@ -58,22 +58,22 @@ public class GenerarReportePG {
 
 	//Listado		
 
-		planes = ptdao.retrieveAll();
+		informes = ifdao.retrieveAll();
 		
 		//Por Periodo
 		if ((desde!=null) && (hasta!=null)){
 			pslist = psdao.retrieveAll();
-			planesPeriodo = ptdao.findByPeriodo(desde, hasta);
-			for (int a=0; a<planesPeriodo.size(); a++){
+			informesPeriodo = ifdao.findByPeriodo(desde, hasta);
+			for (int a=0; a<informesPeriodo.size(); a++){
 				for (int b=0; b<pslist.size(); b++){
-					if (planesPeriodo.get(a).getPs().getId()==pslist.get(b).getId()){
+					if (informesPeriodo.get(a).getPs().getId()==pslist.get(b).getId()){
 						if (
 								((pslist.get(b).getCuatrimestre()==cuatrimestre) || (cuatrimestre==0))
 								&&
 								((pslist.get(b).getCicloLectivo()==cicloLectivo) || (cicloLectivo==0))
 							){
 							linea = new LineaDeReporte();
-							linea.setFechaDePresentacion(planesPeriodo.get(a).getFechaDePresentacion());
+							linea.setFechaDePresentacion(informesPeriodo.get(a).getFechaDePresentacion());
 							linea.setTitulo(pslist.get(b).getTitulo());
 							linea.setEstado(pslist.get(b).getEstado().getNombre());
 							linea.setArea(pslist.get(b).getArea().getNombre());
@@ -89,11 +89,11 @@ public class GenerarReportePG {
 			//Por CicloLectivo
 			pslistCL = psdao.findByCicloLectivo(cicloLectivo);
 			for (int i=0; i<pslistCL.size(); i++){			
-				for (int j=0; j<planes.size(); j++){
-					if (pslistCL.get(i).getId()==planes.get(j).getPs().getId()){
+				for (int j=0; j<informes.size(); j++){
+					if (pslistCL.get(i).getId()==informes.get(j).getPs().getId()){
 						if ((pslistCL.get(i).getCuatrimestre()==cuatrimestre) || (cuatrimestre==0)){
 							linea = new LineaDeReporte();
-							linea.setFechaDePresentacion(planes.get(j).getFechaDePresentacion());
+							linea.setFechaDePresentacion(informes.get(j).getFechaDePresentacion());
 							linea.setTitulo(pslistCL.get(i).getTitulo());
 							linea.setEstado(pslistCL.get(i).getEstado().getNombre());
 							linea.setArea(pslistCL.get(i).getArea().getNombre());
@@ -109,10 +109,10 @@ public class GenerarReportePG {
 				//Por Cuatrimestre
 				pslistCuatri = psdao.findByCuatrimestre(cuatrimestre);
 				for (int x=0; x<pslistCuatri.size(); x++){			
-					for (int y=0; y<planes.size(); y++){
-						if (pslistCuatri.get(x).getId()==planes.get(y).getPs().getId()){
+					for (int y=0; y<informes.size(); y++){
+						if (pslistCuatri.get(x).getId()==informes.get(y).getPs().getId()){
 							linea = new LineaDeReporte();
-							linea.setFechaDePresentacion(planes.get(y).getFechaDePresentacion());
+							linea.setFechaDePresentacion(informes.get(y).getFechaDePresentacion());
 							linea.setTitulo(pslistCuatri.get(x).getTitulo());
 							linea.setEstado(pslistCuatri.get(x).getEstado().getNombre());
 							linea.setArea(pslistCuatri.get(x).getArea().getNombre());
@@ -153,7 +153,7 @@ public class GenerarReportePG {
 			//Porcentaje Planes Aprobados
 			double contPA = 0;
 			for (int p=0; p<resultlist.size(); p++){
-				if (resultlist.get(p).getEstado().equals("Plan aprobado")){
+				if (resultlist.get(p).getEstado().equals("Informe aprobado")){
 					contPA++;
 				}
 			}
@@ -162,7 +162,7 @@ public class GenerarReportePG {
 			//Porcentaje Planes Desaprobados
 			double contPD = 0;
 			for (int q=0; q<resultlist.size(); q++){
-				if (resultlist.get(q).getEstado().equals("Plan rechazado")){
+				if (resultlist.get(q).getEstado().equals("Informe rechazado")){
 					contPD++;
 				}
 			}
@@ -171,7 +171,7 @@ public class GenerarReportePG {
 			//Porcentaje Planes Vencidos
 			double contPV = 0;
 			for (int r=0; r<resultlist.size(); r++){
-				if (resultlist.get(r).getEstado().equals("Plan vencido")){
+				if (resultlist.get(r).getEstado().equals("Informe vencido")){
 					contPV++;
 				}
 			}
@@ -185,16 +185,16 @@ public class GenerarReportePG {
 		
 	//Redireccion
 		if (resultlist.size()==0){
-			return "estPTGralesNohay";
+			return "estIFGralesNohay";
 		} else {
-			return "estPTGralesListado";
+			return "estIFGralesListado";
 		}
 
 	}
 
 	
 	public String volver(){
-		return "estPTGrales";
+		return "estIFGrales";
 	}
 	
 	
@@ -223,20 +223,20 @@ public class GenerarReportePG {
 		this.pslistCuatri = pslistCuatri;
 	}
 
-	public List<PlanDeTrabajo> getPlanes() {
-		return planes;
+	public List<InformeFinal> getInformes() {
+		return informes;
 	}
 
-	public void setPlanes(List<PlanDeTrabajo> planes) {
-		this.planes = planes;
+	public void setInformes(List<InformeFinal> informes) {
+		this.informes = informes;
 	}
 
-	public List<PlanDeTrabajo> getPlanesPeriodo() {
-		return planesPeriodo;
+	public List<InformeFinal> getInformesPeriodo() {
+		return informesPeriodo;
 	}
 
-	public void setPlanesPeriodo(List<PlanDeTrabajo> planesPeriodo) {
-		this.planesPeriodo = planesPeriodo;
+	public void setInformesPeriodo(List<InformeFinal> informesPeriodo) {
+		this.informesPeriodo = informesPeriodo;
 	}
 
 	public List<LineaDeReporte> getLinealist() {

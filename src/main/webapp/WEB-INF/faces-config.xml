@@ -5,6 +5,17 @@
     xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_2.xsd"
     version="2.2">
 
+
+	<navigation-rule>
+		<from-view-id>/index.xhtml</from-view-id>
+		<navigation-case>
+			<from-outcome>presentacionplan</from-outcome>
+			<to-view-id>/presentacionplan.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>		
+	</navigation-rule>
+
+	<!-- Planes de Trabajo -->
 	<navigation-rule>
 		<from-view-id>/estPTGrales.xhtml</from-view-id>
 		<navigation-case>
@@ -21,12 +32,38 @@
 	</navigation-rule>
 	
 	<navigation-rule>
-		<from-view-id>/index.xhtml</from-view-id>
+		<from-view-id>/estPTGralesNohay.xhtml</from-view-id>
 		<navigation-case>
-			<from-outcome>presentacionplan</from-outcome>
-			<to-view-id>/presentacionplan.xhtml</to-view-id>
+			<from-outcome>estPTGrales</from-outcome>
+			<to-view-id>/estPTGrales.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>		
 	</navigation-rule>
 
+
+	<!-- Informes Finales -->	
+	<navigation-rule>
+	<from-view-id>/estIFGrales.xhtml</from-view-id>
+		<navigation-case>
+			<from-outcome>estIFGralesListado</from-outcome>
+			<to-view-id>/estIFGralesListado.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+	
+		<navigation-case>
+			<from-outcome>estIFGralesNohay</from-outcome>
+			<to-view-id>/estIFGralesNohay.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+	</navigation-rule>
+	
+	<navigation-rule>
+		<from-view-id>/estIFGralesNohay.xhtml</from-view-id>
+		<navigation-case>
+			<from-outcome>estIFGrales</from-outcome>
+			<to-view-id>/estIFGrales.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>		
+	</navigation-rule>
+	
 </faces-config>

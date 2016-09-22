@@ -14,8 +14,8 @@
 
 	 	<ui:composition template="/templates/template.xhtml">
 	 		<ui:define name="content"> 
-
-	 			<h:outputLabel value="Estadisticas Generales de Planes de Trabajo de PS"/>
+	 		
+	 			<h:outputLabel value="Estadisticas Generales de Informes Finales de PS"/>
 	 			<div><br /></div>
 
 			    <h:panelGrid id="cursado" columns="3" >
@@ -23,10 +23,10 @@
 			        	<div align="left"><br/><h:outputText value="Momento de inscripcion del alumno a la catedra PS"/></div>
 			        </f:facet>
 			        <h:outputLabel for="cicloLectivo" value="Ciclo Lectivo: " />
-					<h:inputText id="cicloLectivo" value="#{generarReportePG.cicloLectivo}" />
+					<h:inputText id="cicloLectivo" value="#{generarReporteIG.cicloLectivo}" />
 			        <h:outputLabel value="(2014,2015,2016,...)" />			        
 			        <h:outputLabel for="cuatrimestre" value="Cuatrimestre: " />
-			        <h:inputText id="cuatrimestre" value="#{generarReportePG.cuatrimestre}" />
+			        <h:inputText id="cuatrimestre" value="#{generarReporteIG.cuatrimestre}" />
 			        <h:outputLabel value="(1,2)" />
 			    </h:panelGrid>
 
@@ -36,23 +36,23 @@
 			        </f:facet>
 			        
 					<p:outputLabel for="desde" value="Desde: " />
-					<p:calendar id="desde" value="#{generarReportePG.desde}" showOn="button" />
+					<p:calendar id="desde" value="#{generarReporteIG.desde}" showOn="button" />
 		        
 					<p:outputLabel for="hasta" value="Hasta: " />
-					<p:calendar id="hasta" value="#{generarReportePG.hasta}" showOn="button" />		        	
+					<p:calendar id="hasta" value="#{generarReporteIG.hasta}" showOn="button" />		        	
 			    </h:panelGrid>
 
 	 			<div><br /></div>
 
 		        <div align="right">
 		        	<br />
- 					<p:commandButton value="Visualizar Listado" action="#{generarReportePG.busquedaByFiltros()}" update="myPanel" />
+ 					<p:commandButton value="Visualizar Listado" action="#{generarReporteIG.busquedaByFiltros()}" update="myPanel" />
  					<br /><br></br>
 				</div>
 	 			<div><br /></div>
 				<p:panel id="myPanel">
 					<p:dataTable id="lineas" var="linea" paginator="true" row="10"
-								value="#{generarReportePG.resultlist}">
+								value="#{generarReporteIG.resultlist}">
 					
 						<f:facet name="header">
 							Listado de Planes de Trabajo
@@ -92,17 +92,17 @@
 				        <f:facet name="header">
 				        	<div align="left"><br/><h:outputText value="Totales"/></div>
 				        </f:facet>
-				        <h:outputLabel for="cantPlanesPresentados" value="Cantidad de Planes de Trabajo presentados: " />
-				        <h:inputText id="cantPlanesPresentados" value="#{generarReportePG.cPP}" />
+				        <h:outputLabel for="cantInformesPresentados" value="Cantidad de Informes Finales presentados: " />
+				        <h:inputText id="cantInformesPresentados" value="#{generarReporteIG.cPP}" />
 				        <h:outputLabel value="" />
-				        <h:outputLabel for="porcPlanesAprob" value="Porcentaje de Planes Aprobados: " />
-				        <h:inputText id="porcPlanesAprob" value="#{generarReportePG.cPA}" />
+				        <h:outputLabel for="porcInformesAprob" value="Porcentaje de Informes Aprobados: " />
+				        <h:inputText id="porcInformesAprob" value="#{generarReporteIG.cPA}" />
 				        <h:outputLabel value="%" />
-						<h:outputLabel for="porcPlanesDesaprob" value="Porcentaje de Planes Desaprobados: " />
-				        <h:inputText id="porcPlanesDesaprob" value="#{generarReportePG.cPD}" />
+						<h:outputLabel for="porcInformesDesaprob" value="Porcentaje de Informes Desaprobados: " />
+				        <h:inputText id="porcInformesDesaprob" value="#{generarReporteIG.cPD}" />
 						<h:outputLabel value="%" />				        
-				        <h:outputLabel for="porcPlanesVenc" value="Porcentaje de Planes Vencidos" />
-				        <h:inputText id="porcPlanesVenc" value="#{generarReportePG.cPV}" />
+				        <h:outputLabel for="porcInformesVenc" value="Porcentaje de Informes Vencidos" />
+				        <h:inputText id="porcInformesVenc" value="#{generarReporteIG.cPV}" />
 				        <h:outputLabel value="%" />
 				    </h:panelGrid>
 				</p:panel>

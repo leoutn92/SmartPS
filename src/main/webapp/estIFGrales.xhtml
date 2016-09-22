@@ -15,14 +15,14 @@
 	 	<ui:composition template="/templates/template.xhtml">
 	 		<ui:define name="content"> 
 
-	 			<h:outputLabel value="Estadisticas Generales de Planes de Trabajo de PS"/>
+	 			<h:outputLabel value="Estadisticas Generales de Informes Finales de PS"/>
 	 			<div><br /></div>
 			    <h:panelGrid id="cursado" columns="3" >
 			        <h:outputLabel for="cicloLectivo" value="Ciclo Lectivo: " />
-			        <h:inputText id="cicloLectivo" value="#{generarReportePG.cicloLectivo}" />
+			        <h:inputText id="cicloLectivo" value="#{generarReporteIG.cicloLectivo}" />
 			        <h:outputLabel value="(2014,2015,2016,...)" />
 			        <h:outputLabel for="cuatrimestre" value="Cuatrimestre: " />
-			        <h:inputText id="cuatrimestre" value="#{generarReportePG.cuatrimestre}" />
+			        <h:inputText id="cuatrimestre" value="#{generarReporteIG.cuatrimestre}" />
 			        <h:outputLabel value="(1,2)" />
 			    </h:panelGrid>
 
@@ -32,15 +32,15 @@
 			        </f:facet>
 			        
 					<p:outputLabel for="desde" value="Desde: " />
-					<p:calendar id="desde" value="#{generarReportePG.desde}" showOn="button" />
+					<p:calendar id="desde" value="#{generarReporteIG.desde}" showOn="button" />
 		        
 					<p:outputLabel for="hasta" value="Hasta: " />
-					<p:calendar id="hasta" value="#{generarReportePG.hasta}" showOn="button" />		        	
+					<p:calendar id="hasta" value="#{generarReporteIG.hasta}" showOn="button" />		        	
 			    </h:panelGrid>
 
 		        <div align="right">
 		        	<br />
- 					<p:commandButton value="Visualizar Listado" action="#{generarReportePG.busquedaByFiltros()}"/>
+ 					<p:commandButton value="Visualizar Listado" action="#{generarReporteIG.busquedaByFiltros()}"/>
  					<br /><br></br>
 				</div>
 
