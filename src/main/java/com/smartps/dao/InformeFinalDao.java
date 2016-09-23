@@ -12,6 +12,7 @@ public class InformeFinalDao implements IGenericDAO<InformeFinal> {
 	@Override
 	public void save(InformeFinal informe) {
 		// TODO Auto-generated method stub
+		session= HibernateUtil.getSessionFactory().openSession();
 		session.beginTransaction();
 		session.save(informe);
 		session.getTransaction().commit();
@@ -26,6 +27,7 @@ public class InformeFinalDao implements IGenericDAO<InformeFinal> {
 	@Override
 	public void delete(InformeFinal objeto) {
 		// TODO Auto-generated method stub
+		session= HibernateUtil.getSessionFactory().openSession();
 		session.beginTransaction();
 		session.delete(objeto);
 		session.getTransaction().commit();
@@ -33,6 +35,7 @@ public class InformeFinalDao implements IGenericDAO<InformeFinal> {
 
 	public List<InformeFinal> getByIdPs(int idps) {
 		// TODO Auto-generated method stub
+		session= HibernateUtil.getSessionFactory().openSession();
 		List<InformeFinal> ifs = session.createQuery("SELECT f FROM InformeFinal f where f.ps.id= :idps")
 				.setParameter("idps",idps).getResultList();
 		return ifs;

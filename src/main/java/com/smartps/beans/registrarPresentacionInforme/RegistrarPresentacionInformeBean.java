@@ -6,7 +6,9 @@ import java.util.Date;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.faces.view.ViewScoped;
 
@@ -15,6 +17,7 @@ import com.smartps.dao.InformeFinalDao;
 import com.smartps.dao.PSDao;
 import com.smartps.dao.PlanDeTrabajoDao;
 import com.smartps.model.Alumno;
+import com.smartps.model.Estado;
 import com.smartps.model.InformeFinal;
 import com.smartps.model.PS;
 import com.smartps.model.PlanDeTrabajo;
@@ -22,9 +25,10 @@ import com.smartps.model.PlanDeTrabajo;
 @ViewScoped
 public class RegistrarPresentacionInformeBean implements Serializable {
 	int legajo;
+	String dirPlan;
 	LineaTablaInformes linea;
-	String nombreAlumno;
-	String psTitle;
+	String nombreAlumno="";
+	String psTitle="";
 	CriteriosParaFiltrarPs criterios = new CriteriosParaFiltrarPs();
 	Alumno alumno = new Alumno();
 	PS ps = new PS();
@@ -35,10 +39,18 @@ public class RegistrarPresentacionInformeBean implements Serializable {
 	InformeFinalDao inFinalDao = new InformeFinalDao();
 	PlanDeTrabajoDao planDeTrabajoDao = new PlanDeTrabajoDao();
 	List<LineaTablaInformes> tablaInformes;
+	String mensaje;
 	@PostConstruct
 	public void init(){
 		this.updateTablaInformes();
-	}	
+	}
+	public String getDirPlan() {
+		return dirPlan;
+	}
+	public String setDirPlan() {
+		this.dirPlan = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("pdf");
+		return this.dirPlan;
+	}
 	public CriteriosParaFiltrarPs getCriterios() {
 		return criterios;
 	}
@@ -94,8 +106,9 @@ public class RegistrarPresentacionInformeBean implements Serializable {
 		int legajoPs=ps.getAlumno().getLegajo();
 		PS newPs = psDao.searchPs(legajoPs,this.getIdEstadoPlanAprobado());
 		psDao.updateEstado(newPs.getId(),this.getIdEstadoInformePresentado());
-		return "se cargo informe exitosamente";
+		return "se cargo informe de alumno "+Integer.toString(legajoPs)+" exitosamente";
 	}
+	
 	
 	private int getIdEstadoInformeObservado() {
 		// TODO Auto-generated method stub
@@ -130,11 +143,28 @@ public class RegistrarPresentacionInformeBean implements Serializable {
 	public void buttonAction(ActionEvent actionEvent) {
 		this.updateTablaInformes();
     }
+	public void registrarInformes(ActionEvent actionEvent) {
+		this.registrarPresentacionInformes();
+	}
+	
+	public void setDirectory(String directory) {
+		this.dirPlan=directory;
+	}
+	
+	public void editDirectory() {
+		
+	}
 	public void updateTablaInformes() {
 		CriteriosParaFiltrarPs newCriterios=new CriteriosParaFiltrarPs();
+		if (this.nombreAlumno.isEmpty()) {
+			this.nombreAlumno=null;
+		};
+		if (this.psTitle.isEmpty()) {
+			this.psTitle=null;	
+		}
 		newCriterios.setLegajo(this.legajo);
-		newCriterios.setNombreAlumno(nombreAlumno);
-		newCriterios.setPsTitle(psTitle);
+		newCriterios.setNombreAlumno(this.nombreAlumno);
+		newCriterios.setPsTitle(this.psTitle);
 		this.tablaInformes = this.searchPsParaPresentarInforme(newCriterios);
 	}
 	public List<LineaTablaInformes> searchPsParaPresentarInforme(CriteriosParaFiltrarPs criterios) {
@@ -146,6 +176,7 @@ public class RegistrarPresentacionInformeBean implements Serializable {
 		List<PS> pssParaPresentarInforme = pssConPlanAprobado;
 		for (PS ps: pssParaPresentarInforme) {
 			LineaTablaInformes linea=new LineaTablaInformes();
+			linea.setPs(ps);
 			linea.setLegajo(ps.getAlumno().getLegajo());
 			linea.setPsTitle(ps.getTitulo());
 			linea.setNombreAlumno(ps.getAlumno().getNombre());
@@ -158,5 +189,30 @@ public class RegistrarPresentacionInformeBean implements Serializable {
 			tablaInformes.add(linea);
 		}
 		return tablaInformes; 
-	}	
+	}
+	public String registrarPresentacionInforme(LineaTablaInformes linea) {
+		if (linea.getFechaPresentacion()!=null) {
+			InformeFinal informe = new InformeFinal();
+			informe.setFechaDePresentacion(linea.getFechaPresentacion());
+			PS ps=psDao.getById(linea.getPs().getId());
+			informe.setPs(ps);
+			inFinalDao.save(informe);
+			Estado estado=estadoDAO.buscarPorNombre("Informe presentado");
+			ps.setEstado(estado);
+			psDao.updateEstado(ps.getId(),this.getIdEstadoInformePresentado());
+			int legajoPs=ps.getAlumno().getLegajo();
+			return "se cargo informe de alumno "+Integer.toString(legajoPs)+" exitosamente";
+		}
+		return " ";
+	}
+	public String registrarPresentacionInformes() {
+		String salida=" ";
+		for (LineaTablaInformes lineaTablaInforme: this.tablaInformes) {
+			salida.concat(this.registrarPresentacionInforme(lineaTablaInforme));
+		}
+		this.updateTablaInformes();
+		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Bien hecho!","los informes han sido registrados exitosamente"));
+		return salida;
+	}
+	
 }

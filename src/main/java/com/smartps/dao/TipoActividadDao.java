@@ -10,7 +10,9 @@ public class TipoActividadDao implements IGenericDAO<TipoActividad> {
 	Session session= HibernateUtil.getSessionFactory().openSession();
 	@Override
 	public void save(TipoActividad tActividad) {
+		
 		// TODO Auto-generated method stub
+		session= HibernateUtil.getSessionFactory().openSession();
 		session.beginTransaction();
 		session.save(tActividad);
 		session.getTransaction().commit();

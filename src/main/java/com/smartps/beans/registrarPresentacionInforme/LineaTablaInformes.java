@@ -1,7 +1,11 @@
 package com.smartps.beans.registrarPresentacionInforme;
 
+import java.util.Date;
+
 import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
+
+import com.smartps.model.PS;
 @ManagedBean
 @ApplicationScoped
 public class LineaTablaInformes {
@@ -10,6 +14,8 @@ public class LineaTablaInformes {
 	private String estado;
 	private String dirPlan;
 	private String psTitle;
+	private Date fechaPresentacion;
+	private PS ps;
 	public String getNombreAlumno() {
 		return nombreAlumno;
 	}
@@ -39,6 +45,18 @@ public class LineaTablaInformes {
 	}
 	public void setPsTitle(String psTitle) {
 		this.psTitle = psTitle;
+	}
+	public Date getFechaPresentacion() {
+		return fechaPresentacion;
+	}
+	public void setFechaPresentacion(Date fechaPresentacion) {
+		this.fechaPresentacion = fechaPresentacion;
+	}
+	public PS getPs() {
+		return ps;
+	}
+	public void setPs(PS ps) {
+		this.ps = ps;
 	}
 	
 }

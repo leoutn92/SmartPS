@@ -12,9 +12,9 @@ public class PlanDeTrabajoDao implements IGenericDAO<PlanDeTrabajo> {
 	@Override
 	public void save(PlanDeTrabajo objeto) {
 		// TODO Auto-generated method stub
+		session= HibernateUtil.getSessionFactory().openSession();
 		session.beginTransaction();
 		session.save(objeto);
-		session.getTransaction().commit();
 	}
 
 	@Override
@@ -26,13 +26,14 @@ public class PlanDeTrabajoDao implements IGenericDAO<PlanDeTrabajo> {
 	@Override
 	public void delete(PlanDeTrabajo objeto) {
 		// TODO Auto-generated method stub
+		session= HibernateUtil.getSessionFactory().openSession();
 		session.beginTransaction();
 		session.delete(objeto);
-		session.getTransaction().commit();
 	}
 
 	public PlanDeTrabajo getLastByFechaAprobadoDesaprobado(int idps) {
 		// TODO Auto-generated method stub
+		session= HibernateUtil.getSessionFactory().openSession();
 		List<PlanDeTrabajo> planes = session
 		.createQuery("Select p from PlanDeTrabajo p where p.ps.id= :idps order by fechaAprobDesaprob desc ")
 		.setParameter("idps",idps).getResultList();

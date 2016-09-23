@@ -16,16 +16,19 @@ public class AlumnoDAO implements IAlumnoDAO {
 	
 	
 	public void save(Alumno alumno){
+		session= HibernateUtil.getSessionFactory().openSession();
 		session.beginTransaction();
 		session.save(alumno);
 		session.getTransaction().commit();
 	}
 	
 	public void update(Alumno alumno){
+		session= HibernateUtil.getSessionFactory().openSession();
 		entitymanager.merge(alumno);
 	}
 	
 	public void delete(Alumno alumno){
+		session= HibernateUtil.getSessionFactory().openSession();
 		session.beginTransaction();
 		session.delete(alumno);
 		session.getTransaction().commit();
@@ -33,6 +36,7 @@ public class AlumnoDAO implements IAlumnoDAO {
 
 	@Override
 	public Alumno buscarAlumno(int legajo) {
+		session= HibernateUtil.getSessionFactory().openSession();
 		Alumno alu=(Alumno) session.get(Alumno.class,legajo);
 		return alu;
 	}

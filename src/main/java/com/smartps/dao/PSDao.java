@@ -17,11 +17,13 @@ public class PSDao implements IPSDao {
 	Session session= HibernateUtil.getSessionFactory().openSession();
 	EntityManager entitymanager;
 	public void save(PS ps){
+		session = HibernateUtil.getSessionFactory().openSession();
 		session.beginTransaction();
 		session.save(ps);
 		session.getTransaction().commit();
 	}
 	public List<PS> buscarPorLegajo(int legajo) {
+		session =HibernateUtil.getSessionFactory().openSession();
 		Integer newLegajo = legajo;
 		List<PS> pss = (List<PS>) session.createQuery("Select p from PS p Where p.alumno.legajo= :legajo")
 		.setParameter("legajo", newLegajo).getResultList();
@@ -29,12 +31,15 @@ public class PSDao implements IPSDao {
 	}
 	public PS searchPs(int legajo, int idEstado) {
 		// TODO Auto-generated method stub
+		session =HibernateUtil.getSessionFactory().openSession();
 		List<PS> pss =(List<PS>) session.createQuery("SELECT p FROM PS p where p.alumno.legajo = :legajo and  p.estado.id = :estado")
 				.setParameter("legajo",legajo).setParameter("estado",idEstado).getResultList();
+		HibernateUtil.getSessionFactory().getCurrentSession().close();
 		return pss.get(0);
 	}
 	public void updateEstado(int id, int idEstado) {
 		// TODO Auto-generated method stub
+		session =HibernateUtil.getSessionFactory().openSession();
 		session.beginTransaction();
 		session.createQuery("update PS set estado.id = :idEstado where id = :idps")
 				.setParameter("idps",id).setParameter("idEstado",idEstado).executeUpdate();
@@ -42,6 +47,7 @@ public class PSDao implements IPSDao {
 	}
 	public List<PS> searchPs(CriteriosParaFiltrarPs criterios, int idEstado) {
 		// TODO Auto-generated method stub
+		session =HibernateUtil.getSessionFactory().openSession();
 		String queryBase = "Select p from PS p where p.estado.id = :idEstado ";
 		List<PS> pss =(List<PS>) session.createQuery(queryBase)
 				.setParameter("idEstado", idEstado).getResultList();
@@ -100,8 +106,21 @@ public class PSDao implements IPSDao {
 	}
 	public void delete(PS ps1) {
 		// TODO Auto-generated method stub
+		session =HibernateUtil.getSessionFactory().openSession();
 		session.beginTransaction();
 		session.delete(ps1);
 		session.getTransaction().commit();
+	}
+	public void update(PS ps) {
+		// TODO Auto-generated method stub
+		session =HibernateUtil.getSessionFactory().openSession();
+		session.beginTransaction();
+		session.update(ps);
+		session.getTransaction().commit();
+	}
+	public PS getById(int id) {
+		// TODO Auto-generated method stub
+		session =HibernateUtil.getSessionFactory().openSession();
+		return session.get(PS.class, id);
 	}
 }

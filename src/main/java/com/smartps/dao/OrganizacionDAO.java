@@ -10,6 +10,7 @@ public class OrganizacionDAO implements IGenericDAO<Organizacion> {
 	@Override
 	public void save(Organizacion org) {
 		// TODO Auto-generated method stub
+		session= HibernateUtil.getSessionFactory().openSession();
 		session.beginTransaction();
 		session.save(org);
 		session.getTransaction().commit();

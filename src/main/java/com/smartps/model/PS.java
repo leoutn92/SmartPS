@@ -96,4 +96,8 @@ public class PS implements Serializable {
 			// TODO Auto-generated method stub
 			this.planDeTrabajo.add(plan);
 		}
+		public void addInforme(InformeFinal informe) {
+			// TODO Auto-generated method stub
+			this.informeFinal.add(informe);
+		}
 }

@@ -3,8 +3,6 @@ import static org.junit.Assert.assertEquals;
 
 import java.util.Date;
 import java.util.List;
-
-import org.junit.After;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -116,43 +114,62 @@ public class RegistrarPresentacionInformeBeanTest {
 		Date date= new Date();
 		plan.setFechaDePresentacion(date);
 		planDeTrabajoDao.save(plan);
-		registrarPresentacionInformeBean.searchPsParaPresentarInforme(criterios);
+		registrarPresentacionInformeBean.setPsTitle(psTitle);
+		registrarPresentacionInformeBean.setLegajo(0);
+		registrarPresentacionInformeBean.setNombreAlumno("");
+		registrarPresentacionInformeBean.updateTablaInformes();
 		List<LineaTablaInformes> tablaInformes=registrarPresentacionInformeBean.getTablaInformes();
 		assertEquals(tablaInformes.isEmpty(),false);
 		assertEquals(tablaInformes.size()==2,true);
-		assertEquals(tablaInformes.get(0).getDirPlan()!=null,true);
 	}
 	@Test
 	public void succesSearchPsParaPresentarInformeByNombreAlumno() {
-		CriteriosParaFiltrarPs criterios = new CriteriosParaFiltrarPs();
-		criterios.setNombreAlumno(nombreAlumno);
-		registrarPresentacionInformeBean.setCriterios(criterios);
-		registrarPresentacionInformeBean.searchPsParaPresentarInforme(criterios);
+		registrarPresentacionInformeBean.setLegajo(0);
+		registrarPresentacionInformeBean.setNombreAlumno(nombreAlumno);
+		registrarPresentacionInformeBean.setPsTitle("");
+		registrarPresentacionInformeBean.updateTablaInformes();
 		List<LineaTablaInformes> tablaInformes=registrarPresentacionInformeBean.getTablaInformes();
 		assertEquals(tablaInformes.isEmpty(),false);
 		assertEquals(tablaInformes.size()==2,true);
 	}
 	@Test
 	public void succesSearchPsParaPresentarInformeByLegajo() {
-		CriteriosParaFiltrarPs criterios = new CriteriosParaFiltrarPs();
-		criterios.setLegajo(legajo1);
-		registrarPresentacionInformeBean.setCriterios(criterios);
-		registrarPresentacionInformeBean.searchPsParaPresentarInforme(criterios);
+		registrarPresentacionInformeBean.setLegajo(legajo1);
+		registrarPresentacionInformeBean.setNombreAlumno("");
+		registrarPresentacionInformeBean.setPsTitle(psTitle);
+		registrarPresentacionInformeBean.updateTablaInformes();
 		List<LineaTablaInformes> tablaInformes = registrarPresentacionInformeBean.getTablaInformes();
 		assertEquals(tablaInformes.isEmpty(),false);
 		assertEquals(tablaInformes.size()==1,true);
 	}
+	/*
+	public void successRegistrarPrsentacionInformePorLinea() {
+		registrarPresentacionInformeBean.setLegajo(legajo2);
+		registrarPresentacionInformeBean.setPsTitle("");
+		registrarPresentacionInformeBean.setNombreAlumno("");
+		registrarPresentacionInformeBean.updateTablaInformes();
+		LineaTablaInformes linea=registrarPresentacionInformeBean.getTablaInformes().get(0);
+		linea.setFechaPresentacion(new Date());
+		registrarPresentacionInformeBean.registrarPresentacionInforme(linea);
+		int idps = psdao.buscarPorLegajo(legajo2).get(0).getId();
+		Estado estado = psdao.buscarPorLegajo(legajo2).get(0).getEstado(); 
+		assertEquals(informeFinalDao.getByIdPs(idps).isEmpty(),false);
+		assertEquals(estado.getId()==registrarPresentacionInformeBean.getIdEstadoInformePresentado(),true);
+	}
+	*/
 	@Test
-	public void successRegistrarPresentacionInforme() {
-		registrarPresentacionInformeBean.setPs(ps1);
-		registrarPresentacionInformeBean.setFechaPresentacion(fechaPresentacion);
-		registrarPresentacionInformeBean.registrarPresentacionInforme();
-		int idEstadoInformePresentado = registrarPresentacionInformeBean.getIdEstadoInformePresentado() ;
-		int idps1=psdao.searchPs(legajo1, idEstadoInformePresentado).getId();
-		boolean existeInforme = informeFinalDao.getByIdPs(idps1).isEmpty();
-		boolean psConInformePresentado = psdao.searchPs(legajo1, idEstadoInformePresentado)!=null;
-		psdao.updateEstado(idps1,registrarPresentacionInformeBean.getIdEstadoPlanAprobado());
-		assertEquals(existeInforme,false);
-		assertEquals(psConInformePresentado,true);
- 	}
+	public void successRegistrarPresentacionInformes() {
+		registrarPresentacionInformeBean.setLegajo(legajo2);
+		registrarPresentacionInformeBean.setPsTitle("");
+		registrarPresentacionInformeBean.setNombreAlumno("");
+		registrarPresentacionInformeBean.updateTablaInformes();
+		LineaTablaInformes linea=registrarPresentacionInformeBean.getTablaInformes().get(0);
+		linea.setFechaPresentacion(new Date());
+		registrarPresentacionInformeBean.registrarPresentacionInformes();
+		int idps = psdao.buscarPorLegajo(legajo2).get(0).getId();
+		Estado estado = psdao.buscarPorLegajo(legajo2).get(0).getEstado();
+		psdao.updateEstado(idps,registrarPresentacionInformeBean.getIdEstadoPlanAprobado());
+		assertEquals(informeFinalDao.getByIdPs(idps).isEmpty(),false);
+		assertEquals(estado.getId()==registrarPresentacionInformeBean.getIdEstadoInformePresentado(),true);
+	}
 }
