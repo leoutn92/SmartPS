@@ -13,9 +13,9 @@ import com.smartps.model.InformeFinal;
 import com.smartps.model.PS;
 import com.smartps.util.HibernateUtil;
 
-public class PSDao implements IPSDao {
+public class PSDao {
 	Session session= HibernateUtil.getSessionFactory().openSession();
-	EntityManager entitymanager;
+	
 	public void save(PS ps){
 		session = HibernateUtil.getSessionFactory().openSession();
 		session.beginTransaction();
@@ -30,7 +30,6 @@ public class PSDao implements IPSDao {
 		return pss;
 	}
 	public PS searchPs(int legajo, int idEstado) {
-		// TODO Auto-generated method stub
 		session =HibernateUtil.getSessionFactory().openSession();
 		List<PS> pss =(List<PS>) session.createQuery("SELECT p FROM PS p where p.alumno.legajo = :legajo and  p.estado.id = :estado")
 				.setParameter("legajo",legajo).setParameter("estado",idEstado).getResultList();
@@ -38,7 +37,6 @@ public class PSDao implements IPSDao {
 		return pss.get(0);
 	}
 	public void updateEstado(int id, int idEstado) {
-		// TODO Auto-generated method stub
 		session =HibernateUtil.getSessionFactory().openSession();
 		session.beginTransaction();
 		session.createQuery("update PS set estado.id = :idEstado where id = :idps")
@@ -106,12 +104,10 @@ public class PSDao implements IPSDao {
 	}
 
 	public PS getById(int id) {
-		// TODO Auto-generated method stub
 		session =HibernateUtil.getSessionFactory().openSession();
 		return session.get(PS.class, id);
 	}
 
-	@Override
 	public void update(PS objeto) {
 		session.beginTransaction();
 		session.update(objeto);
@@ -120,16 +116,39 @@ public class PSDao implements IPSDao {
 	}
 	
 	// TODO no funciona este metodo
-	@Override
 	public void delete(PS objeto) {
 		session.beginTransaction();
 		session.delete(objeto);
 		session.getTransaction().commit();
 		
 	}
-	@Override
+	
 	public List<PS> getAll() {
 		List<PS> lista = (List) session.createQuery("from PS").list();
 		return lista;
 	}
+
+	public PS findById(int id) {
+		PS ps = (PS) session.get(PS.class, id);
+		return ps;
+	}
+
+	public List<PS> retrieveAll() {
+		List<PS> pslist = (List<PS>) session
+				.createQuery("SELECT p FROM PS p").getResultList();
+		return pslist;
+	}
+	
+	public List<PS> findByCicloLectivo(int cicloLectivo) {	
+		List<PS> pslist=(List<PS>) session.createQuery("SELECT p FROM PS p WHERE p.cicloLectivo = :cicloLectivo")
+				.setParameter("cicloLectivo", cicloLectivo).getResultList();
+		return pslist;
+	}
+	
+	public List<PS> findByCuatrimestre(int cuatrimestre) {	
+		List<PS> pslist=(List<PS>) session.createQuery("SELECT p FROM PS p WHERE p.cuatrimestre = :cuatrimestre")
+				.setParameter("cuatrimestre", cuatrimestre).getResultList();
+		return pslist;
+	}
+	
 }

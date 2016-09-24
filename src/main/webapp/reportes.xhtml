@@ -1,0 +1,55 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <h:head>
+    	<title>SmartPS</title>
+    </h:head>
+    
+    <h:body>
+
+ 	<ui:composition template="/templates/template.xhtml">
+ 		
+ 		<ui:define name="content">
+ 			
+ 			<p:panel id="estPlanes">
+ 				<f:facet name="header">
+ 					<p:outputLabel value="Estadistica de Planes de Trabajo de PS" />
+ 					<p:menu>
+ 						<p:menuitem value="Estadistica General" outcome="/estPTGrales" />
+ 						<p:menuitem value="Estadistica por Area" />
+ 						<p:menuitem value="Estadistica por Tipo" />
+ 					</p:menu>
+ 				</f:facet> 			
+ 			</p:panel>
+ 			
+ 			 <p:panel id="estInformes">
+ 				<f:facet name="header">
+ 					<p:outputLabel value="Estadistica de Informes Finales de PS" />
+ 					<p:menu>
+ 						<p:menuitem value="Estadistica General" outcome="/estIFGrales" />
+ 						<p:menuitem value="Estadistica por Area" />
+ 						<p:menuitem value="Estadistica por Tipo" />
+ 					</p:menu>
+ 				</f:facet> 			
+ 			</p:panel>
+ 			
+ 			<p:panel id="estPS">
+ 				<f:facet name="header">
+ 					<p:outputLabel value="Estadistica de PS" />
+ 					<p:menu>
+ 						<p:menuitem value="Estadistica por Organizacion" />
+ 					</p:menu>
+ 				</f:facet> 			
+ 			</p:panel>
+ 			
+ 		</ui:define>
+ 		
+ 	</ui:composition>
+
+    </h:body>
+</html>

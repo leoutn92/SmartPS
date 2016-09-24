@@ -10,9 +10,8 @@ import org.hibernate.Session;
 import com.smartps.util.HibernateUtil;
 import com.smartps.model.Alumno;
 import com.smartps.model.PS;
-import com.smartps.dao.IAlumnoDAO;
 
-public class AlumnoDAO implements IAlumnoDAO {
+public class AlumnoDAO {
 
 	Session session= HibernateUtil.getSessionFactory().openSession();
 	EntityManager entitymanager;
@@ -37,14 +36,12 @@ public class AlumnoDAO implements IAlumnoDAO {
 		session.getTransaction().commit();
 	}
 
-	@Override
 	public Alumno buscarAlumno(int legajo) {
 		session= HibernateUtil.getSessionFactory().openSession();
 		Alumno alu=(Alumno) session.get(Alumno.class,legajo);
 		return alu;
 	}
 
-	@Override
 	public boolean puedePresentarPlan(int legajo) {
 		List<PS> lista = session.createQuery(
 				"from PS where alumno.legajo = :legajo "
@@ -52,7 +49,6 @@ public class AlumnoDAO implements IAlumnoDAO {
 		return lista.size()==0;
 	}
 
-	@Override
 	public boolean tienePSVigente(int legajo) {
 		List<PS> lista = session.createQuery("from PS where alumno.legajo = :legajo and not estado.nombre ='PS cancelada' and not estado.nombre ='PS aprobada' and not estado.nombre ='Informe vencido' and not estado.nombre ='Plan rechazado' and not estado.nombre ='Plan vencido'" ).setParameter("legajo", legajo).getResultList();
 		return lista.size()>0;

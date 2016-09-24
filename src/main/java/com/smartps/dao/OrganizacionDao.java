@@ -7,18 +7,18 @@ import org.hibernate.Session;
 import com.smartps.model.Organizacion;
 import com.smartps.util.HibernateUtil;
 
-public class OrganizacionDAO implements IOrganizacioDao{
-	private static OrganizacionDAO instancia=null;
+public class OrganizacionDao{
+	private static OrganizacionDao instancia=null;
 	Session session= HibernateUtil.getSessionFactory().openSession();
 
 
 	
-//	protected OrganizacionDAO(){}
+	protected OrganizacionDao(){}
 	
 	
-	public static OrganizacionDAO getInstance(){		
+	public static OrganizacionDao getInstance(){		
 		if (instancia==null){
-			instancia = new OrganizacionDAO();
+			instancia = new OrganizacionDao();
 		}
 		return instancia;		
 	}
@@ -30,7 +30,7 @@ public class OrganizacionDAO implements IOrganizacioDao{
 	}
 
 
-	@Override
+	
 	public void save(Organizacion objeto) {
 		session.beginTransaction();
 		session.save(objeto);
@@ -39,14 +39,14 @@ public class OrganizacionDAO implements IOrganizacioDao{
 	}
 
 
-	@Override
+	
 	public void update(Organizacion objeto) {
 		// TODO Auto-generated method stub
 		
 	}
 
 
-	@Override
+	
 	public void delete(Organizacion objeto) {
 		session.beginTransaction();
 		session.delete(objeto);
@@ -55,10 +55,16 @@ public class OrganizacionDAO implements IOrganizacioDao{
 	}
 
 
-	@Override
 	public Organizacion getById(int id) {
 		return session.get(Organizacion.class, id);
 	}
+	
+	public Organizacion findByID(int id){
+		Organizacion org = (Organizacion) session.get(Organizacion.class, id);
+		return org;
+	}
+	
+	
 	
 	
 }

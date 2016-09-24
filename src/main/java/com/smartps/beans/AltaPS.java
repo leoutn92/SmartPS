@@ -10,7 +10,7 @@ import javax.faces.context.FacesContext;
 import com.smartps.dao.AlumnoDAO;
 import com.smartps.dao.AreaDao;
 import com.smartps.dao.EstadoDao;
-import com.smartps.dao.OrganizacionDAO;
+import com.smartps.dao.OrganizacionDao;
 import com.smartps.dao.PSDao;
 import com.smartps.dao.PlanDeTrabajoDao;
 import com.smartps.dao.TipoActividadDao;
@@ -48,7 +48,7 @@ public class AltaPS {
 		plan = new PlanDeTrabajo();
 		plan.setPs(ps);
 		areas= AreaDao.getInstance().getAll();		
-		organizaciones = OrganizacionDAO.getInstance().getAll();
+		organizaciones = OrganizacionDao.getInstance().getAll();
 		tiposActividades = TipoActividadDao.getInstance().getAll();
 		ps.setEstado(new EstadoDao().buscarPorNombre("Plan presentado"));
 	}

@@ -13,7 +13,7 @@ import com.smartps.dao.AlumnoDAO;
 import com.smartps.dao.AreaDao;
 import com.smartps.dao.EstadoDao;
 import com.smartps.dao.InformeFinalDao;
-import com.smartps.dao.OrganizacionDAO;
+import com.smartps.dao.OrganizacionDao;
 import com.smartps.dao.PSDao;
 import com.smartps.dao.PlanDeTrabajoDao;
 import com.smartps.dao.TipoActividadDao;
@@ -38,7 +38,7 @@ public class RegistrarPresentacionInformeBeanTest {
 	public static PSDao psdao = new PSDao();
 	public static EstadoDao estadoDao = new EstadoDao();
 	public static Organizacion org= new Organizacion();
-	public static OrganizacionDAO orgDao=new OrganizacionDAO();
+	public static OrganizacionDao orgDao=OrganizacionDao.getInstance();
 	public static TipoActividad tActividad = new TipoActividad();
 	public static TipoActividadDao tipoActDao = TipoActividadDao.getInstance();
 	public static PlanDeTrabajo plan1 = new PlanDeTrabajo();

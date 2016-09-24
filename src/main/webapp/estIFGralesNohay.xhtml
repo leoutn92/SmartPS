@@ -12,12 +12,24 @@
     
     <h:body>
 
- 	<ui:composition template="/templates/template.xhtml">
- 		<ui:define name="content"> fsdf sfsd sdfsd fsd
+	 	<ui:composition template="/templates/template.xhtml">
+	 		<ui:define name="content"> 
 
- 		</ui:define>
- 		 
- 	</ui:composition>
+	 			<h:outputLabel>
+	 				No hay Informes Finales de PS presentados con esas condiciones de busqueda
+	 			</h:outputLabel>
+	 			
+	 			<div><br /></div>
+
+				<div align="right">
+		        	<br />
+ 					<p:commandButton value="Volver" action="#{generarReporteIG.volver()}"/>
+ 					<br /><br></br>
+				</div>
+
+	 		</ui:define>
+	 		
+	 	</ui:composition>
 
     </h:body>
 </html>

@@ -1,6 +1,7 @@
 package com.smartps.model;
 
 import java.io.Serializable;
+
 import java.util.HashSet;
 import java.util.Set;
 
@@ -9,7 +10,7 @@ public class PS implements Serializable {
 		private int cicloLectivo;
 		private int cuatrimestre;
 		private String titulo;
-		private int nroDisposicion;
+		private String nroDisposicion;
 		private Area area;
 		private Estado estado;
 		private Organizacion organizacion;
@@ -38,10 +39,10 @@ public class PS implements Serializable {
 		public void setTitulo(String titulo) {
 			this.titulo = titulo;
 		}
-		public int getNroDisposicion() {
+		public String getNroDisposicion() {
 			return nroDisposicion;
 		}
-		public void setNroDisposicion(int nroDisposicion) {
+		public void setNroDisposicion(String nroDisposicion) {
 			this.nroDisposicion = nroDisposicion;
 		}
 		public Area getArea() {

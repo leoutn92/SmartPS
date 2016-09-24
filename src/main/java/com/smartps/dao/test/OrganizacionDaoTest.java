@@ -6,7 +6,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.smartps.dao.OrganizacionDAO;
+import com.smartps.dao.OrganizacionDao;
 import com.smartps.model.Organizacion;
 
 public class OrganizacionDaoTest {
@@ -26,30 +26,30 @@ public class OrganizacionDaoTest {
 
 	@Test
 	public void testGetbydi() {
-		org = OrganizacionDAO.getInstance().getById(1);
+		org = OrganizacionDao.getInstance().getById(1);
 		assertFalse(org.getNombre(),org.equals(null));		
 	}
 	
 	@Test
 	public void testGetAll(){
-		assertTrue(OrganizacionDAO.getInstance().getAll().size()!=0);
+		assertTrue(OrganizacionDao.getInstance().getAll().size()!=0);
 	}
 	
 	@Test
 	public void testSet(){
-		int cantant = OrganizacionDAO.getInstance().getAll().size();
-		OrganizacionDAO.getInstance().save(org);
-		int cantpos = OrganizacionDAO.getInstance().getAll().size();
-		OrganizacionDAO.getInstance().delete(org);
+		int cantant = OrganizacionDao.getInstance().getAll().size();
+		OrganizacionDao.getInstance().save(org);
+		int cantpos = OrganizacionDao.getInstance().getAll().size();
+		OrganizacionDao.getInstance().delete(org);
 		assertTrue("no inserto ni mierda",cantant!=cantpos);		
 	}
 	
 	@Test 
 	public void testDelete(){
-		int cantant = OrganizacionDAO.getInstance().getAll().size();
-		OrganizacionDAO.getInstance().save(org);		
-		OrganizacionDAO.getInstance().delete(org);
-		int cantpos = OrganizacionDAO.getInstance().getAll().size();
+		int cantant = OrganizacionDao.getInstance().getAll().size();
+		OrganizacionDao.getInstance().save(org);		
+		OrganizacionDao.getInstance().delete(org);
+		int cantpos = OrganizacionDao.getInstance().getAll().size();
 		assertTrue("no borro ni mierda",cantant==cantpos);
 	}
 	

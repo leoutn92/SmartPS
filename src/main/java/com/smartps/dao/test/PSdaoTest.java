@@ -11,7 +11,7 @@ import org.junit.Test;
 import com.smartps.dao.AlumnoDAO;
 import com.smartps.dao.AreaDao;
 import com.smartps.dao.EstadoDao;
-import com.smartps.dao.OrganizacionDAO;
+import com.smartps.dao.OrganizacionDao;
 import com.smartps.dao.PSDao;
 import com.smartps.dao.TipoActividadDao;
 import com.smartps.model.PS;
@@ -28,7 +28,7 @@ public class PSdaoTest {
 		ps.setCicloLectivo(2016);
 		ps.setCuatrimestre(2);
 		ps.setEstado(new EstadoDao().buscarPorNombre("Plan Presentado"));
-		ps.setOrganizacion(OrganizacionDAO.getInstance().getAll().get(0));
+		ps.setOrganizacion(OrganizacionDao.getInstance().getAll().get(0));
 		ps.setTipoActividad(TipoActividadDao.getInstance().getAll().get(0));
 		ps.setTitulo("Ps de Prueba");		
 		
