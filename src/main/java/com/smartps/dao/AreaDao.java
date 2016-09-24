@@ -7,7 +7,7 @@ import org.hibernate.Session;
 import com.smartps.model.Area;
 import com.smartps.util.HibernateUtil;
 
-public class AreaDao implements IGenericDAO {
+public class AreaDao {
 	private static AreaDao instancia=null;
 	private Session session = HibernateUtil.getSessionFactory().openSession();
 
@@ -31,22 +31,19 @@ public class AreaDao implements IGenericDAO {
 }
 	
 	
-	@Override
+	
 	public void save(Object area) {
-		// TODO Auto-generated method stub
 		session= HibernateUtil.getSessionFactory().openSession();
 		session.beginTransaction();
 		session.save(area);
 		session.getTransaction().commit();
 	}
 
-	@Override
+
 	public void update(Object objeto) {
-		// TODO Auto-generated method stub
 		
 	}
 
-	@Override
 	public void delete(Object objeto) {
 		// TODO Auto-generated method stub
 		

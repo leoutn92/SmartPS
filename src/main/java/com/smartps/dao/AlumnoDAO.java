@@ -12,10 +12,17 @@ import com.smartps.model.Alumno;
 import com.smartps.model.PS;
 
 public class AlumnoDAO {
-
+	private static AlumnoDAO instancia = null;
 	Session session= HibernateUtil.getSessionFactory().openSession();
-	EntityManager entitymanager;
 	
+	protected AlumnoDAO(){};
+
+	public static AlumnoDAO getInstance(){
+		if (instancia ==null){
+			instancia = new AlumnoDAO();
+		}
+		return instancia;
+	}
 	
 	public void save(Alumno alumno){
 		session= HibernateUtil.getSessionFactory().openSession();
@@ -26,7 +33,6 @@ public class AlumnoDAO {
 	
 	public void update(Alumno alumno){
 		session= HibernateUtil.getSessionFactory().openSession();
-		entitymanager.merge(alumno);
 	}
 	
 	public void delete(Alumno alumno){

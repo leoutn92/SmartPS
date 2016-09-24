@@ -34,7 +34,7 @@ public class AltaPSTest {
 		bean.getPs().setCicloLectivo(2016);
 		bean.getPs().setCuatrimestre(2);
 		bean.getPs().setTitulo("PS de prueba - JUnit");
-		bean.getPs().setEstado(new EstadoDao().buscarPorNombre("Plan Presentado"));
+		bean.getPs().setEstado(EstadoDao.getInstance().buscarPorNombre("Plan Presentado"));
 		
 		bean.setPlan(new PlanDeTrabajo());
 		bean.getPlan().setFechaDePresentacion(new Date());
@@ -75,9 +75,9 @@ public class AltaPSTest {
 	
 	@Test
 	public void testGrabarPS(){
-		int valant=new PSDao().getAll().size();
+		int valant=PSDao.getInstance().getAll().size();
 		bean.guardarPS();
-		int valpos= new PSDao().getAll().size();
+		int valpos= PSDao.getInstance().getAll().size();
 		assertTrue(valant==valpos-1);		
 		
 	}

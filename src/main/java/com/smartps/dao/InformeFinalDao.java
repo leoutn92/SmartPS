@@ -10,9 +10,16 @@ import com.smartps.util.HibernateUtil;
 
 
 public class InformeFinalDao {
-
-	
+	private static InformeFinalDao instancia = null;
 	Session session= HibernateUtil.getSessionFactory().openSession();
+	protected InformeFinalDao(){};
+	
+	public static InformeFinalDao getInstance(){
+		if (instancia == null){
+			instancia = new InformeFinalDao();
+		}
+		return instancia;
+	}
 
 	public List<InformeFinal> retrieveAll(){
 		List<InformeFinal> planes = (List<InformeFinal>) session

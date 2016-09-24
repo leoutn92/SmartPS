@@ -32,11 +32,11 @@ public class RegistrarPresentacionInformeBeanTest {
 	public static Alumno alumno2 = new Alumno();
 	public static PS ps1 = new PS();
 	public static PS ps2 = new PS();
-	public static AlumnoDAO alumnoDao = new AlumnoDAO();
+	public static AlumnoDAO alumnoDao = AlumnoDAO.getInstance();
 	public static InformeFinal informe1 = new InformeFinal();
 	public static InformeFinal informe2 = new InformeFinal();
-	public static PSDao psdao = new PSDao();
-	public static EstadoDao estadoDao = new EstadoDao();
+	public static PSDao psdao = PSDao.getInstance();
+	public static EstadoDao estadoDao = EstadoDao.getInstance();
 	public static Organizacion org= new Organizacion();
 	public static OrganizacionDao orgDao=OrganizacionDao.getInstance();
 	public static TipoActividad tActividad = new TipoActividad();
@@ -46,7 +46,7 @@ public class RegistrarPresentacionInformeBeanTest {
 	public static PlanDeTrabajoDao planDeTrabajoDao = PlanDeTrabajoDao.getInstance();
 	public static Area area =new Area();
 	public static AreaDao areaDao = AreaDao.getInstance();
-	public static InformeFinalDao informeFinalDao = new InformeFinalDao();
+	public static InformeFinalDao informeFinalDao = InformeFinalDao.getInstance();
 	public static Estado estadoPlanAprobado = new Estado();
 	public static Estado estadoInformePresentado = new Estado();
 	public static Estado estadoInformeObservado = new Estado();

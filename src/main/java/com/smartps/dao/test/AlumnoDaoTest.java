@@ -20,12 +20,12 @@ public class AlumnoDaoTest {
 
 	@Test
 	public void testTienePSVigente() {
-		assertFalse(new AlumnoDAO().tienePSVigente(18189));//sabiendo que no hay ninguna ps vigente en la base
+		assertFalse(AlumnoDAO.getInstance().tienePSVigente(18189));//sabiendo que no hay ninguna ps vigente en la base
 	}
 	
 	@Test
 	public void testPuedePresentarPlan(){
-		assertTrue(new AlumnoDAO().puedePresentarPlan(18189));//sabiendo que puede presentar plan
+		assertTrue(AlumnoDAO.getInstance().puedePresentarPlan(18189));//sabiendo que puede presentar plan
 	}
 
 }

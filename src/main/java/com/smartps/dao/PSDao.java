@@ -15,6 +15,16 @@ import com.smartps.util.HibernateUtil;
 
 public class PSDao {
 	Session session= HibernateUtil.getSessionFactory().openSession();
+	private static PSDao instancia = null;
+	
+	protected PSDao(){};
+	
+	public static PSDao getInstance(){
+		if (instancia == null) {
+			instancia = new PSDao();
+		}
+		return instancia;
+	}
 	
 	public void save(PS ps){
 		session = HibernateUtil.getSessionFactory().openSession();

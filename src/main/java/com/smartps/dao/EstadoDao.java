@@ -10,33 +10,36 @@ import com.smartps.model.Estado;
 import com.smartps.model.PS;
 import com.smartps.util.HibernateUtil;
 
-public class EstadoDao implements IGenericDAO<Estado> {
-
-	private EntityManager entitymanager;
+public class EstadoDao {
+	private static EstadoDao instancia = null;
 	Session session= HibernateUtil.getSessionFactory().openSession();
-	@Override
+
+	protected EstadoDao(){};
+	
+	public static EstadoDao getInstance(){
+		if (instancia==null){
+			instancia = new EstadoDao();
+		}
+		return instancia;
+	}
+	
 	public void save(Estado estado) {
-		// TODO Auto-generated method stub
 		session= HibernateUtil.getSessionFactory().openSession();
 		session.beginTransaction();
 		session.save(estado);
 		session.getTransaction().commit();
 	}
-	@Override
 	public void update(Estado estado) {
-		// TODO Auto-generated method stub
 		session= HibernateUtil.getSessionFactory().openSession();
 		session.beginTransaction();
 		session.update(estado);
 		session.getTransaction().commit();
 	}
-	@Override
 	public void delete(Estado objeto) {
 		// TODO Auto-generated method stub
 		
 	}
 	public Estado buscarPorNombre(String nombre) {
-		// TODO Auto-generated method stub
 		session= HibernateUtil.getSessionFactory().openSession();
 		List<Estado> estados = session.createQuery("SELECT e FROM Estado e where e.nombre= :nombre")
 				.setParameter("nombre",nombre).getResultList();
@@ -47,7 +50,6 @@ public class EstadoDao implements IGenericDAO<Estado> {
 		return null;
 	}
 	public String getById(int id) {
-		// TODO Auto-generated method stub
 		session= HibernateUtil.getSessionFactory().openSession();
 		Estado estado = session.get(Estado.class, id);
 		if (estado!=null) {

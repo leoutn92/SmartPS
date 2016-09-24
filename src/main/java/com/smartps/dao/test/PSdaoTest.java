@@ -22,12 +22,12 @@ public class PSdaoTest {
 	
 	@Before
 	public void setUp() throws Exception {
-		ps.setAlumno(new AlumnoDAO().buscarAlumno(18189));
+		ps.setAlumno(AlumnoDAO.getInstance().buscarAlumno(18189));
 		
 		ps.setArea(AreaDao.getInstance().buscarArea(1));
 		ps.setCicloLectivo(2016);
 		ps.setCuatrimestre(2);
-		ps.setEstado(new EstadoDao().buscarPorNombre("Plan Presentado"));
+		ps.setEstado(EstadoDao.getInstance().buscarPorNombre("Plan Presentado"));
 		ps.setOrganizacion(OrganizacionDao.getInstance().getAll().get(0));
 		ps.setTipoActividad(TipoActividadDao.getInstance().getAll().get(0));
 		ps.setTitulo("Ps de Prueba");		
@@ -40,23 +40,23 @@ public class PSdaoTest {
 
 	@Test
 	public void testEstadoDao() {
-		assertFalse(new EstadoDao().buscarPorNombre("Plan Presentado")==null);
+		assertFalse(EstadoDao.getInstance().buscarPorNombre("Plan Presentado")==null);
 	}
 	
 	@Test
 	public void testSave(){
-		int valant = new PSDao().getAll().size();
-		new PSDao().save(ps);	
-		int valpos = new PSDao().getAll().size();
+		int valant = PSDao.getInstance().getAll().size();
+		PSDao.getInstance().save(ps);	
+		int valpos = PSDao.getInstance().getAll().size();
 		assertTrue(valant==valpos-1);
 	}
 	
 	//este test falla. arreglar PSDao
 	@Test
 	public void testDelete(){
-		int valant = new PSDao().getAll().size();
-		new PSDao().delete(ps);
-		int valpos = new PSDao().getAll().size();
+		int valant = PSDao.getInstance().getAll().size();
+		PSDao.getInstance().delete(ps);
+		int valpos = PSDao.getInstance().getAll().size();
 		assertTrue(valant==valpos+1);
 	}
 	

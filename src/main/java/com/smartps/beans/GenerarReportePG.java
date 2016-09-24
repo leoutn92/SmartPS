@@ -19,7 +19,7 @@ import com.smartps.model.LineaDeReporte;
 public class GenerarReportePG {
 //GenerarReportePG = GenerarReportePlanesGeneral_hdu6 
 	
-	private PSDao psdao = new PSDao();
+	private PSDao psdao = PSDao.getInstance();
 	private PlanDeTrabajoDao ptdao = PlanDeTrabajoDao.getInstance();
 
 	private List<PS> pslist;

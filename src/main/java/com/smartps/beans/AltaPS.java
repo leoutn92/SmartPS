@@ -50,18 +50,18 @@ public class AltaPS {
 		areas= AreaDao.getInstance().getAll();		
 		organizaciones = OrganizacionDao.getInstance().getAll();
 		tiposActividades = TipoActividadDao.getInstance().getAll();
-		ps.setEstado(new EstadoDao().buscarPorNombre("Plan presentado"));
+		ps.setEstado(EstadoDao.getInstance().buscarPorNombre("Plan presentado"));
 	}
 	
 	public void guardarPS(){		
-		new PSDao().save(ps);
+		PSDao.getInstance().save(ps);
 		PlanDeTrabajoDao.getInstance().save(plan);
         FacesContext context = FacesContext.getCurrentInstance();
         context.addMessage(null, new FacesMessage("Se guardó correctamente la Presentación del Plan") );
 	}	
 
 	public void buscarAlumno(){
-		AlumnoDAO dao = new AlumnoDAO();
+		AlumnoDAO dao = AlumnoDAO.getInstance();
 		ps.setAlumno( dao.buscarAlumno(ps.getAlumno().getLegajo()));		
 //		if (ps.getAlumno()==null){
 //			ps.setAlumno(new Alumno());

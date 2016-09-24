@@ -34,9 +34,9 @@ public class RegistrarPresentacionInformeBean implements Serializable {
 	PS ps = new PS();
 	List<PS> pss = new ArrayList<PS>();
 	Date fechaPresentacion = new Date();
-	EstadoDao estadoDAO = new EstadoDao();
-	PSDao psDao = new PSDao(); 
-	InformeFinalDao inFinalDao = new InformeFinalDao();
+	EstadoDao estadoDAO = EstadoDao.getInstance();
+	PSDao psDao = PSDao.getInstance(); 
+	InformeFinalDao inFinalDao = InformeFinalDao.getInstance();
 	PlanDeTrabajoDao planDeTrabajoDao = PlanDeTrabajoDao.getInstance();
 	List<LineaTablaInformes> tablaInformes;
 	String mensaje;
