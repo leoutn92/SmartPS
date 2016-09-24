@@ -104,23 +104,32 @@ public class PSDao implements IPSDao {
 		}
 		return pss;
 	}
-	public void delete(PS ps1) {
-		// TODO Auto-generated method stub
-		session =HibernateUtil.getSessionFactory().openSession();
-		session.beginTransaction();
-		session.delete(ps1);
-		session.getTransaction().commit();
-	}
-	public void update(PS ps) {
-		// TODO Auto-generated method stub
-		session =HibernateUtil.getSessionFactory().openSession();
-		session.beginTransaction();
-		session.update(ps);
-		session.getTransaction().commit();
-	}
+
 	public PS getById(int id) {
 		// TODO Auto-generated method stub
 		session =HibernateUtil.getSessionFactory().openSession();
 		return session.get(PS.class, id);
+	}
+
+	@Override
+	public void update(PS objeto) {
+		session.beginTransaction();
+		session.update(objeto);
+		session.getTransaction().commit();
+		
+	}
+	
+	// TODO no funciona este metodo
+	@Override
+	public void delete(PS objeto) {
+		session.beginTransaction();
+		session.delete(objeto);
+		session.getTransaction().commit();
+		
+	}
+	@Override
+	public List<PS> getAll() {
+		List<PS> lista = (List) session.createQuery("from PS").list();
+		return lista;
 	}
 }

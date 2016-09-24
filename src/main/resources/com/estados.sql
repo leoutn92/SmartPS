@@ -1,5 +1,5 @@
 use smartpsdb;
-insert into estado values (1,"Plan presentado","Plan de PSpresentado aún no evaluado por el consejo");
+insert into estado values (1,"Plan presentado","Plan de PS presentado aún no evaluado por el consejo");
 insert into estado values (2,"Plan observado","Plan de PS visado por el consejo con correcciones pendientes");
 insert into estado values (3,"Plan aprobado","Plan de PS aprobado por el consejo directivo");
 insert into estado values (4,"Plan rechazado","Plan de PS rechazado de manera definitiva por el consejo");

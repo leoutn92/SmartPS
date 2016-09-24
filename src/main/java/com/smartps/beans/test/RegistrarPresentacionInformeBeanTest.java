@@ -40,12 +40,12 @@ public class RegistrarPresentacionInformeBeanTest {
 	public static Organizacion org= new Organizacion();
 	public static OrganizacionDAO orgDao=new OrganizacionDAO();
 	public static TipoActividad tActividad = new TipoActividad();
-	public static TipoActividadDao tipoActDao = new TipoActividadDao();
+	public static TipoActividadDao tipoActDao = TipoActividadDao.getInstance();
 	public static PlanDeTrabajo plan1 = new PlanDeTrabajo();
 	public static PlanDeTrabajo plan2 = new PlanDeTrabajo();
-	public static PlanDeTrabajoDao planDeTrabajoDao = new PlanDeTrabajoDao();
+	public static PlanDeTrabajoDao planDeTrabajoDao = PlanDeTrabajoDao.getInstance();
 	public static Area area =new Area();
-	public static AreaDao areaDao = new AreaDao();
+	public static AreaDao areaDao = AreaDao.getInstance();
 	public static InformeFinalDao informeFinalDao = new InformeFinalDao();
 	public static Estado estadoPlanAprobado = new Estado();
 	public static Estado estadoInformePresentado = new Estado();

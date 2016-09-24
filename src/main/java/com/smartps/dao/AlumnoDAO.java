@@ -1,5 +1,7 @@
 package com.smartps.dao;
 
+import java.util.List;
+
 //import java.util.List;
 import javax.persistence.EntityManager;
 
@@ -7,6 +9,7 @@ import org.hibernate.Session;
 
 import com.smartps.util.HibernateUtil;
 import com.smartps.model.Alumno;
+import com.smartps.model.PS;
 import com.smartps.dao.IAlumnoDAO;
 
 public class AlumnoDAO implements IAlumnoDAO {
@@ -40,8 +43,20 @@ public class AlumnoDAO implements IAlumnoDAO {
 		Alumno alu=(Alumno) session.get(Alumno.class,legajo);
 		return alu;
 	}
-	
-//	public List<Alumno> retriveALL(){}
+
+	@Override
+	public boolean puedePresentarPlan(int legajo) {
+		List<PS> lista = session.createQuery(
+				"from PS where alumno.legajo = :legajo "
+				+ "and (estado.nombre ='Plan aprobado' or estado.nombre ='Plan presentado' or estado.nombre ='Informe presentado' or estado.nombre ='Informe aprobado' or estado.nombre ='Informe observado' or estado.nombre ='PS aprobada')" ).setParameter("legajo", legajo).getResultList();
+		return lista.size()==0;
+	}
+
+	@Override
+	public boolean tienePSVigente(int legajo) {
+		List<PS> lista = session.createQuery("from PS where alumno.legajo = :legajo and not estado.nombre ='PS cancelada' and not estado.nombre ='PS aprobada' and not estado.nombre ='Informe vencido' and not estado.nombre ='Plan rechazado' and not estado.nombre ='Plan vencido'" ).setParameter("legajo", legajo).getResultList();
+		return lista.size()>0;
+	}
 
 	
 }

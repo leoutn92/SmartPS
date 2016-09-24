@@ -37,7 +37,7 @@ public class RegistrarPresentacionInformeBean implements Serializable {
 	EstadoDao estadoDAO = new EstadoDao();
 	PSDao psDao = new PSDao(); 
 	InformeFinalDao inFinalDao = new InformeFinalDao();
-	PlanDeTrabajoDao planDeTrabajoDao = new PlanDeTrabajoDao();
+	PlanDeTrabajoDao planDeTrabajoDao = PlanDeTrabajoDao.getInstance();
 	List<LineaTablaInformes> tablaInformes;
 	String mensaje;
 	boolean renderedPlanDigital=false; 
