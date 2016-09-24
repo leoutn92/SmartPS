@@ -26,7 +26,7 @@
         	</p:inputText>    
     		</h:panelGrid>
     		<p:keyFilter for="legajo" mask="num" />
-    		<p:commandButton value="Buscar" actionListener="#{registrarPresentacionInformeBean.buttonAction}" update="tabla"/>
+    		<p:commandButton value="Buscar" actionListener="#{registrarPresentacionInformeBean.buttonAction}" update="pdf,tabla"/>
     		<p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" severity="info" />
 			<p:dataTable id="tabla" var="linea" value="#{registrarPresentacionInformeBean.tablaInformes}">
 				<p:column headerText="nombre alumno">
@@ -41,6 +41,9 @@
 			    <p:column headerText="Plan de ps">
 			    	<h:commandButton value="VER PLAN" action="#{registrarPresentacionInformeBean.setDirPlan()}" update="pdf">
 			    		<f:param name="pdf" value="#{linea.dirPlan}" />
+			    		<f:param name="legajo" value="#{registrarPresentacionInformeBean.legajo}" />
+			    		<f:param name="nomAlumno" value="#{registrarPresentacionInformeBean.nombreAlumno}" />
+			    		<f:param name="psTitle" value="#{registrarPresentacionInformeBean.psTitle}" />
 			    	</h:commandButton>
 			    </p:column>
 			    <p:column headerText="Titulo">
@@ -52,10 +55,12 @@
         	   	</p:column>
 			</p:dataTable>
 			<div align="center">
-				<p:commandButton value="Guardar" actionListener="#{registrarPresentacionInformeBean.registrarInformes}" update="tabla,messages"/>
-			</div>
-			<object id="pdf" type="application/pdf" data="#{registrarPresentacionInformeBean.dirPlan};jsessionid=rfcb8qazvqir1vd4z8o8i74i9?pfdrid_c=true" width="100%" height="300px">
-			</object>
+				<p:commandButton value="Guardar" actionListener="#{registrarPresentacionInformeBean.registrarInformes}" update="tabla,messages,pdf"/>
+			</div> 
+			<p:panel id="pdf">
+				<object type="application/pdf" data="#{registrarPresentacionInformeBean.dirPlan};jsessionid=rfcb8qazvqir1vd4z8o8i74i9?pfdrid_c=true" width="100%" height="300px">
+				</object>
+   			</p:panel>
 		</ui:define>
  	</ui:composition>
     </h:body>

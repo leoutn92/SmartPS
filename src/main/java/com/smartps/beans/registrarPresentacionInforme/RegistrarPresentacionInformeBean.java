@@ -40,6 +40,7 @@ public class RegistrarPresentacionInformeBean implements Serializable {
 	PlanDeTrabajoDao planDeTrabajoDao = new PlanDeTrabajoDao();
 	List<LineaTablaInformes> tablaInformes;
 	String mensaje;
+	boolean renderedPlanDigital=false; 
 	@PostConstruct
 	public void init(){
 		this.updateTablaInformes();
@@ -49,6 +50,11 @@ public class RegistrarPresentacionInformeBean implements Serializable {
 	}
 	public String setDirPlan() {
 		this.dirPlan = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("pdf");
+		this.legajo = Integer.parseInt(FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("legajo"));
+		this.nombreAlumno = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("nomAlumno")+"";
+		this.psTitle = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("psTitle")+"";
+		this.renderedPlanDigital=true;
+		this.updateTablaInformes();
 		return this.dirPlan;
 	}
 	public CriteriosParaFiltrarPs getCriterios() {
@@ -142,7 +148,15 @@ public class RegistrarPresentacionInformeBean implements Serializable {
 	}
 	public void buttonAction(ActionEvent actionEvent) {
 		this.updateTablaInformes();
+		this.dirPlan=null;
+		this.renderedPlanDigital=false;
     }
+	public boolean isRenderedPlanDigital() {
+		return renderedPlanDigital;
+	}
+	public void setRenderedPlanDigital(boolean renderedPlanDigital) {
+		this.renderedPlanDigital = renderedPlanDigital;
+	}
 	public void registrarInformes(ActionEvent actionEvent) {
 		this.registrarPresentacionInformes();
 	}
@@ -206,6 +220,7 @@ public class RegistrarPresentacionInformeBean implements Serializable {
 		return " ";
 	}
 	public String registrarPresentacionInformes() {
+		this.dirPlan=null;
 		String salida=" ";
 		for (LineaTablaInformes lineaTablaInforme: this.tablaInformes) {
 			salida.concat(this.registrarPresentacionInforme(lineaTablaInforme));
