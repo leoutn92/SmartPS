@@ -92,4 +92,12 @@ public class PS implements Serializable {
 		public void setId(int id) {
 			this.id = id;
 		}
+		public void addPlan(PlanDeTrabajo plan) {
+			// TODO Auto-generated method stub
+			this.planDeTrabajo.add(plan);
+		}
+		public void addInforme(InformeFinal informe) {
+			// TODO Auto-generated method stub
+			this.informeFinal.add(informe);
+		}
 }

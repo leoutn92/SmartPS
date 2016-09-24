@@ -1,0 +1,67 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      
+    <h:head>
+    	<title>SmartPS</title>
+    </h:head>
+    
+    <h:body>
+
+ 	<ui:composition template="/templates/template.xhtml">
+ 			<ui:define name="content">
+ 			Nuevo Informe
+    		<h:panelGrid columns="2">
+    		<h:outputText value="Legajo"/>   
+        	<h:inputText id="legajo" value="#{registrarPresentacionInformeBean.legajo}"/>   
+        	<h:outputText value="Nombre Alumno" />   
+        	<p:inputText id="nomAlumno" value="#{registrarPresentacionInformeBean.nombreAlumno}">
+        	</p:inputText>
+        	<h:outputText value="Titulo de Ps" />   
+        	<p:inputText id="psTitle" value="#{registrarPresentacionInformeBean.psTitle}">
+        	</p:inputText>    
+    		</h:panelGrid>
+    		<p:keyFilter for="legajo" mask="num" />
+    		<p:commandButton value="Buscar" actionListener="#{registrarPresentacionInformeBean.buttonAction}" update="pdf,tabla"/>
+    		<p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" severity="info" />
+			<p:dataTable id="tabla" var="linea" value="#{registrarPresentacionInformeBean.tablaInformes}">
+				<p:column headerText="nombre alumno">
+			         #{linea.nombreAlumno}
+			    </p:column>
+			    <p:column headerText="legajo">
+			         #{linea.legajo}
+			    </p:column>
+			    <p:column headerText="estado">
+			         #{linea.estado}
+			    </p:column>
+			    <p:column headerText="Plan de ps">
+			    	<h:commandButton value="VER PLAN" action="#{registrarPresentacionInformeBean.setDirPlan()}" update="pdf">
+			    		<f:param name="pdf" value="#{linea.dirPlan}" />
+			    		<f:param name="legajo" value="#{registrarPresentacionInformeBean.legajo}" />
+			    		<f:param name="nomAlumno" value="#{registrarPresentacionInformeBean.nombreAlumno}" />
+			    		<f:param name="psTitle" value="#{registrarPresentacionInformeBean.psTitle}" />
+			    	</h:commandButton>
+			    </p:column>
+			    <p:column headerText="Titulo">
+			         #{linea.psTitle}
+			    </p:column>
+			    <p:column headerText="Agregar informe">
+			   		<p:outputLabel for="popup"/>
+        	   		<p:calendar id="popup" value="#{linea.fechaPresentacion}" />
+        	   	</p:column>
+			</p:dataTable>
+			<div align="center">
+				<p:commandButton value="Guardar" actionListener="#{registrarPresentacionInformeBean.registrarInformes}" update="tabla,messages,pdf"/>
+			</div> 
+			<p:panel id="pdf">
+				<object type="application/pdf" data="#{registrarPresentacionInformeBean.dirPlan};jsessionid=rfcb8qazvqir1vd4z8o8i74i9?pfdrid_c=true" width="100%" height="300px">
+				</object>
+   			</p:panel>
+		</ui:define>
+ 	</ui:composition>
+    </h:body>
+</html>

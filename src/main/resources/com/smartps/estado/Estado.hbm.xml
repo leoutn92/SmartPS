@@ -13,7 +13,7 @@
         <property name="descripsion" type="string">
             <column name="descripsion" length="200" not-null="true" unique="false" />
         </property>
-        <set name="listPS" table="PS" inverse="true" lazy="true" fetch="select">
+        <set name="listPS" table="PS" inverse="true" lazy="true" fetch="select" >
             <key>
                 <column name="id_estado" not-null="true" />
             </key>

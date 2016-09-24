@@ -1,0 +1,61 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <h:head>
+    	<title>SmartPS</title>
+    </h:head>
+    
+    <h:body>
+ 	<p:layout fullPage="true">
+ 		<p:layoutUnit position="north">
+ 			<h:panelGrid columns="2">
+ 				<h:graphicImage value="../SmartPS/resources/images/logo-utn.jpg" width="200"/>
+	 			<h:panelGroup>
+	 				<h:outputLabel value="Sistema para soporte de gestion de Practicas Supervisadas"/>
+	 				<h:outputLabel value="Smart PS"/>
+	 			</h:panelGroup>
+ 			</h:panelGrid>
+ 		</p:layoutUnit>
+ 		
+ 		<p:layoutUnit position="west">
+			<h:form>
+ 			
+ 			<p:menu>
+		        <p:menuitem value="Inicio" outcome="index" icon="ui-icon-home"/>		        
+		        <p:submenu label="Plan de PS">
+		            <p:menuitem value="Agregar" outcome="presentacionplan" icon="ui-icon-disk"/>
+		            <p:menuitem value="Buscar" icon="ui-icon-search"/>
+		        </p:submenu>
+		        <p:submenu label="Informes">
+		            <p:menuitem value="Agregar nuevo" outcome="nuevoInforme" icon="ui-icon-disk" />
+		            <p:menuitem value="Buscar"/>
+		        </p:submenu>
+		        <p:submenu label="Reportes">
+		        </p:submenu>
+		     	<p:submenu label="Alumnos">
+		            <p:menuitem value="Importar"/>
+		            <p:menuitem value="Buscar"/>
+		        </p:submenu>   
+		        <p:submenu label="Ayuda">
+		            <p:menuitem value="External" url="http://www.primefaces.org" icon="ui-icon-help"/>
+		            <p:menuitem value="Internal" />
+		        </p:submenu>
+		    </p:menu>
+		    </h:form>
+ 		</p:layoutUnit>
+ 		<p:layoutUnit position="center">
+ 			<p:panel>
+ 				<h:form>
+ 					<ui:insert name="content"> blablabal</ui:insert>
+ 				</h:form>
+ 			</p:panel>
+ 		</p:layoutUnit>
+ 	</p:layout>
+
+    </h:body>
+</html>
