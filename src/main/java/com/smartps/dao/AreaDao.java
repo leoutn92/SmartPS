@@ -8,16 +8,25 @@ import com.smartps.model.Area;
 import com.smartps.util.HibernateUtil;
 
 public class AreaDao implements IGenericDAO {
-
+	private static AreaDao instancia=null;
 	private Session session = HibernateUtil.getSessionFactory().openSession();
-		
+
+	protected AreaDao(){};
+	
+	public static AreaDao getInstance(){
+		if(instancia ==null){
+			instancia = new AreaDao();
+		}
+		return instancia;
+	}
+	
 	public List<Area> getAll() {
-		List<Area> areas= session.createQuery("from Area").list();
+		List<Area> areas= session.createQuery("from Area").getResultList();
 		return areas;
 	}
 	
 	public Area buscarArea(int id) {
-		Area area=(Area) session.get(Area.class,id);
+		Area area= session.get(Area.class,id);
 		return area;
 }
 	

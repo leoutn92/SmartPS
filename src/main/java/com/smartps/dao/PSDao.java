@@ -27,16 +27,35 @@ public class PSDao implements IPSDao {
 		return pss;
 	}
 	public PS searchPs(int legajo, int idEstado) {
-		// TODO Auto-generated method stub
 		List<PS> pss =(List<PS>) session.createQuery("SELECT p FROM PS p where p.alumno.legajo = :legajo and  p.estado.id = :estado")
 				.setParameter("legajo",legajo).setParameter("estado",idEstado).getResultList();
 		return pss.get(0);
 	}
 	public void updateEstado(int id, int idEstado) {
-		// TODO Auto-generated method stub
 		session.beginTransaction();
 		session.createQuery("update PS set estado.id = :idEstado where id = :idps")
 				.setParameter("idps",id).setParameter("idEstado",idEstado).executeUpdate();
 		session.getTransaction().commit();
+	}
+	@Override
+	public void update(PS objeto) {
+		session.beginTransaction();
+		session.update(objeto);
+		session.getTransaction().commit();
+		
+	}
+	
+	// TODO no funciona este metodo
+	@Override
+	public void delete(PS objeto) {
+		session.beginTransaction();
+		session.delete(objeto);
+		session.getTransaction().commit();
+		
+	}
+	@Override
+	public List<PS> getAll() {
+		List<PS> lista = (List) session.createQuery("from PS").list();
+		return lista;
 	}
 }

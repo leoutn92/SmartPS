@@ -16,16 +16,16 @@
  		
  		<ui:define name="content">
  			<h:form> 				
-
+				<p:growl id="result" />
+				
+				
  				<p:outputLabel value="Registracion de nuevo plan de PS" />
- 				
  				<p:panel header="Alumno"> 			 	
  			 	<p:fragment autoUpdate="true">
- 			 		<p:panelGrid columns="4">									
+ 			 		<p:panelGrid columns="3">									
 						<p:outputLabel value="Nro de legajo"/>
-						<p:inputText id="legajo" required="true" value="#{altaPS.ps.id}"/>
-						<p:commandButton value="Buscar" action="#{altaPS.buscarAlumno()}" icon="ui-icon-search"/>
-<!-- 						<p:message for="legajo"/> -->
+						<p:inputText id="legajo" required="true" value="#{altaPS.ps.alumno.legajo}"/>
+						<p:commandButton value="Buscar" actionListener="#{altaPS.buscarAlumno()}" icon="ui-icon-search"/>
 						<p:outputLabel value="Nombre del alumno:"/>
 						<p:outputLabel value="#{altaPS.ps.alumno.nombre}"/>
 					</p:panelGrid>				 											
@@ -34,26 +34,15 @@
 				
 				
 				
+				
+				<p:fragment autoUpdate="true">
 				<p:panel header="Datos del Plan"> 					
  					<p:panelGrid columns="1">		 				
 			 			<p:panelGrid>
-		 				<p:outputLabel value="Fecha de presentación:" />
-		        		<p:calendar showOn="button" />
-	        		</p:panelGrid>
-	        		
-					<p:fragment autoUpdate="true">
-						<h:panelGrid cellpadding="0" columns="3">
-							<p:outputLabel value="Area"/>
-							<p:selectOneMenu value="#{altaPS.areaSelec}">
-								<p:ajax listener="#{altaPS.cambioArea}"/>
-								<f:selectItem itemLabel="Seleccione uno" itemValue=""/>
-								<f:selectItems value="#{altaPS.areas}" var="area" itemLabel="#{area.nombre}" itemValue="#{area.id}"/>							
-							</p:selectOneMenu>
-							<p:outputLabel value="#{altaPS.ps.area.descripsion}"/>
-						</h:panelGrid>
-					</p:fragment>
-					
-					<p:fragment autoUpdate="true">
+			 				<p:outputLabel value="Fecha de presentación:" />
+			        		<p:calendar value="#{altaPS.plan.fechaDePresentacion}" showOn="button" />
+	        			</p:panelGrid>
+	        			
 						<h:panelGrid columns="2" cellpadding="0">
 			        		<p:outputLabel value="Tipo"/>	        	
 			        		<p:selectOneMenu value="#{altaPS.actSelec}">
@@ -63,14 +52,22 @@
 			        		</p:selectOneMenu>
 			        		<p:outputLabel value="#{altaPS.ps.tipoActividad.descripsion}"/>
 		        		</h:panelGrid>
-		        	</p:fragment>
+		        	
+     					<h:panelGrid cellpadding="0" columns="3">
+							<p:outputLabel value="Area"/>
+							<p:selectOneMenu value="#{altaPS.areaSelec}">
+								<p:ajax listener="#{altaPS.cambioArea}"/>
+								<f:selectItem itemLabel="Seleccione uno" itemValue=""/>
+								<f:selectItems value="#{altaPS.areas}" var="area" itemLabel="#{area.nombre}" itemValue="#{area.id}"/>							
+							</p:selectOneMenu>
+							<p:outputLabel value="#{altaPS.ps.area.descripsion}"/>
+						</h:panelGrid>
 		        	
 	        		<p:panelGrid>
 						<p:outputLabel value="Título de la PS"/>
 						<p:inputText value="#{altaPS.ps.titulo}"/>
 					</p:panelGrid>
 				
-					
 					<p:row>
 						<h:panelGrid columns="4">
 							<p:outputLabel value="Cuatrimestre"/>
@@ -78,11 +75,7 @@
 							<p:outputLabel value="Ciclo lectivo"/>
 							<p:inputText value="#{altaPS.ps.cicloLectivo}"/>
 						</h:panelGrid>
-						
 					</p:row>
-					
-					
-					
 					
 					
 		        	<p:fragment autoUpdate="true">
@@ -95,11 +88,16 @@
 	        			<p:outputLabel value="#{altaPS.ps.organizacion.descripsion}"/>
 		        	</p:fragment>
 		        	
-		        	<p:commandButton value="Guardar Presentación" actionListener="#{altaPS.guardarPS}" icon="ui-icon-save"/>
-       					
+	        	    <p:commandButton value="Organizaciones" type="button" onclick="PF('dlg2').show();" />
+	        	    
+	        	    <p:dialog header="Modal Dialog" widgetVar="dlg2" modal="true" height="100">
+					    <h:outputText value="This is a Modal Dialog." />
+					</p:dialog>
+       		
 					</p:panelGrid>			
  				 	
 	        	</p:panel>
+	        	</p:fragment>
 
  			</h:form>
  		</ui:define>
