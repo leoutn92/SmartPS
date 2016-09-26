@@ -27,5 +27,11 @@ public class AlumnoDaoTest {
 	public void testPuedePresentarPlan(){
 		assertTrue(AlumnoDAO.getInstance().puedePresentarPlan(18189));//sabiendo que puede presentar plan
 	}
+	
+	@Test
+	public void testUltimaPS(){
+		assertTrue(AlumnoDAO.getInstance().getMostRecentPS(18189).getId()==22);//sabiendo que la ps 22 esta vigente y es la unica vigente
+		
+	}
 
 }

@@ -31,6 +31,13 @@ public class AlumnoDAO {
 		session.getTransaction().commit();
 	}
 	
+	public PS getMostRecentPS(int legajo) {
+		List<PS> pss =(List<PS>) session.createQuery("SELECT p FROM PS p where p.alumno.legajo = :legajo and not( p.estado.nombre = 'Plan vencido') or p.estado.nombre = 'Informe vencido' or p.estado.nombre = 'PS cancelada'  or p.estado.nombre = 'PS aprobada' or p.estado.nombre = 'Plan rechazado'" )
+				.setParameter("legajo",legajo).getResultList();
+		
+		return pss.get(0);
+	}
+	
 	public void update(Alumno alumno){
 		session= HibernateUtil.getSessionFactory().openSession();
 	}

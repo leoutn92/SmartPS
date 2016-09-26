@@ -34,8 +34,6 @@ public class AltaPS {
 	
 	PS ps;
 	
-	Date fecha;
-	
 	String areaSelec;
 	String orgSelec;
 	String actSelec;
@@ -43,6 +41,7 @@ public class AltaPS {
 	
 	boolean noTienePSVigente;
 	boolean puedePresentarPlan;
+	boolean alumnoEncontrado;
 	
 	PlanDeTrabajo plan;
 	
@@ -58,38 +57,111 @@ public class AltaPS {
 		tiposActividades = TipoActividadDao.getInstance().getAll();
 		noTienePSVigente=false;
 		puedePresentarPlan=false;
+		alumnoEncontrado=false;
 		
 	}
 	
 
+//
+//	public void guardarPS(){		
+//		ps.setArea(AreaDao.getInstance().buscarArea(Integer.parseInt(areaSelec)));
+//		ps.setTipoActividad(TipoActividadDao.getInstance().findById(Integer.parseInt(actSelec)));
+//		ps.setOrganizacion(OrganizacionDao.getInstance().findByID(Integer.parseInt(orgSelec)));
+//		ps.setEstado(EstadoDao.getInstance().buscarPorNombre("Plan presentado"));
+//		PSDao.getInstance().save(ps);
+//		PlanDeTrabajoDao.getInstance().save(plan);
+//        
+//		
+//		FacesContext context = FacesContext.getCurrentInstance();
+//        context.addMessage(null, new FacesMessage("Se guardó correctamente la Presentación del Plan") );        
+//	}	
 
+//	public void buscarAlumno(){
+//		AlumnoDAO dao = AlumnoDAO.getInstance();
+//		ps.setAlumno( dao.buscarAlumno(ps.getAlumno().getLegajo()));		
+//		if (ps.getAlumno()==null){
+//			ps.setAlumno(new Alumno());
+//			ps.getAlumno().setNombre("Alumno no encontrado");
+//			noTienePSVigente=false;
+//			puedePresentarPlan=false;
+//		}
+//		else{
+//			noTienePSVigente=!dao.tienePSVigente(ps.getAlumno().getLegajo());
+//			puedePresentarPlan=dao.puedePresentarPlan(ps.getAlumno().getLegajo());
+//		}		
+//	}
+	
 	public void guardarPS(){		
-		ps.setArea(AreaDao.getInstance().buscarArea(Integer.parseInt(areaSelec)));
-		ps.setTipoActividad(TipoActividadDao.getInstance().findById(Integer.parseInt(actSelec)));
-		ps.setOrganizacion(OrganizacionDao.getInstance().findByID(Integer.parseInt(orgSelec)));
-		ps.setEstado(EstadoDao.getInstance().buscarPorNombre("Plan presentado"));
-		PSDao.getInstance().save(ps);
-		PlanDeTrabajoDao.getInstance().save(plan);
-        
-		
 		FacesContext context = FacesContext.getCurrentInstance();
-        context.addMessage(null, new FacesMessage("Se guardó correctamente la Presentación del Plan") );        
-	}	
-
+		if (this.faltanCampos()){
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Faltan completar campos"));
+		} else{
+				
+				if (noTienePSVigente){
+					ps.setArea(AreaDao.getInstance().buscarArea(Integer.parseInt(areaSelec)));
+					ps.setTipoActividad(TipoActividadDao.getInstance().findById(Integer.parseInt(actSelec)));
+					ps.setOrganizacion(OrganizacionDao.getInstance().findByID(Integer.parseInt(orgSelec)));
+					ps.setEstado(EstadoDao.getInstance().buscarPorNombre("Plan presentado"));
+					
+				}
+				PSDao.getInstance().save(ps);
+				PlanDeTrabajoDao.getInstance().save(plan);
+		
+			
+				context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Éxito","Se guardó correctamente la Presentación del Plan") );
+			}
+	} 
+	
 	public void buscarAlumno(){
-		AlumnoDAO dao = AlumnoDAO.getInstance();
-		ps.setAlumno( dao.buscarAlumno(ps.getAlumno().getLegajo()));		
-		if (ps.getAlumno()==null){
+//		AlumnoDAO dao = AlumnoDAO.getInstance();
+//		ps.setAlumno( dao.buscarAlumno(ps.getAlumno().getLegajo()));
+		alumnoEncontrado=(ps.getAlumno()==null);
+		ps.setAlumno( AlumnoDAO.getInstance().buscarAlumno(ps.getAlumno().getLegajo()));
+		alumnoEncontrado=!(ps.getAlumno()==null);
+		if (!alumnoEncontrado){
 			ps.setAlumno(new Alumno());
 			ps.getAlumno().setNombre("Alumno no encontrado");
 			noTienePSVigente=false;
 			puedePresentarPlan=false;
 		}
 		else{
-			noTienePSVigente=!dao.tienePSVigente(ps.getAlumno().getLegajo());
-			puedePresentarPlan=dao.puedePresentarPlan(ps.getAlumno().getLegajo());
-		}		
+			noTienePSVigente=!AlumnoDAO.getInstance().tienePSVigente(ps.getAlumno().getLegajo());
+			puedePresentarPlan=AlumnoDAO.getInstance().puedePresentarPlan(ps.getAlumno().getLegajo());
+			if ( !noTienePSVigente) {
+				ps=AlumnoDAO.getInstance().getMostRecentPS( ps.getAlumno().getLegajo());
+			}
+			
+		}
 	}
+	
+	public boolean isVisiblePanelPS(){
+		return alumnoEncontrado && noTienePSVigente;
+	}
+	
+	public boolean isVisiblePanelPS2(){
+		return alumnoEncontrado && !noTienePSVigente;
+	}
+	
+	public boolean isVisiblePanelPlan(){
+		return alumnoEncontrado && puedePresentarPlan;
+	}
+	
+	public boolean isVisiblePanelPlan2(){
+		return alumnoEncontrado && !puedePresentarPlan;
+	}
+	
+	
+	
+	private boolean faltanCampos(){
+		return false;
+	}
+	
+	
+
+	public boolean isAlumnoEncontrado() {
+		return alumnoEncontrado;
+	}
+
 
 	public void cambioArea(){
 		if (areaSelec!=null && !areaSelec.equals("")){
@@ -180,18 +252,12 @@ public class AltaPS {
 		return noTienePSVigente;
 	}
 
-	public void setNoTienePSVigente(boolean tienePSVigente) {
-		this.noTienePSVigente = tienePSVigente;
-	}
-
 
 	public boolean isPuedePresentarPlan() {
 		return puedePresentarPlan;
 	}
 
-	public void setPuedePresentarPlan(boolean puedePresentarPlan) {
-		this.puedePresentarPlan = puedePresentarPlan;
-	}
+	
 	
 	
 }

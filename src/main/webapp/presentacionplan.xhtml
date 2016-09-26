@@ -16,17 +16,18 @@
  		
  		<ui:define name="content">
  			<h:form id="formulario"> 				
-				<p:growl id="result" />
+				
 				
 				
  				<p:outputLabel  value="Registracion de nuevo plan de PS" />
+ 				
  				<p:fieldset legend="Alumno" style="margin-bottom:20px">
  				 			 	
 	 			 	<p:fragment autoUpdate="true">
 	 			 		<p:panelGrid columns="3">									
 							<p:outputLabel value="Nro de legajo"/>
 							<p:inputText id="legajo" value="#{altaPS.ps.alumno.legajo}"/>
-							<p:commandButton value="Buscar" actionListener="#{altaPS.buscarAlumno()}" icon="ui-icon-search" update="panelPlan,panelPS"/>
+							<p:commandButton value="Buscar" actionListener="#{altaPS.buscarAlumno()}" icon="ui-icon-search" update="panelPlan,panelPS,panelPS2,panelPlan2"/>
 															
 							<p:outputLabel value="Nombre del alumno:"/>
 							<p:outputLabel value="#{altaPS.ps.alumno.nombre}"/>
@@ -34,23 +35,48 @@
 					</p:fragment>
 				</p:fieldset>
 			
+			
+<!-- 			casos de no poder agregar PS y planes nuevos -->
+			
+			
+			
+				<p:outputPanel id="panelPS2">
+					<p:fieldset rendered="#{altaPS.visiblePanelPS2}" legend="Datos de la Práctica Supervisada" style="margin-bottom:20px">
+					<p:outputLabel value="El alumno ya tiene una PS vigente a la fecha"/>
+					<p:panelGrid columns ="2">
+						<p:outputLabel value="Nombre de la PS:" />
+						<p:outputLabel value="#{altaPS.ps.titulo}" />
+						<p:outputLabel value="Estado" />
+						<p:outputLabel value="#{altaPS.ps.estado.nombre}" />
+					</p:panelGrid>
+					</p:fieldset>
+				</p:outputPanel>
+								
+				<p:outputPanel  id="panelPlan2">
+					<p:fieldset rendered ="#{altaPS.visiblePanelPlan2}" legend="Presentación del Plan" style="margin-bottom:20px">
+						<p:outputLabel value="El alumno tiene planes presentados pendientes"/>
+					</p:fieldset>
+				</p:outputPanel>
+				
+			
+			
+<!-- 		balbalbalbal -->
+			
 				
 				
 				<p:outputPanel id="panelPlan">
-				<p:fieldset  rendered="#{altaPS.puedePresentarPlan}" legend="Presentación del Plan" style="margin-bottom:20px">
+				<p:fieldset  rendered="#{altaPS.visiblePanelPlan}" legend="Presentación del Plan" style="margin-bottom:20px">
 					<p:panelGrid>	
 		 				<p:outputLabel value="Fecha de presentación:" />
 		        		<p:calendar value="#{altaPS.plan.fechaDePresentacion}" showOn="button"/>       		
        				</p:panelGrid>
    				</p:fieldset>
-   				</p:outputPanel>
-   				
-
+   				</p:outputPanel>   				
 				
 				
 				<p:outputPanel id="panelPS">
 				<p:fragment  autoUpdate="true">
-				<p:fieldset rendered="#{altaPS.noTienePSVigente}" legend="Datos de la Práctica Supervisada" style="margin-bottom:20px"> 					
+				<p:fieldset rendered="#{altaPS.visiblePanelPS}" legend="Datos de la Práctica Supervisada" style="margin-bottom:20px"> 					
  					<p:panelGrid columns="3" style="margin-bottom:20px">		 				
 
 						<p:outputLabel value="Título de la PS"/>
@@ -94,11 +120,12 @@
 	        	
 					</p:panelGrid>
 				    
-				    <p:commandButton  value="Guardar presentación" actionListener="#{altaPS.guardarPS}" update="result" />			
+				    			
  				 	
 	        	</p:fieldset>
 	        	</p:fragment>
 	        	</p:outputPanel>
+	        	<p:commandButton id="botonGuardar" value="Guardar presentación" actionListener="#{altaPS.guardarPS}" />
 
  			</h:form>
  		</ui:define>
