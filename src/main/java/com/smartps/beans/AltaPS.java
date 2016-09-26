@@ -1,10 +1,12 @@
 package com.smartps.beans;
 
+import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
 import com.smartps.dao.AlumnoDAO;
@@ -23,7 +25,7 @@ import com.smartps.model.TipoActividad;
 
 
 @ManagedBean
-@ApplicationScoped
+@ViewScoped
 public class AltaPS {
 
 	List<Area> areas;	
@@ -32,11 +34,14 @@ public class AltaPS {
 	
 	PS ps;
 	
+	Date fecha;
+	
 	String areaSelec;
 	String orgSelec;
 	String actSelec;
 	
-	boolean tienePSVigente;
+	
+	boolean noTienePSVigente;
 	boolean puedePresentarPlan;
 	
 	PlanDeTrabajo plan;
@@ -47,32 +52,43 @@ public class AltaPS {
 		ps.setAlumno(new Alumno());
 		plan = new PlanDeTrabajo();
 		plan.setPs(ps);
+		plan.setFechaDePresentacion(new Date());
 		areas= AreaDao.getInstance().getAll();		
 		organizaciones = OrganizacionDao.getInstance().getAll();
 		tiposActividades = TipoActividadDao.getInstance().getAll();
-		ps.setEstado(EstadoDao.getInstance().buscarPorNombre("Plan presentado"));
+		noTienePSVigente=false;
+		puedePresentarPlan=false;
+		
 	}
 	
+
+
 	public void guardarPS(){		
+		ps.setArea(AreaDao.getInstance().buscarArea(Integer.parseInt(areaSelec)));
+		ps.setTipoActividad(TipoActividadDao.getInstance().findById(Integer.parseInt(actSelec)));
+		ps.setOrganizacion(OrganizacionDao.getInstance().findByID(Integer.parseInt(orgSelec)));
+		ps.setEstado(EstadoDao.getInstance().buscarPorNombre("Plan presentado"));
 		PSDao.getInstance().save(ps);
 		PlanDeTrabajoDao.getInstance().save(plan);
-        FacesContext context = FacesContext.getCurrentInstance();
-        context.addMessage(null, new FacesMessage("Se guardó correctamente la Presentación del Plan") );
+        
+		
+		FacesContext context = FacesContext.getCurrentInstance();
+        context.addMessage(null, new FacesMessage("Se guardó correctamente la Presentación del Plan") );        
 	}	
 
 	public void buscarAlumno(){
 		AlumnoDAO dao = AlumnoDAO.getInstance();
 		ps.setAlumno( dao.buscarAlumno(ps.getAlumno().getLegajo()));		
-//		if (ps.getAlumno()==null){
-//			ps.setAlumno(new Alumno());
-//			ps.getAlumno().setNombre("Alumno no encontrado");
-//			tienePSVigente=false;
-//			puedePresentarPlan=false;
-//		}
-//		else{
-//			tienePSVigente=dao.tienePSVigente(ps.getAlumno().getLegajo());
-//			puedePresentarPlan=dao.puedePresentarPlan(ps.getAlumno().getLegajo());
-//		}		
+		if (ps.getAlumno()==null){
+			ps.setAlumno(new Alumno());
+			ps.getAlumno().setNombre("Alumno no encontrado");
+			noTienePSVigente=false;
+			puedePresentarPlan=false;
+		}
+		else{
+			noTienePSVigente=!dao.tienePSVigente(ps.getAlumno().getLegajo());
+			puedePresentarPlan=dao.puedePresentarPlan(ps.getAlumno().getLegajo());
+		}		
 	}
 
 	public void cambioArea(){
@@ -160,12 +176,12 @@ public class AltaPS {
 		this.tiposActividades = tiposActividades;
 	}
 	
-	public boolean isTienePSVigente() {
-		return tienePSVigente;
+	public boolean isNoTienePSVigente() {
+		return noTienePSVigente;
 	}
 
-	public void setTienePSVigente(boolean tienePSVigente) {
-		this.tienePSVigente = tienePSVigente;
+	public void setNoTienePSVigente(boolean tienePSVigente) {
+		this.noTienePSVigente = tienePSVigente;
 	}
 
 
@@ -176,5 +192,6 @@ public class AltaPS {
 	public void setPuedePresentarPlan(boolean puedePresentarPlan) {
 		this.puedePresentarPlan = puedePresentarPlan;
 	}
+	
 	
 }

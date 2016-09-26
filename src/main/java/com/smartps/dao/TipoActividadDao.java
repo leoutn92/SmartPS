@@ -46,4 +46,8 @@ public class TipoActividadDao {
 		
 	}
 	
+	public TipoActividad findById(int id){
+		return session.get(TipoActividad.class, id);
+	}
+	
 }

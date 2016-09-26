@@ -15,89 +15,90 @@
  	<ui:composition template="/templates/template.xhtml">
  		
  		<ui:define name="content">
- 			<h:form> 				
+ 			<h:form id="formulario"> 				
 				<p:growl id="result" />
 				
 				
- 				<p:outputLabel value="Registracion de nuevo plan de PS" />
- 				<p:panel header="Alumno"> 			 	
- 			 	<p:fragment autoUpdate="true">
- 			 		<p:panelGrid columns="3">									
-						<p:outputLabel value="Nro de legajo"/>
-						<p:inputText id="legajo" required="true" value="#{altaPS.ps.alumno.legajo}"/>
-						<p:commandButton value="Buscar" actionListener="#{altaPS.buscarAlumno()}" icon="ui-icon-search"/>
-						<p:outputLabel value="Nombre del alumno:"/>
-						<p:outputLabel value="#{altaPS.ps.alumno.nombre}"/>
-					</p:panelGrid>				 											
-				</p:fragment>
-				</p:panel>
+ 				<p:outputLabel  value="Registracion de nuevo plan de PS" />
+ 				<p:fieldset legend="Alumno" style="margin-bottom:20px">
+ 				 			 	
+	 			 	<p:fragment autoUpdate="true">
+	 			 		<p:panelGrid columns="3">									
+							<p:outputLabel value="Nro de legajo"/>
+							<p:inputText id="legajo" value="#{altaPS.ps.alumno.legajo}"/>
+							<p:commandButton value="Buscar" actionListener="#{altaPS.buscarAlumno()}" icon="ui-icon-search" update="panelPlan,panelPS"/>
+															
+							<p:outputLabel value="Nombre del alumno:"/>
+							<p:outputLabel value="#{altaPS.ps.alumno.nombre}"/>
+						</p:panelGrid>				 											
+					</p:fragment>
+				</p:fieldset>
+			
 				
 				
+				<p:outputPanel id="panelPlan">
+				<p:fieldset  rendered="#{altaPS.puedePresentarPlan}" legend="Presentación del Plan" style="margin-bottom:20px">
+					<p:panelGrid>	
+		 				<p:outputLabel value="Fecha de presentación:" />
+		        		<p:calendar value="#{altaPS.plan.fechaDePresentacion}" showOn="button"/>       		
+       				</p:panelGrid>
+   				</p:fieldset>
+   				</p:outputPanel>
+   				
+
 				
 				
-				<p:fragment autoUpdate="true">
-				<p:panel header="Datos del Plan"> 					
- 					<p:panelGrid columns="1">		 				
-			 			<p:panelGrid>
-			 				<p:outputLabel value="Fecha de presentación:" />
-			        		<p:calendar value="#{altaPS.plan.fechaDePresentacion}" showOn="button" />
-	        			</p:panelGrid>
-	        			
-						<h:panelGrid columns="2" cellpadding="0">
-			        		<p:outputLabel value="Tipo"/>	        	
-			        		<p:selectOneMenu value="#{altaPS.actSelec}">
-			        			<p:ajax listener="#{altaPS.cambioAct}"/>
-			        			<f:selectItem itemLabel="Seleccione uno" itemValue="" noSelectionOption="true"/>
-			        			<f:selectItems value="#{altaPS.tiposActividades}" var="act" itemLabel="#{act.nombre}" itemValue="#{act.id}"/>
-			        		</p:selectOneMenu>
-			        		<p:outputLabel value="#{altaPS.ps.tipoActividad.descripsion}"/>
-		        		</h:panelGrid>
-		        	
-     					<h:panelGrid cellpadding="0" columns="3">
-							<p:outputLabel value="Area"/>
-							<p:selectOneMenu value="#{altaPS.areaSelec}">
-								<p:ajax listener="#{altaPS.cambioArea}"/>
-								<f:selectItem itemLabel="Seleccione uno" itemValue=""/>
-								<f:selectItems value="#{altaPS.areas}" var="area" itemLabel="#{area.nombre}" itemValue="#{area.id}"/>							
-							</p:selectOneMenu>
-							<p:outputLabel value="#{altaPS.ps.area.descripsion}"/>
-						</h:panelGrid>
-		        	
-	        		<p:panelGrid>
+				<p:outputPanel id="panelPS">
+				<p:fragment  autoUpdate="true">
+				<p:fieldset rendered="#{altaPS.noTienePSVigente}" legend="Datos de la Práctica Supervisada" style="margin-bottom:20px"> 					
+ 					<p:panelGrid columns="3" style="margin-bottom:20px">		 				
+
 						<p:outputLabel value="Título de la PS"/>
-						<p:inputText value="#{altaPS.ps.titulo}"/>
-					</p:panelGrid>
-				
-					<p:row>
-						<h:panelGrid columns="4">
-							<p:outputLabel value="Cuatrimestre"/>
-							<p:inputText value="#{altaPS.ps.cuatrimestre}"/>
-							<p:outputLabel value="Ciclo lectivo"/>
-							<p:inputText value="#{altaPS.ps.cicloLectivo}"/>
-						</h:panelGrid>
-					</p:row>
-					
-					
-		        	<p:fragment autoUpdate="true">
-	        			<p:outputLabel value="Organización donde realiza la PS"/>
+						<p:inputText value="#{altaPS.ps.titulo}" required="true"/>
+						<p:outputLabel/>
+		        		
+		        		<p:outputLabel value="Tipo"/>			        		
+		        		<p:selectOneMenu value="#{altaPS.actSelec}" >
+		        			<p:ajax listener="#{altaPS.cambioAct}"/>
+		        			<f:selectItem itemLabel="Seleccione uno" itemValue="" noSelectionOption="true"/>
+		        			<f:selectItems value="#{altaPS.tiposActividades}" var="act" itemLabel="#{act.nombre}" itemValue="#{act.id}"/>
+		        		</p:selectOneMenu>
+		        		<p:outputLabel value="#{altaPS.ps.tipoActividad.descripsion}"/>
+	        	
+						<p:outputLabel value="Area"/>
+						<p:selectOneMenu value="#{altaPS.areaSelec}" >
+							<p:ajax listener="#{altaPS.cambioArea}"/>
+							<f:selectItem itemLabel="Seleccione uno" itemValue=""/>
+							<f:selectItems value="#{altaPS.areas}" var="area" itemLabel="#{area.nombre}" itemValue="#{area.id}"/>							
+						</p:selectOneMenu>
+						<p:outputLabel value="#{altaPS.ps.area.descripsion}"/>
+		        	
+		        	
+	        			<p:outputLabel value="Organización:"/>
 	        			<p:selectOneMenu value="#{altaPS.orgSelec}" filter="true" >
 		        			<p:ajax listener="#{altaPS.cambioOrg}"/>
 		        			<f:selectItem itemLabel="Seleccione uno" itemValue="" noSelectionOption="true"/>
 		        			<f:selectItems value="#{altaPS.organizaciones}" var="org" itemLabel="#{org.nombre}" itemValue="#{org.id}"/>
 	        			</p:selectOneMenu>	        			
 	        			<p:outputLabel value="#{altaPS.ps.organizacion.descripsion}"/>
-		        	</p:fragment>
 		        	
-	        	    <p:commandButton value="Guardar presentación" actionListener="#{altaPS.guardarPS}" update="result"/>
-	        	    
-	        	    <p:dialog header="Modal Dialog" widgetVar="dlg2" modal="true" height="100">
-					    <h:outputText value="This is a Modal Dialog." />
-					</p:dialog>
-       		
-					</p:panelGrid>			
+						<h:panelGroup>
+							<p:outputLabel value="Cuatrimestre"/>
+							<p:inputText value="#{altaPS.ps.cuatrimestre}" size="7" />
+						</h:panelGroup>
+						<h:panelGroup>
+							<p:outputLabel value="Ciclo lectivo"/>
+							<p:inputText value="#{altaPS.ps.cicloLectivo}" size="7" />
+						</h:panelGroup>
+					
+	        	
+					</p:panelGrid>
+				    
+				    <p:commandButton  value="Guardar presentación" actionListener="#{altaPS.guardarPS}" update="result" />			
  				 	
-	        	</p:panel>
+	        	</p:fieldset>
 	        	</p:fragment>
+	        	</p:outputPanel>
 
  			</h:form>
  		</ui:define>
