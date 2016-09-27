@@ -59,10 +59,31 @@ public class GenerarReportePG {
 	//Listado		
 
 		planes = ptdao.retrieveAll();
+		pslist = psdao.retrieveAll();
+
+		
+		//Sin filtros
+		if ((desde==null) && (hasta==null) && (cuatrimestre==0) && (cicloLectivo==0)){
+			for (int a=0; a<planes.size(); a++){
+				for (int b=0; b<pslist.size(); b++){
+					if (planes.get(a).getPs().getId()==pslist.get(b).getId()){
+						linea = new LineaDeReporte();
+						linea.setFechaDePresentacion(planes.get(a).getFechaDePresentacion());
+						linea.setTitulo(pslist.get(b).getTitulo());
+						linea.setEstado(pslist.get(b).getEstado().getNombre());
+						linea.setArea(pslist.get(b).getArea().getNombre());
+						linea.setTipoActividad(pslist.get(b).getTipoActividad().getNombre());
+						linea.setAlumno(pslist.get(b).getAlumno().getNombre());
+						linea.setIngreso(pslist.get(b).getAlumno().getCicloLectivo());
+						linealist.add(linea);
+					}
+				}
+			}			
+		}
+		
 		
 		//Por Periodo
 		if ((desde!=null) && (hasta!=null)){
-			pslist = psdao.retrieveAll();
 			planesPeriodo = ptdao.findByPeriodo(desde, hasta);
 			for (int a=0; a<planesPeriodo.size(); a++){
 				for (int b=0; b<pslist.size(); b++){
