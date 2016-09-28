@@ -17,7 +17,7 @@ import com.smartps.model.LineaDeReporte;
 @ManagedBean
 @RequestScoped
 public class GenerarReporteIG {
-//GenerarReportePG = GenerarReportePlanesGeneral_hdu6 
+//GenerarReporteIF = GenerarReporteInformesFinales_hdu9 
 	
 	private PSDao psdao = PSDao.getInstance();
 	private InformeFinalDao ifdao = InformeFinalDao.getInstance();

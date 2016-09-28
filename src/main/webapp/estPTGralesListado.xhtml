@@ -23,7 +23,7 @@
 			        	<div align="left"><br/><h:outputText value="Momento de inscripcion del alumno a la catedra PS"/></div>
 			        </f:facet>
 			        <h:outputLabel for="cicloLectivo" value="Ciclo Lectivo: " />
-					<h:inputText id="cicloLectivo" value="#{generarReportePG.cicloLectivo}" />
+					<p:inputText id="cicloLectivo" value="#{generarReportePG.cicloLectivo}" />
 			        <h:outputLabel value="(2014,2015,2016,...)" />			        
 			        <h:outputLabel for="cuatrimestre" value="Cuatrimestre: " />
 			        <h:inputText id="cuatrimestre" value="#{generarReportePG.cuatrimestre}" />
@@ -59,7 +59,9 @@
 						</f:facet>
 					
 					    <p:column headerText="Fecha de Presentacion">
-					        #{linea.fechaDePresentacion}
+					    	<h:outputText value="#{linea.fechaDePresentacion}">
+					        	<f:convertDateTime type="date" />
+					        </h:outputText>
 					    </p:column>
 					 
 					    <p:column headerText="Titulo de PS">

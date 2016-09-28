@@ -1,0 +1,105 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <h:head>
+    	<title>SmartPS</title>
+    </h:head>
+    
+    <h:body>
+
+ 	<ui:composition template="/templates/template.xhtml">
+ 		<ui:define name="content"> 
+
+ 			<h:form id="listadoInforme">
+
+				<p:fieldset legend="Busqueda informes" style="margin-bottom:20px">
+ 		 			<p:fragment autoUpdate="true">
+						<div align="right">
+		 					<p:commandButton value="Visualizar Listado" action="#{buscarInformeFinal.buscarIF()}" update="lineas" />
+						</div>
+	 	 			</p:fragment>
+
+				</p:fieldset>				
+
+				<p:dataTable id="lineas" var="linea" paginator="true" row="10"
+								value="#{buscarInformeFinal.resultlist}" widgetVar="lineasTable"
+								filteredValue="#{buscarInformeFinal.filteredLineas}">
+					
+					<f:facet name="header">
+						Listado de Informes Finales
+						<p:commandButton id="toggler" type="button" value="Columnas" style="float:right" icon="ui-icon-calculator" />
+       					<p:columnToggler datasource="lineas" trigger="toggler" />
+           				<h:outputText value="Buscar por cualquier columna: "/>
+           				<p:inputText id="globalFilter" onkeyup="PF('lineasTable').filter()"
+           								style="width:150px" placeholder="Ingrese valor"/>        					
+					</f:facet>
+					 
+				    <p:column filterBy="#{linea.titulo}" headerText="Titulo de PS">
+				        #{linea.titulo}
+				    </p:column>
+					    					
+				    <p:column filterBy="#{linea.fechaDePresentacion}" headerText="Fecha de Presentacion">
+						<h:outputText value="#{linea.fechaDePresentacion}">
+				        	<f:convertDateTime pattern="yyyy-MM-dd" type="date" />
+				        </h:outputText>
+				    </p:column>
+					    					
+				    <p:column filterBy="#{linea.fechaAprobDesaprob}" headerText="Fecha de Aprobacion/Desaprobacion">
+				        #{linea.fechaAprobDesaprob}
+				    </p:column>
+					    
+					<p:column filterBy="#{linea.nroDisposicion}" headerText="Numero de Disposicion">
+				        #{linea.nroDisposicion}
+				    </p:column>
+
+				    <p:column filterBy="#{linea.observaciones}" headerText="Observaciones">
+				        #{linea.observaciones}
+				    </p:column>	    
+					 
+				    <p:column filterBy="#{linea.estado}" headerText="Estado de PS">
+				        #{linea.estado}
+				    </p:column>
+				 
+				    <p:column filterBy="#{linea.area}" headerText="Area de PS">
+				        #{linea.area}
+				    </p:column>
+					    					
+				    <p:column filterBy="#{linea.organizacion}" headerText="Organizacion">
+				        #{linea.organizacion}
+				    </p:column>
+					    
+					<p:column filterBy="#{linea.tipoActividad}" headerText="Tipo de PS">
+				        #{linea.tipoActividad}
+				    </p:column>
+					    
+					<p:column filterBy="#{linea.legajo}" headerText="Numero de legajo">
+				        #{linea.legajo}
+				    </p:column>
+					    
+				    <p:column filterBy="#{linea.alumno}" headerText="Nombre del alumno">
+				        #{linea.alumno}
+				    </p:column>
+					   
+					   <p:column filterBy="#{linea.cicloLectivo}" headerText="Ciclo Lectivo">
+					       #{linea.cicloLectivo}
+					   </p:column>
+				    
+				    <p:column filterBy="#{linea.cuatrimestre}" headerText="Cuatrimestre">
+				        #{linea.cuatrimestre}
+				    </p:column>
+					  
+				</p:dataTable>
+
+ 			</h:form> 			 			
+
+ 		</ui:define>
+ 		 
+ 	</ui:composition>
+
+    </h:body>
+</html>

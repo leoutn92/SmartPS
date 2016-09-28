@@ -59,7 +59,9 @@
 						</f:facet>
 					
 					    <p:column headerText="Fecha de Presentacion">
-					        #{linea.fechaDePresentacion}
+					    	<h:outputText value="#{linea.fechaDePresentacion}">
+					        	<f:convertDateTime type="date" />
+					        </h:outputText>
 					    </p:column>
 					 
 					    <p:column headerText="Titulo de PS">
