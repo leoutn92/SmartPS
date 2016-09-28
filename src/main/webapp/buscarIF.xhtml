@@ -49,15 +49,17 @@
 				        </h:outputText>
 				    </p:column>
 					    					
-				    <p:column filterBy="#{linea.fechaAprobDesaprob}" headerText="Fecha de Aprobacion/Desaprobacion">
-				        #{linea.fechaAprobDesaprob}
+				    <p:column filterBy="#{linea.fechaAprobDesaprob}" headerText="Fecha de Aprobacion/Desaprobacion" visible="false">
+				   		<h:outputText value="#{linea.fechaAprobDesaprob}">
+				        	<f:convertDateTime pattern="yyyy-MM-dd" type="date" />
+				        </h:outputText>
 				    </p:column>
 					    
-					<p:column filterBy="#{linea.nroDisposicion}" headerText="Numero de Disposicion">
+					<p:column filterBy="#{linea.nroDisposicion}" headerText="Numero de Disposicion" visible="false">
 				        #{linea.nroDisposicion}
 				    </p:column>
 
-				    <p:column filterBy="#{linea.observaciones}" headerText="Observaciones">
+				    <p:column filterBy="#{linea.observaciones}" headerText="Observaciones" visible="false">
 				        #{linea.observaciones}
 				    </p:column>	    
 					 
@@ -65,15 +67,15 @@
 				        #{linea.estado}
 				    </p:column>
 				 
-				    <p:column filterBy="#{linea.area}" headerText="Area de PS">
+				    <p:column filterBy="#{linea.area}" headerText="Area de PS" visible="false">
 				        #{linea.area}
 				    </p:column>
 					    					
-				    <p:column filterBy="#{linea.organizacion}" headerText="Organizacion">
+				    <p:column filterBy="#{linea.organizacion}" headerText="Organizacion" visible="false">
 				        #{linea.organizacion}
 				    </p:column>
 					    
-					<p:column filterBy="#{linea.tipoActividad}" headerText="Tipo de PS">
+					<p:column filterBy="#{linea.tipoActividad}" headerText="Tipo de PS" visible="false">
 				        #{linea.tipoActividad}
 				    </p:column>
 					    
@@ -85,9 +87,9 @@
 				        #{linea.alumno}
 				    </p:column>
 					   
-					   <p:column filterBy="#{linea.cicloLectivo}" headerText="Ciclo Lectivo">
-					       #{linea.cicloLectivo}
-					   </p:column>
+					<p:column filterBy="#{linea.cicloLectivo}" headerText="Ciclo Lectivo">
+				       #{linea.cicloLectivo}
+				   </p:column>
 				    
 				    <p:column filterBy="#{linea.cuatrimestre}" headerText="Cuatrimestre">
 				        #{linea.cuatrimestre}
