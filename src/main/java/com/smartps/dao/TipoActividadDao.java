@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.hibernate.Session;
 
+import com.smartps.model.PlanDeTrabajo;
 import com.smartps.model.TipoActividad;
 import com.smartps.util.HibernateUtil;
 
@@ -24,10 +25,13 @@ public class TipoActividadDao {
 	
 	public List<TipoActividad> getAll(){
 		return (session.createQuery("from TipoActividad").list());
-		
-		
-		
-}
+	}
+	
+	public List<TipoActividad> retrieveAll(){
+		List<TipoActividad> tipos = (List<TipoActividad>) session
+				.createQuery("SELECT p FROM TipoActividad p").getResultList();
+		return tipos;
+	}
 	
 	public void save(TipoActividad tActividad) {
 		session= HibernateUtil.getSessionFactory().openSession();
