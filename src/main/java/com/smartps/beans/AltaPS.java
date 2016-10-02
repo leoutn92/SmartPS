@@ -27,34 +27,42 @@ import com.smartps.model.TipoActividad;
 @ManagedBean
 @ViewScoped
 public class AltaPS {
-
+	
+	AreaDao daoArea = new AreaDao();
+	OrganizacionDao daoOrg = new OrganizacionDao();
+	TipoActividadDao daoTipoAct = new TipoActividadDao();
+	AlumnoDAO daoAlumno = new AlumnoDAO();
+	PSDao daoPS = new PSDao();
+	PlanDeTrabajoDao daoPlan = new PlanDeTrabajoDao();
+	
 	List<Area> areas;	
 	List <Organizacion> organizaciones;
 	List <TipoActividad> tiposActividades;
 	
 	PS ps;
+	PlanDeTrabajo plan;
+	Alumno alum;
 	
 	String areaSelec;
 	String orgSelec;
 	String actSelec;
-	
+	int legajo;
 	
 	boolean noTienePSVigente;
 	boolean puedePresentarPlan;
 	boolean alumnoEncontrado;
 	
-	PlanDeTrabajo plan;
-	
 	@PostConstruct
 	public void init(){
 		ps= new PS();
-		ps.setAlumno(new Alumno());
+		alum = new Alumno();
+		ps.setAlumno(alum);
 		plan = new PlanDeTrabajo();
 		plan.setPs(ps);
 		plan.setFechaDePresentacion(new Date());
-		areas= AreaDao.getInstance().getAll();		
-		organizaciones = OrganizacionDao.getInstance().getAll();
-		tiposActividades = TipoActividadDao.getInstance().getAll();
+		areas= daoArea.getAll();
+		organizaciones = daoOrg.getAll();
+		tiposActividades = daoTipoAct.getAll();
 		noTienePSVigente=false;
 		puedePresentarPlan=false;
 		alumnoEncontrado=false;
@@ -91,6 +99,28 @@ public class AltaPS {
 //		}		
 //	}
 	
+	public void buscarAlumno(){
+// en este metodo se acualizan todas las banderas alumno y ps vigente, de existir
+			alum = daoAlumno.getById(this.legajo);
+			alumnoEncontrado=!(alum==null);
+			if (!alumnoEncontrado){
+				alum=new Alumno();
+				alum.setNombre("Alumno no encontrado");
+				noTienePSVigente=false;
+				puedePresentarPlan=false;
+			}
+			else{
+				puedePresentarPlan=daoAlumno.puedePresentarPlan(alum.getLegajo());
+				noTienePSVigente=!daoAlumno.tienePSVigente(alum.getLegajo());				
+				if ( !noTienePSVigente) {
+					ps=daoAlumno.getMostRecentPS(alum.getLegajo());
+					plan.setPs(ps);
+				}
+				
+			}
+		}
+
+
 	public void guardarPS(){		
 		FacesContext context = FacesContext.getCurrentInstance();
 		if (this.faltanCampos()){
@@ -98,9 +128,9 @@ public class AltaPS {
 		} else{
 				
 				if (noTienePSVigente){
-					ps.setArea(AreaDao.getInstance().buscarArea(Integer.parseInt(areaSelec)));
-					ps.setTipoActividad(TipoActividadDao.getInstance().findById(Integer.parseInt(actSelec)));
-					ps.setOrganizacion(OrganizacionDao.getInstance().findByID(Integer.parseInt(orgSelec)));
+					ps.setArea(AreaDao.getInstance().getById(Integer.parseInt(areaSelec)));
+					ps.setTipoActividad(TipoActividadDao.getInstance().getById(Integer.parseInt(actSelec)));
+					ps.setOrganizacion(OrganizacionDao.getInstance().getById(Integer.parseInt(orgSelec)));
 					ps.setEstado(EstadoDao.getInstance().buscarPorNombre("Plan presentado"));
 					
 				}
@@ -110,30 +140,40 @@ public class AltaPS {
 			
 				context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Éxito","Se guardó correctamente la Presentación del Plan") );
 			}
-	} 
-	
-	public void buscarAlumno(){
-//		AlumnoDAO dao = AlumnoDAO.getInstance();
-//		ps.setAlumno( dao.buscarAlumno(ps.getAlumno().getLegajo()));
-		alumnoEncontrado=(ps.getAlumno()==null);
-		ps.setAlumno( AlumnoDAO.getInstance().buscarAlumno(ps.getAlumno().getLegajo()));
-		alumnoEncontrado=!(ps.getAlumno()==null);
-		if (!alumnoEncontrado){
-			ps.setAlumno(new Alumno());
-			ps.getAlumno().setNombre("Alumno no encontrado");
-			noTienePSVigente=false;
-			puedePresentarPlan=false;
-		}
-		else{
-			noTienePSVigente=!AlumnoDAO.getInstance().tienePSVigente(ps.getAlumno().getLegajo());
-			puedePresentarPlan=AlumnoDAO.getInstance().puedePresentarPlan(ps.getAlumno().getLegajo());
-			if ( !noTienePSVigente) {
-				ps=AlumnoDAO.getInstance().getMostRecentPS( ps.getAlumno().getLegajo());
-			}
-			
+	}
+
+
+	public Alumno getAlum() {
+		return alum;
+	}
+
+
+	public void setAlum(Alumno alum) {
+		this.alum = alum;
+	}
+
+
+	public void cambioArea(){
+		if (areaSelec!=null && !areaSelec.equals("")){
+			ps.setArea(areas.get(Integer.parseInt(areaSelec)-1));
 		}
 	}
-	
+
+
+	public void cambioOrg(){
+		if (orgSelec!=null && !orgSelec.equals("")){
+			ps.setOrganizacion(organizaciones.get(Integer.parseInt(orgSelec)-1));
+		}
+	}
+
+
+	public void cambioAct(){
+		if (actSelec!=null && !actSelec.equals("")){
+			ps.setTipoActividad(tiposActividades.get(Integer.parseInt(actSelec)-1));
+		}
+	}
+
+
 	public boolean isVisiblePanelPS(){
 		return alumnoEncontrado && noTienePSVigente;
 	}
@@ -162,24 +202,6 @@ public class AltaPS {
 		return alumnoEncontrado;
 	}
 
-
-	public void cambioArea(){
-		if (areaSelec!=null && !areaSelec.equals("")){
-			ps.setArea(areas.get(Integer.parseInt(areaSelec)-1));
-		}
-	}
-
-	public void cambioOrg(){
-		if (orgSelec!=null && !orgSelec.equals("")){
-			ps.setOrganizacion(organizaciones.get(Integer.parseInt(orgSelec)-1));
-		}
-	}
-	
-	public void cambioAct(){
-		if (actSelec!=null && !actSelec.equals("")){
-			ps.setTipoActividad(tiposActividades.get(Integer.parseInt(actSelec)-1));
-		}
-	}
 
 	public String getActSelec() {
 		return actSelec;
@@ -211,6 +233,16 @@ public class AltaPS {
 	public List<TipoActividad> getTiposActividades() {
 		return tiposActividades;
 	}
+
+	public int getLegajo() {
+		return legajo;
+	}
+
+
+	public void setLegajo(int legajo) {
+		this.legajo = legajo;
+	}
+
 
 	public PlanDeTrabajo getPlan() {
 		return plan;

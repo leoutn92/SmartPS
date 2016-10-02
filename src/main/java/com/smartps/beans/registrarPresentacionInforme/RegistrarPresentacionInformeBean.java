@@ -194,7 +194,8 @@ public class RegistrarPresentacionInformeBean implements Serializable {
 			linea.setLegajo(ps.getAlumno().getLegajo());
 			linea.setPsTitle(ps.getTitulo());
 			linea.setNombreAlumno(ps.getAlumno().getNombre());
-			String nombreEstado = estadoDAO.getById(ps.getEstado().getId());   
+			String nombreEstado = estadoDAO.getNameById(ps.getEstado().getId());
+//	LUCAS	String nombreEstado = estadoDAO.getById(ps.getEstado().getId()).getNombre();
 			linea.setEstado(nombreEstado);
 			PlanDeTrabajo plan = planDeTrabajoDao.getLastByFechaAprobadoDesaprobado(ps.getId());
 			if (plan!=null) {

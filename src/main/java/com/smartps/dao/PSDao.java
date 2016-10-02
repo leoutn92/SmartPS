@@ -1,23 +1,16 @@
 package com.smartps.dao;
 import java.util.List;
 
-import javax.persistence.EntityManager;
-
-import org.hibernate.Query;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
-
 import com.smartps.beans.registrarPresentacionInforme.CriteriosParaFiltrarPs;
-import com.smartps.model.InformeFinal;
 import com.smartps.model.PS;
 import com.smartps.util.HibernateUtil;
 
-public class PSDao {
-	Session session= HibernateUtil.getSessionFactory().openSession();
+public class PSDao extends Dao<PS> {
 	private static PSDao instancia = null;
 	
-	protected PSDao(){};
+	public PSDao(){
+		super( PS.class);
+	};
 	
 	public static PSDao getInstance(){
 		if (instancia == null) {
@@ -26,36 +19,34 @@ public class PSDao {
 		return instancia;
 	}
 	
-	public void save(PS ps){
-		session = HibernateUtil.getSessionFactory().openSession();
-		session.beginTransaction();
-		session.save(ps);
-		session.getTransaction().commit();
-	}
 	public List<PS> buscarPorLegajo(int legajo) {
-		session =HibernateUtil.getSessionFactory().openSession();
+		this.getSession();
+		session.beginTransaction();
 		Integer newLegajo = legajo;
 		List<PS> pss = (List<PS>) session.createQuery("Select p from PS p Where p.alumno.legajo= :legajo")
 		.setParameter("legajo", newLegajo).getResultList();
+		session.getTransaction().commit();
 		return pss;
 	}
 	public PS searchPs(int legajo, int idEstado) {
-		session =HibernateUtil.getSessionFactory().openSession();
+		this.getSession();
+		session.beginTransaction();
 		List<PS> pss =(List<PS>) session.createQuery("SELECT p FROM PS p where p.alumno.legajo = :legajo and  p.estado.id = :estado")
 				.setParameter("legajo",legajo).setParameter("estado",idEstado).getResultList();
-		HibernateUtil.getSessionFactory().getCurrentSession().close();
+		session.getTransaction().commit();
 		return pss.get(0);
 	}
 	public void updateEstado(int id, int idEstado) {
-		session =HibernateUtil.getSessionFactory().openSession();
+		this.getSession();
 		session.beginTransaction();
 		session.createQuery("update PS set estado.id = :idEstado where id = :idps")
 				.setParameter("idps",id).setParameter("idEstado",idEstado).executeUpdate();
 		session.getTransaction().commit();
+		session.close();
 	}
 	public List<PS> searchPs(CriteriosParaFiltrarPs criterios, int idEstado) {
-		// TODO Auto-generated method stub
-		session =HibernateUtil.getSessionFactory().openSession();
+		this.getSession();
+		session.beginTransaction();
 		String queryBase = "Select p from PS p where p.estado.id = :idEstado ";
 		List<PS> pss =(List<PS>) session.createQuery(queryBase)
 				.setParameter("idEstado", idEstado).getResultList();
@@ -110,54 +101,36 @@ public class PSDao {
 			}
 			
 		}
+		session.getTransaction().commit();
 		return pss;
 	}
 
-	public PS getById(int id) {
-		session =HibernateUtil.getSessionFactory().openSession();
-		return session.get(PS.class, id);
-	}
 
-	public void update(PS objeto) {
-		session.beginTransaction();
-		session.update(objeto);
-		session.getTransaction().commit();
-		
-	}
-	
-	// TODO no funciona este metodo
-	public void delete(PS objeto) {
-		session.beginTransaction();
-		session.delete(objeto);
-		session.getTransaction().commit();
-		
-	}
-	
-	public List<PS> getAll() {
-		List<PS> lista = (List) session.createQuery("from PS").list();
-		return lista;
-	}
 
 	public PS findById(int id) {
-		PS ps = (PS) session.get(PS.class, id);
-		return ps;
+		
+		return this.getById(id);
 	}
 
 	public List<PS> retrieveAll() {
-		List<PS> pslist = (List<PS>) session
-				.createQuery("SELECT p FROM PS p").getResultList();
-		return pslist;
+		return this.getAll();
 	}
 	
 	public List<PS> findByCicloLectivo(int cicloLectivo) {	
+		this.getSession();
+		session.beginTransaction();
 		List<PS> pslist=(List<PS>) session.createQuery("SELECT p FROM PS p WHERE p.cicloLectivo = :cicloLectivo")
 				.setParameter("cicloLectivo", cicloLectivo).getResultList();
+		session.getTransaction().commit();
 		return pslist;
 	}
 	
 	public List<PS> findByCuatrimestre(int cuatrimestre) {	
+		this.getSession();
+		session.beginTransaction();
 		List<PS> pslist=(List<PS>) session.createQuery("SELECT p FROM PS p WHERE p.cuatrimestre = :cuatrimestre")
 				.setParameter("cuatrimestre", cuatrimestre).getResultList();
+		session.getTransaction().commit();
 		return pslist;
 	}
 	

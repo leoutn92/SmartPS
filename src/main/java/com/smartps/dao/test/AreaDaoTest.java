@@ -20,7 +20,7 @@ public class AreaDaoTest {
 
 	@Test
 	public void testBuscarArea() {
-		assertTrue(AreaDao.getInstance().buscarArea(2).getNombre().equals("Redes"));
+		assertTrue(AreaDao.getInstance().getById(2).getNombre().equals("Redes"));
 	}
 
 }

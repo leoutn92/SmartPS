@@ -23,8 +23,8 @@ public class BeanOrg {
 	}
 	
 	public void buscarOrg(){
-		organizacion = OrganizacionDao.getInstance().findByID(id);
-		plan = PlanDeTrabajoDao.getInstance().findByID(id);
+		organizacion = OrganizacionDao.getInstance().getById(id);
+		plan = PlanDeTrabajoDao.getInstance().getById(id);
 	}
 	
 	

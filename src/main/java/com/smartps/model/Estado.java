@@ -14,7 +14,6 @@ public class Estado extends ClasificacionPS implements Serializable {
 	}
 
 	public void addPs(PS ps) {
-		// TODO Auto-generated method stub
 		this.getListPS().add(ps);
 	}
 }

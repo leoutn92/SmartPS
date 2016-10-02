@@ -32,7 +32,7 @@ public class RegistrarPresentacionInformeBeanTest {
 	public static Alumno alumno2 = new Alumno();
 	public static PS ps1 = new PS();
 	public static PS ps2 = new PS();
-	public static AlumnoDAO alumnoDao = AlumnoDAO.getInstance();
+	public static AlumnoDAO alumnoDao = new AlumnoDAO();
 	public static InformeFinal informe1 = new InformeFinal();
 	public static InformeFinal informe2 = new InformeFinal();
 	public static PSDao psdao = PSDao.getInstance();

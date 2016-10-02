@@ -26,11 +26,11 @@
 	 			 	<p:fragment autoUpdate="true">
 	 			 		<p:panelGrid columns="3">									
 							<p:outputLabel value="Nro de legajo"/>
-							<p:inputText id="legajo" value="#{altaPS.ps.alumno.legajo}"/>
+							<p:inputText id="legajo" value="#{altaPS.legajo}"/>
 							<p:commandButton value="Buscar" actionListener="#{altaPS.buscarAlumno()}" icon="ui-icon-search" update="panelPlan,panelPS,panelPS2,panelPlan2"/>
 															
 							<p:outputLabel value="Nombre del alumno:"/>
-							<p:outputLabel value="#{altaPS.ps.alumno.nombre}"/>
+							<p:outputLabel value="#{altaPS.alum.nombre}"/>
 						</p:panelGrid>				 											
 					</p:fragment>
 				</p:fieldset>

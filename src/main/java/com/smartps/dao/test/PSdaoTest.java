@@ -22,9 +22,9 @@ public class PSdaoTest {
 	
 	@Before
 	public void setUp() throws Exception {
-		ps.setAlumno(AlumnoDAO.getInstance().buscarAlumno(18189));
+		ps.setAlumno(new AlumnoDAO().buscarAlumno(18189));
 		
-		ps.setArea(AreaDao.getInstance().buscarArea(1));
+		ps.setArea(AreaDao.getInstance().getById(1));
 		ps.setCicloLectivo(2016);
 		ps.setCuatrimestre(2);
 		ps.setEstado(EstadoDao.getInstance().buscarPorNombre("Plan Presentado"));
@@ -60,17 +60,5 @@ public class PSdaoTest {
 		assertTrue(valant==valpos+1);
 	}
 	
-//	@Test
-//	public void testUpdate(){
-//		PlanDeTrabajo plan = new PlanDeTrabajo();
-//		plan.setPs(ps);
-//		plan.setFechaDePresentacion(new Date());
-//		plan.setObservaciones("presentacion de prueba");
-//		ps.getPlanDeTrabajo().add(plan);
-//		new PSDao().save(ps);
-//		new PSDao().update(ps);
-//		assertTrue(true); //no se que preguntar xD
-//		
-//	}
 
 }

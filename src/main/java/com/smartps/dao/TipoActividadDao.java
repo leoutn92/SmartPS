@@ -1,18 +1,12 @@
 package com.smartps.dao;
 
-import java.util.List;
-
-import org.hibernate.Session;
-
 import com.smartps.model.TipoActividad;
-import com.smartps.util.HibernateUtil;
 
-public class TipoActividadDao {	
+public class TipoActividadDao extends Dao<TipoActividad>{	
 	private static TipoActividadDao instancia;
-	private Session session = HibernateUtil.getSessionFactory().openSession();
 	
-	protected  TipoActividadDao(){
-		
+	public TipoActividadDao(){
+		super(TipoActividad.class);
 	}
 	
 	public static TipoActividadDao getInstance(){
@@ -22,32 +16,11 @@ public class TipoActividadDao {
 		return instancia;
 	}
 	
-	public List<TipoActividad> getAll(){
-		return (session.createQuery("from TipoActividad").list());
-		
-		
-		
-}
 	
-	public void save(TipoActividad tActividad) {
-		session= HibernateUtil.getSessionFactory().openSession();
-		session.beginTransaction();
-		session.save(tActividad);
-		session.getTransaction().commit();
-	}
-
-	public void update(TipoActividad objeto) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public void delete(TipoActividad objeto) {
-		// TODO Auto-generated method stub
-		
-	}
 	
+	//TODO reemplazar este metodo
 	public TipoActividad findById(int id){
-		return session.get(TipoActividad.class, id);
+		return this.getById(id);
 	}
 	
 }

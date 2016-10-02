@@ -25,8 +25,8 @@ public class PlanDeTrabajoDaoTest {
 	@Before
 	public void setUp() throws Exception {
 		
-		ps.setAlumno(AlumnoDAO.getInstance().buscarAlumno(18189));		
-		ps.setArea(AreaDao.getInstance().buscarArea(1));
+		ps.setAlumno( new AlumnoDAO().getById(18189));		
+		ps.setArea(AreaDao.getInstance().getById(1));
 		ps.setCicloLectivo(2016);
 		ps.setCuatrimestre(2);
 		ps.setEstado(EstadoDao.getInstance().buscarPorNombre("Plan Presentado"));

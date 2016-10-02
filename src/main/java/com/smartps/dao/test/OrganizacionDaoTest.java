@@ -11,17 +11,18 @@ import com.smartps.model.Organizacion;
 
 public class OrganizacionDaoTest {
 	Organizacion  org;
+	OrganizacionDao dao = new OrganizacionDao();
 	
 	@Before
 	public void setUp() throws Exception {
 		org = new Organizacion(); //Se ejecuta antes de cada test.crea la entidad
 		org.setNombre("Otra organizacion");
 		org.setDescripsion("No hacen nada");
+		
 	}
 
 	@After
 	public void tearDown() throws Exception {
-		 //se ejecuta despues. 
 	}
 
 	@Test
@@ -42,6 +43,15 @@ public class OrganizacionDaoTest {
 		int cantpos = OrganizacionDao.getInstance().getAll().size();
 		OrganizacionDao.getInstance().delete(org);
 		assertTrue("no inserto ni mierda",cantant!=cantpos);		
+	}
+	
+	@Test
+	public void testUpdate(){
+		org.setNombre("nombre viejo");
+		dao.save(org);
+		org.setNombre("nombre nuevo");
+		dao.update(org);
+		assertTrue(true); //ponele
 	}
 	
 	@Test 

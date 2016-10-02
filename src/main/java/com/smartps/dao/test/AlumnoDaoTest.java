@@ -5,33 +5,58 @@ import static org.junit.Assert.*;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.primefaces.validate.bean.AssertTrueClientValidationConstraint;
 
 import com.smartps.dao.AlumnoDAO;
+import com.smartps.model.Alumno;
+import com.smartps.model.PS;
 
 public class AlumnoDaoTest {
-
+	AlumnoDAO dao=new AlumnoDAO();
+	
 	@Before
 	public void setUp() throws Exception {
 	}
 
 	@After
 	public void tearDown() throws Exception {
+		Alumno perez =  new AlumnoDAO().getById(9669);
+		if (perez != null){
+			dao.delete(perez);
+		}
 	}
 
 	@Test
 	public void testTienePSVigente() {
-		assertFalse(AlumnoDAO.getInstance().tienePSVigente(18189));//sabiendo que no hay ninguna ps vigente en la base
+		assertFalse(dao.tienePSVigente(18189));//sabiendo que no hay ninguna ps vigente en la base
 	}
 	
 	@Test
 	public void testPuedePresentarPlan(){
-		assertTrue(AlumnoDAO.getInstance().puedePresentarPlan(18189));//sabiendo que puede presentar plan
+		assertTrue(dao.puedePresentarPlan(18189));//sabiendo que puede presentar plan
 	}
 	
 	@Test
 	public void testUltimaPS(){
-		assertTrue(AlumnoDAO.getInstance().getMostRecentPS(18189).getId()==22);//sabiendo que la ps 22 esta vigente y es la unica vigente
+		PS ps = dao.getMostRecentPS(18189);
+		assertTrue(ps.getId()==69);//sabiendo que la ps 69 esta vigente y es la unica vigente		
 		
 	}
+	
+	@Test
+	public void testGetByID(){
+		assertTrue(dao.getById(18189).getNombre().equals("Vallejos Lucas Matias"));
+	}
+	
+	@Test
+	public void testSave(){
+		Alumno alu = new Alumno();
+		alu.setNombre("Juan Perez");
+		alu.setLegajo(9669);
+		alu.setCicloLectivo(1);
+		new AlumnoDAO().save(alu);
+		assertTrue(dao.getById(9669).getNombre().equals("Juan Perez"));
+	}
+	
 
 }
