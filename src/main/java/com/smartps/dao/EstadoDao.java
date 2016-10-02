@@ -20,7 +20,7 @@ public class EstadoDao extends Dao<Estado> {
 	}
 	
 	public Estado buscarPorNombre(String nombre) {
-		session = HibernateUtil.getSessionFactory().getCurrentSession();
+		this.getSession();
 		session.beginTransaction();
 		List<Estado> estados = session.createQuery("SELECT e FROM Estado e where e.nombre= :nombre")
 				.setParameter("nombre",nombre).getResultList();
