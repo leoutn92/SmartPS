@@ -1,10 +1,10 @@
 package com.smartps.beans;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
@@ -34,6 +34,7 @@ public class AltaPS {
 	AlumnoDAO daoAlumno = new AlumnoDAO();
 	PSDao daoPS = new PSDao();
 	PlanDeTrabajoDao daoPlan = new PlanDeTrabajoDao();
+	EstadoDao daoEst = new EstadoDao();
 	
 	List<Area> areas;	
 	List <Organizacion> organizaciones;
@@ -51,128 +52,101 @@ public class AltaPS {
 	boolean noTienePSVigente;
 	boolean puedePresentarPlan;
 	boolean alumnoEncontrado;
+
 	
+	//carga las colecciones de areas actividades y org. invoca el metodo reset
 	@PostConstruct
 	public void init(){
-		ps= new PS();
-		alum = new Alumno();
-		ps.setAlumno(alum);
-		plan = new PlanDeTrabajo();
-		plan.setPs(ps);
-		plan.setFechaDePresentacion(new Date());
+		this.reset();
 		areas= daoArea.getAll();
 		organizaciones = daoOrg.getAll();
 		tiposActividades = daoTipoAct.getAll();
+	}
+	
+	// resetea todos los campos y banderas del formularios. menos el legajo del tipo
+	private void reset(){
+		ps= new PS();
+		ps.setTitulo("");
+		alum = new Alumno();
+		ps.setAlumno(alum);
+		ps.setCicloLectivo(Calendar.getInstance().get(Calendar.YEAR));
+		plan = new PlanDeTrabajo();
+		plan.setPs(ps);
+		plan.setFechaDePresentacion(new Date());
 		noTienePSVigente=false;
 		puedePresentarPlan=false;
 		alumnoEncontrado=false;
-		
+		actSelec="";
+		orgSelec="";
+		areaSelec="";
+		this.cambioAct();
+		this.cambioArea();
+		this.cambioOrg();
 	}
 	
-
-//
-//	public void guardarPS(){		
-//		ps.setArea(AreaDao.getInstance().buscarArea(Integer.parseInt(areaSelec)));
-//		ps.setTipoActividad(TipoActividadDao.getInstance().findById(Integer.parseInt(actSelec)));
-//		ps.setOrganizacion(OrganizacionDao.getInstance().findByID(Integer.parseInt(orgSelec)));
-//		ps.setEstado(EstadoDao.getInstance().buscarPorNombre("Plan presentado"));
-//		PSDao.getInstance().save(ps);
-//		PlanDeTrabajoDao.getInstance().save(plan);
-//        
-//		
-//		FacesContext context = FacesContext.getCurrentInstance();
-//        context.addMessage(null, new FacesMessage("Se guardó correctamente la Presentación del Plan") );        
-//	}	
-
-//	public void buscarAlumno(){
-//		AlumnoDAO dao = AlumnoDAO.getInstance();
-//		ps.setAlumno( dao.buscarAlumno(ps.getAlumno().getLegajo()));		
-//		if (ps.getAlumno()==null){
-//			ps.setAlumno(new Alumno());
-//			ps.getAlumno().setNombre("Alumno no encontrado");
-//			noTienePSVigente=false;
-//			puedePresentarPlan=false;
-//		}
-//		else{
-//			noTienePSVigente=!dao.tienePSVigente(ps.getAlumno().getLegajo());
-//			puedePresentarPlan=dao.puedePresentarPlan(ps.getAlumno().getLegajo());
-//		}		
-//	}
-	
+//	este metodo busca al alumno, trae de la base la ps, si tiene alguna vigente.
 	public void buscarAlumno(){
-// en este metodo se acualizan todas las banderas alumno y ps vigente, de existir
-			alum = daoAlumno.getById(this.legajo);
-			alumnoEncontrado=!(alum==null);
-			if (!alumnoEncontrado){
-				alum=new Alumno();
-				alum.setNombre("Alumno no encontrado");
-				noTienePSVigente=false;
-				puedePresentarPlan=false;
-			}
-			else{
-				puedePresentarPlan=daoAlumno.puedePresentarPlan(alum.getLegajo());
-				noTienePSVigente=!daoAlumno.tienePSVigente(alum.getLegajo());				
-				if ( !noTienePSVigente) {
-					ps=daoAlumno.getMostRecentPS(alum.getLegajo());
-					plan.setPs(ps);
-				}
-				
-			}
+		this.reset();
+		alum = daoAlumno.getById(this.legajo);
+		alumnoEncontrado=!(alum==null);
+		if (!alumnoEncontrado){
+			alum=new Alumno();
+			alum.setNombre("Alumno no encontrado");
 		}
+		else{
+			puedePresentarPlan=daoAlumno.puedePresentarPlan(alum.getLegajo());
+			noTienePSVigente=!daoAlumno.tienePSVigente(alum.getLegajo());				
+			if ( !noTienePSVigente) {
+				ps=daoAlumno.getMostRecentPS(alum.getLegajo());
+				plan.setPs(ps);
+			}
+			
+		}
+	}
 
-
+// verifica que esten todos los campos completos (con alambre) y guarda la presentación.
 	public void guardarPS(){		
 		FacesContext context = FacesContext.getCurrentInstance();
 		if (this.faltanCampos()){
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Faltan completar campos"));
 		} else{
-				
-				if (noTienePSVigente){
-					ps.setArea(AreaDao.getInstance().getById(Integer.parseInt(areaSelec)));
-					ps.setTipoActividad(TipoActividadDao.getInstance().getById(Integer.parseInt(actSelec)));
-					ps.setOrganizacion(OrganizacionDao.getInstance().getById(Integer.parseInt(orgSelec)));
-					ps.setEstado(EstadoDao.getInstance().buscarPorNombre("Plan presentado"));
-					
-				}
-				PSDao.getInstance().save(ps);
-				PlanDeTrabajoDao.getInstance().save(plan);
-		
-			
+				ps.setEstado(daoEst.getById(1));
+				ps.setAlumno(alum);
+				daoPS.save(ps);
+				plan.setPs(ps);
+				daoPlan.save(plan);
 				context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Éxito","Se guardó correctamente la Presentación del Plan") );
+				this.buscarAlumno();
+
 			}
-	}
-
-
-	public Alumno getAlum() {
-		return alum;
-	}
-
-
-	public void setAlum(Alumno alum) {
-		this.alum = alum;
 	}
 
 
 	public void cambioArea(){
 		if (areaSelec!=null && !areaSelec.equals("")){
-			ps.setArea(areas.get(Integer.parseInt(areaSelec)-1));
+			ps.setArea(daoArea.getById(areas.get(Integer.parseInt(areaSelec)-1).getId()));
 		}
 	}
 
 
 	public void cambioOrg(){
 		if (orgSelec!=null && !orgSelec.equals("")){
-			ps.setOrganizacion(organizaciones.get(Integer.parseInt(orgSelec)-1));
+			ps.setOrganizacion(daoOrg.getById(Integer.parseInt(orgSelec)));
 		}
 	}
 
 
 	public void cambioAct(){
 		if (actSelec!=null && !actSelec.equals("")){
-			ps.setTipoActividad(tiposActividades.get(Integer.parseInt(actSelec)-1));
+			ps.setTipoActividad(daoTipoAct.getById(Integer.parseInt(actSelec)));
 		}
 	}
 
+
+	private boolean faltanCampos(){
+		
+		return ps.getTitulo().equals("") || ps.getCuatrimestre()==0 ||ps.getArea()==null || ps.getOrganizacion()==null || ps.getTipoActividad()==null || ps.getAlumno()==null;
+	}
 
 	public boolean isVisiblePanelPS(){
 		return alumnoEncontrado && noTienePSVigente;
@@ -192,12 +166,6 @@ public class AltaPS {
 	
 	
 	
-	private boolean faltanCampos(){
-		return false;
-	}
-	
-	
-
 	public boolean isAlumnoEncontrado() {
 		return alumnoEncontrado;
 	}
@@ -243,6 +211,14 @@ public class AltaPS {
 		this.legajo = legajo;
 	}
 
+
+	public Alumno getAlum() {
+		return alum;
+	}
+
+	public void setAlum(Alumno alum) {
+		this.alum = alum;
+	}
 
 	public PlanDeTrabajo getPlan() {
 		return plan;

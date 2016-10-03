@@ -48,15 +48,15 @@ public class AlumnoDaoTest {
 		assertTrue(dao.getById(18189).getNombre().equals("Vallejos Lucas Matias"));
 	}
 	
-	@Test
-	public void testSave(){
-		Alumno alu = new Alumno();
-		alu.setNombre("Juan Perez");
-		alu.setLegajo(9669);
-		alu.setCicloLectivo(1);
-		new AlumnoDAO().save(alu);
-		assertTrue(dao.getById(9669).getNombre().equals("Juan Perez"));
-	}
+//	@Test
+//	public void testSave(){
+//		Alumno alu = new Alumno();
+//		alu.setNombre("Juan Perez");
+//		alu.setLegajo(9669);
+//		alu.setCicloLectivo(1);
+//		new AlumnoDAO().save(alu);
+//		assertTrue(dao.getById(9669).getNombre().equals("Juan Perez"));
+//	}
 	
 
 }
