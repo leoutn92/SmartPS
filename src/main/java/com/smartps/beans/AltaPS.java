@@ -1,8 +1,10 @@
 package com.smartps.beans;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -17,11 +19,8 @@ import com.smartps.dao.PSDao;
 import com.smartps.dao.PlanDeTrabajoDao;
 import com.smartps.dao.TipoActividadDao;
 import com.smartps.model.Alumno;
-import com.smartps.model.Area;
-import com.smartps.model.Organizacion;
 import com.smartps.model.PS;
 import com.smartps.model.PlanDeTrabajo;
-import com.smartps.model.TipoActividad;
 
 
 @ManagedBean
@@ -35,13 +34,11 @@ public class AltaPS {
 	PSDao daoPS = new PSDao();
 	PlanDeTrabajoDao daoPlan = new PlanDeTrabajoDao();
 	EstadoDao daoEst = new EstadoDao();
-	
-	List<Area> areas;	
-	List <Organizacion> organizaciones;
-	List <TipoActividad> tiposActividades;
+		
 	
 	PS ps;
 	PlanDeTrabajo plan;
+	List<PlanDeTrabajo> planes;
 	Alumno alum;
 	
 	String areaSelec;
@@ -54,17 +51,9 @@ public class AltaPS {
 	boolean alumnoEncontrado;
 
 	
-	//carga las colecciones de areas actividades y org. invoca el metodo reset
+	//resetea todos los campos y banderas del formularios. menos el legajo del tipo
 	@PostConstruct
 	public void init(){
-		this.reset();
-		areas= daoArea.getAll();
-		organizaciones = daoOrg.getAll();
-		tiposActividades = daoTipoAct.getAll();
-	}
-	
-	// resetea todos los campos y banderas del formularios. menos el legajo del tipo
-	private void reset(){
 		ps= new PS();
 		ps.setTitulo("");
 		alum = new Alumno();
@@ -73,6 +62,7 @@ public class AltaPS {
 		plan = new PlanDeTrabajo();
 		plan.setPs(ps);
 		plan.setFechaDePresentacion(new Date());
+		planes=new ArrayList<PlanDeTrabajo>();//TODO agregar el listadito de presentaciones
 		noTienePSVigente=false;
 		puedePresentarPlan=false;
 		alumnoEncontrado=false;
@@ -84,9 +74,10 @@ public class AltaPS {
 		this.cambioOrg();
 	}
 	
+	
 //	este metodo busca al alumno, trae de la base la ps, si tiene alguna vigente.
 	public void buscarAlumno(){
-		this.reset();
+		this.init();
 		alum = daoAlumno.getById(this.legajo);
 		alumnoEncontrado=!(alum==null);
 		if (!alumnoEncontrado){
@@ -99,6 +90,7 @@ public class AltaPS {
 			if ( !noTienePSVigente) {
 				ps=daoAlumno.getMostRecentPS(alum.getLegajo());
 				plan.setPs(ps);
+				planes=daoPlan.getAll();//TODO este metodo no sirve. hacer uno para presentaciones de una sola PS
 			}
 			
 		}
@@ -124,7 +116,7 @@ public class AltaPS {
 
 	public void cambioArea(){
 		if (areaSelec!=null && !areaSelec.equals("")){
-			ps.setArea(daoArea.getById(areas.get(Integer.parseInt(areaSelec)-1).getId()));
+			ps.setArea(daoArea.getById(Integer.parseInt(areaSelec)));
 		}
 	}
 
@@ -175,17 +167,14 @@ public class AltaPS {
 		return actSelec;
 	}
 
-	public List<Area> getAreas() {
-		return areas;
-	}
 
 	public String getAreaSelec() {
 		return areaSelec;
 	}
 	
-	public List<Organizacion> getOrganizaciones() {
-		return organizaciones;
-	}
+//	public List<Organizacion> getOrganizaciones() {
+//		return organizaciones;
+//	}
 	
 	
 	public String getOrgSelec() {
@@ -197,10 +186,6 @@ public class AltaPS {
 		return ps;
 	}
 
-
-	public List<TipoActividad> getTiposActividades() {
-		return tiposActividades;
-	}
 
 	public int getLegajo() {
 		return legajo;
@@ -232,29 +217,29 @@ public class AltaPS {
 		this.actSelec = actSelec;
 	}
 	
-	public void setAreas(List<Area> areas) {
-		this.areas = areas;
-	}
 
 	public void setAreaSelec(String areaSelec) {
 		this.areaSelec = areaSelec;
-	}
-
-	public void setOrganizaciones(List<Organizacion> organizaciones) {
-		this.organizaciones = organizaciones;
 	}
 
 	public void setOrgSelec(String orgSelec) {
 		this.orgSelec = orgSelec;
 	}
 	
+	public List<PlanDeTrabajo> getPlanes() {
+		return planes;
+	}
+
+
+	public void setPlanes(List<PlanDeTrabajo> planes) {
+		this.planes = planes;
+	}
+
+
 	public void setPs(PS ps) {
 		this.ps = ps;
 	}
 	
-	public void setTiposActividades(List<TipoActividad> tiposActividades) {
-		this.tiposActividades = tiposActividades;
-	}
 	
 	public boolean isNoTienePSVigente() {
 		return noTienePSVigente;

@@ -44,6 +44,12 @@
 					<p:panelGrid columns ="2">
 						<p:outputLabel value="Nombre de la PS:" />
 						<p:outputLabel value="#{altaPS.ps.titulo}" />
+						<p:outputLabel value="Tipo Actividad:"/>
+						<p:outputLabel value="#{altaPS.ps.tipoActividad.nombre}"/>
+						<p:outputLabel value="Area"/>
+						<p:outputLabel value="#{altaPS.ps.area.nombre}"/>
+						<p:outputLabel value="Organizacion:"/>
+						<p:outputLabel value="#{altaPS.ps.organizacion.nombre}"/>
 						<p:outputLabel value="Estado" />
 						<p:outputLabel value="#{altaPS.ps.estado.nombre}" />
 					</p:panelGrid>
@@ -53,30 +59,62 @@
 				<p:outputPanel  id="panelPlan2">
 					<p:fieldset rendered ="#{altaPS.visiblePanelPlan2}" legend="Presentación del Plan" style="margin-bottom:20px">
 						<p:outputLabel value="El alumno tiene planes presentados pendientes"/>
+<!-- 						este fragmento no se renderiza  -->
+		    			<p:dataTable value="#{altaPS.planes}" var="plan">
+    						<p:outputLabel value="#{plan.nombre}"/>
+    					</p:dataTable>
+<!--     					ffdf -->
 					</p:fieldset>
-				</p:outputPanel><p:outputPanel id="panelPS">
+				</p:outputPanel>
+				
+				<p:outputPanel id="panelPS">
 				<p:fragment autoUpdate="true">
 				<p:fieldset rendered="#{altaPS.visiblePanelPS}" legend="Datos de la Práctica Supervisada" style="margin-bottom:20px"> 					
- 					<p:panelGrid columns="3" style="margin-bottom:20px">		 				
+ 					<p:panelGrid columns="4" style="margin-bottom:20px">		 				
 
 						<p:outputLabel value="Título de la PS" />
 						<p:inputText value="#{altaPS.ps.titulo}" />
 						<p:outputLabel />
+						<p:outputLabel/>
 		        		
 		        		<p:outputLabel value="Tipo" />			        		
 		        		<p:selectOneMenu value="#{altaPS.actSelec}" >
 		        			<p:ajax listener="#{altaPS.cambioAct}" />
 		        			<f:selectItem itemLabel="Seleccione uno" itemValue="" noSelectionOption="true" />
-		        			<f:selectItems value="#{altaPS.tiposActividades}" var="act" itemLabel="#{act.nombre}" itemValue="#{act.id}" />
+		        			<f:selectItems value="#{tipoActBean.tiposAct}" var="act" itemLabel="#{act.nombre}" itemValue="#{act.id}" />
 		        		</p:selectOneMenu>
+		        		<h:panelGroup>
+			        		 <p:commandButton id="nuevaAct" value="Agregar Act" type="button"  />		
+					    			<p:overlayPanel for="nuevaAct" hideEffect="fade">
+					    				<p:panelGrid>
+					    					<p:outputLabel value="Nombre: "/>
+					    					<p:inputText value="#{tipoActBean.tipoAct.nombre}"/>
+					    					<p:outputLabel value="Descripcion: "/>
+					    					<p:inputText value="#{tipoActBean.tipoAct.descripsion}"/>
+					    					<p:commandButton value="Guardar" actionListener="#{tipoActBean.guardar}" update="panelPS"/>
+					    				</p:panelGrid>
+					    			</p:overlayPanel>
+				    	</h:panelGroup> 
 		        		<p:outputLabel value="#{altaPS.ps.tipoActividad.descripsion}" />
 	        	
 						<p:outputLabel value="Area" />
 						<p:selectOneMenu value="#{altaPS.areaSelec}">
 							<p:ajax listener="#{altaPS.cambioArea}" />
 							<f:selectItem itemLabel="Seleccione uno" itemValue="" />
-							<f:selectItems value="#{altaPS.areas}" var="area" itemLabel="#{area.nombre}" itemValue="#{area.id}" />							
+							<f:selectItems value="#{areaBean.areas}" var="area" itemLabel="#{area.nombre}" itemValue="#{area.id}" />							
 						</p:selectOneMenu>
+						<h:panelGroup>
+							<p:commandButton id="nuevaArea" value="Agregar Area" type="button"  />		
+			    			<p:overlayPanel for="nuevaArea" hideEffect="fade">
+			    				<p:panelGrid>
+			    					<p:outputLabel value="Nombre: "/>
+			    					<p:inputText value="#{areaBean.area.nombre}"/>
+			    					<p:outputLabel value="Descripcion: "/>
+			    					<p:inputText value="#{areaBean.area.descripsion}"/>
+			    					<p:commandButton value="Guardar" actionListener="#{areaBean.guardar}" update="panelPS"/>
+			    				</p:panelGrid>
+			    			</p:overlayPanel>   
+						</h:panelGroup>
 						<p:outputLabel value="#{altaPS.ps.area.descripsion}" />
 		        	
 		        	
@@ -84,8 +122,20 @@
 	        			<p:selectOneMenu value="#{altaPS.orgSelec}" filter="true">
 		        			<p:ajax listener="#{altaPS.cambioOrg}" />
 		        			<f:selectItem itemLabel="Seleccione uno" itemValue="" noSelectionOption="true" />
-		        			<f:selectItems value="#{altaPS.organizaciones}" var="org" itemLabel="#{org.nombre}" itemValue="#{org.id}" />
-	        			</p:selectOneMenu>	        			
+		        			<f:selectItems value="#{orgBean.organizaciones}" var="org" itemLabel="#{org.nombre}" itemValue="#{org.id}" />
+	        			</p:selectOneMenu>
+	        			<h:panelGroup>
+	        				<p:commandButton id="nuevaOrg" value="Agregar Org" type="button"  />		
+			    			<p:overlayPanel for="nuevaOrg" hideEffect="fade">
+			    				<p:panelGrid>
+			    					<p:outputLabel value="Nombre: "/>
+			    					<p:inputText value="#{orgBean.org.nombre}"/>
+			    					<p:outputLabel value="Descripcion: "/>
+			    					<p:inputText value="#{orgBean.org.descripsion}"/>
+			    					<p:commandButton value="Guardar" actionListener="#{orgBean.guardar}" update="panelPS"/>
+			    				</p:panelGrid>
+			    			</p:overlayPanel>
+	        			</h:panelGroup>	        			
 	        			<p:outputLabel value="#{altaPS.ps.organizacion.descripsion}" />
 		        	
 						<h:panelGroup>
@@ -119,14 +169,28 @@
        				</p:panelGrid>
    				</p:fieldset>
    				<p:commandButton id="botonGuardar" rendered="#{altaPS.visiblePanelPlan}" value="Guardar presentación" actionListener="#{altaPS.guardarPS}" update="panelPlan,panelPS,panelPS2,panelPlan2" >
-   					<p:confirm header="Confirmation" message="Are you sure?" icon="ui-icon-alert" />
+   					<p:confirm header="Confirmación" message="Esta seguro?" icon="ui-icon-alert" />
  				</p:commandButton>
    				</p:outputPanel>   		
    				
    				<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
-			        <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+			        <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
 			        <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
-    			</p:confirmDialog>		
+    			</p:confirmDialog>
+    			
+    			
+
+    			
+    			
+    			
+    			
+    			
+    			
+
+
+
+  
+								   
 				
 				
 
