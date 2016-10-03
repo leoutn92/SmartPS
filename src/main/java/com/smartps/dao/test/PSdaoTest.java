@@ -22,7 +22,7 @@ public class PSdaoTest {
 	
 	@Before
 	public void setUp() throws Exception {
-		ps.setAlumno(new AlumnoDAO().buscarAlumno(18189));
+		ps.setAlumno(new AlumnoDAO().getById(18189));
 		
 		ps.setArea(AreaDao.getInstance().getById(1));
 		ps.setCicloLectivo(2016);

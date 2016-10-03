@@ -17,7 +17,7 @@ import com.smartps.model.LineaDeReporte;
 @ManagedBean
 @RequestScoped
 public class GenerarReporteIG {
-//GenerarReportePG = GenerarReportePlanesGeneral_hdu6 
+//GenerarReporteIF = GenerarReporteInformesFinales_hdu9 
 	
 	private PSDao psdao = PSDao.getInstance();
 	private InformeFinalDao ifdao = InformeFinalDao.getInstance();
@@ -58,8 +58,8 @@ public class GenerarReporteIG {
 
 	//Listado		
 
-		informes = ifdao.retrieveAll();
-		pslist = psdao.retrieveAll();
+		informes = ifdao.getAll();
+		pslist = psdao.getAll();
 		
 		//Sin filtros
 		if ((desde==null) && (hasta==null) && (cuatrimestre==0) && (cicloLectivo==0)){

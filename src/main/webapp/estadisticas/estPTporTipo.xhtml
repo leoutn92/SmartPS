@@ -1,0 +1,60 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <h:head>
+    	<title>SmartPS</title>
+    </h:head>
+    
+    <h:body>
+
+	 	<ui:composition template="/templates/template.xhtml">
+	 		<ui:define name="content"> 
+
+	 			<h:outputLabel value="Estadisticas por Tipo de Actividad de Planes de Trabajo de PS"/>
+	 			<div><br /></div>
+			    <h:panelGrid id="cursado" columns="3" >
+			  		<p:outputLabel for="tipact" value="Tipo de Actividad: " />
+					<p:selectOneMenu id="tipact" value="#{generarReportePTipo.tipo}">
+            			<f:selectItem itemLabel="" itemValue="" />
+            			<f:selectItems value="#{generarReportePTipo.tipos}" />
+			        </p:selectOneMenu>
+			        <p:outputLabel value="" />
+			        <h:outputLabel for="cicloLectivo" value="Ciclo Lectivo: " />
+			        <h:inputText id="cicloLectivo" value="#{generarReportePTipo.cicloLectivo}" />
+			        <h:outputLabel value="(2014,2015,2016,...)" />
+			        <h:outputLabel for="cuatrimestre" value="Cuatrimestre: " />
+			        <h:inputText id="cuatrimestre" value="#{generarReportePTipo.cuatrimestre}" />
+			        <h:outputLabel value="(1,2)" />
+			    </h:panelGrid>
+
+			    <h:panelGrid id="periodo" columns="4" >
+			        <f:facet name="header">
+			        	<div align="left"><br/><h:outputText value="Periodo"/></div>
+			        </f:facet>
+			        
+					<p:outputLabel for="desde" value="Desde: " />
+					<p:calendar id="desde" value="#{generarReportePTipo.desde}" showOn="button" />
+		        
+					<p:outputLabel for="hasta" value="Hasta: " />
+					<p:calendar id="hasta" value="#{generarReportePTipo.hasta}" showOn="button" />		        	
+			    </h:panelGrid>
+
+		        <div align="right">
+		        	<br />
+ 					<p:commandButton value="Visualizar Listado" action="#{generarReportePTipo.busquedaByFiltros()}"/>
+ 					<br /><br></br>
+				</div>
+
+	 			<div><br /></div>
+
+	 		</ui:define>
+	 		
+	 	</ui:composition>
+
+    </h:body>
+</html>

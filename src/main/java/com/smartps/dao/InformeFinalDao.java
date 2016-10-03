@@ -21,9 +21,6 @@ public class InformeFinalDao extends Dao<InformeFinal> {
 		return instancia;
 	}
 
-	public List<InformeFinal> retrieveAll(){
-		return this.getAll();
-	}
 	
 	public List<InformeFinal> findByPeriodo(Date desde, Date hasta){
 		this.getSession();

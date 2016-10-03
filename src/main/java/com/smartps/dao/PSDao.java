@@ -104,17 +104,6 @@ public class PSDao extends Dao<PS> {
 		session.getTransaction().commit();
 		return pss;
 	}
-
-
-
-	public PS findById(int id) {
-		
-		return this.getById(id);
-	}
-
-	public List<PS> retrieveAll() {
-		return this.getAll();
-	}
 	
 	public List<PS> findByCicloLectivo(int cicloLectivo) {	
 		this.getSession();

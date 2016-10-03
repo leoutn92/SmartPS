@@ -37,10 +37,6 @@ public class PlanDeTrabajoDao extends Dao<PlanDeTrabajo>{
 	}
 
 	
-	public List<PlanDeTrabajo> retrieveAll(){
-		return this.getAll();
-	}
-	
 	public List<PlanDeTrabajo> findByPeriodo(Date desde, Date hasta){
 		this.getSession();
 		session.beginTransaction();

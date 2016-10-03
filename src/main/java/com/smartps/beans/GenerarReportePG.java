@@ -58,8 +58,8 @@ public class GenerarReportePG {
 
 	//Listado		
 
-		planes = ptdao.retrieveAll();
-		pslist = psdao.retrieveAll();
+		planes = ptdao.getAll();
+		pslist = psdao.getAll();
 
 		
 		//Sin filtros

@@ -37,10 +37,6 @@ public class AlumnoDAO extends Dao<Alumno> {
 	}
 	
 
-	public Alumno buscarAlumno(int legajo) {
-		return getById(legajo);
-	}
-
 	public boolean puedePresentarPlan(int legajo) {
 		this.getSession();
 		session.beginTransaction();
