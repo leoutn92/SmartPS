@@ -165,29 +165,34 @@ public class GenerarReporteIG {
 		
 				
 	//Totales
-		//Planes Presentados
+		//Informes Presentados
 		cPP = resultlist.size();
 		
 		if (cPP!=0){
-			//Porcentaje Planes Aprobados
+			
+			//Porcentaje Informes Aprobados
 			double contPA = 0;
 			for (int p=0; p<resultlist.size(); p++){
-				if (resultlist.get(p).getEstado().equals("Informe aprobado")){
+				if (
+						(resultlist.get(p).getEstado().equals("Informe aprobado"))
+						||
+						(resultlist.get(p).getEstado().equals("PS aprobada"))
+					){
 					contPA++;
 				}
 			}
 			cPA = ((contPA/cPP)*100);			
 			
-			//Porcentaje Planes Desaprobados
+			//Porcentaje Informes Observado
 			double contPD = 0;
 			for (int q=0; q<resultlist.size(); q++){
-				if (resultlist.get(q).getEstado().equals("Informe rechazado")){
+				if (resultlist.get(q).getEstado().equals("Informe observado")){
 					contPD++;
 				}
 			}
 			cPD = ((contPD/cPP)*100);
 			
-			//Porcentaje Planes Vencidos
+			//Porcentaje Informes Vencidos
 			double contPV = 0;
 			for (int r=0; r<resultlist.size(); r++){
 				if (resultlist.get(r).getEstado().equals("Informe vencido")){
@@ -196,9 +201,7 @@ public class GenerarReporteIG {
 			}
 			cPV = ((contPV/cPP)*100);
 			
-			System.out.println("PP: "+cPP+" PA: "+cPA+" PD: "+cPD+" PV: "+cPV);
 		}
-		System.out.println("fin totales");
 
 		
 		
