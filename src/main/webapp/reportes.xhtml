@@ -16,36 +16,31 @@
  		
  		<ui:define name="content">
  			
- 			<p:panel id="estPlanes">
- 				<f:facet name="header">
- 					<p:outputLabel value="Estadistica de Planes de Trabajo de PS" />
- 					<p:menu>
- 						<p:menuitem value="Estadistica General" outcome="/estadisticas/estPTGrales" />
- 						<p:menuitem value="Estadistica por Area" />
- 						<p:menuitem value="Estadistica por Tipo" outcome="/estadisticas/estPTporTipo" />
- 					</p:menu>
- 				</f:facet> 			
- 			</p:panel>
- 			
- 			 <p:panel id="estInformes">
- 				<f:facet name="header">
- 					<p:outputLabel value="Estadistica de Informes Finales de PS" />
- 					<p:menu>
- 						<p:menuitem value="Estadistica General" outcome="/estadisticas/estIFGrales" />
- 						<p:menuitem value="Estadistica por Area" />
- 						<p:menuitem value="Estadistica por Tipo" outcome="/estadisticas/estIFporTipo" />
- 					</p:menu>
- 				</f:facet> 			
- 			</p:panel>
- 			
- 			<p:panel id="estPS">
- 				<f:facet name="header">
- 					<p:outputLabel value="Estadistica de PS" />
- 					<p:menu>
- 						<p:menuitem value="Estadistica por Organizacion" />
- 					</p:menu>
- 				</f:facet> 			
- 			</p:panel>
+	 			<p:panel id="estPlanes" style="width:400px">
+	 				<f:facet name="header">
+	 					<p:outputLabel value="Estadisticas de Planes de Trabajo de PS" />
+	 				</f:facet>
+	 				<p:menu style="width:300px" toogleable="true">
+	 					<p:menuitem value="Estadisticas General" outcome="/estadisticas/estPTGrales" />
+	 					<p:menuitem value="Estadisticas por Tipo" outcome="/estadisticas/estPTporTipo" />
+	 					<p:menuitem value="Estadisticas por Area" />
+	 					<p:menuitem value="Estadisticas por Organizacion" />
+					</p:menu> 			
+	 			</p:panel>
+	 			
+	 			<br></br>
+	 			
+	 			 <p:panel id="estInformes" style="width:400px">
+	 				<f:facet name="header">
+	 					<p:outputLabel value="Estadisticas de Informes Finales de PS" />	 					
+	 				</f:facet> 
+	 				<p:menu style="width:300px">
+	 					<p:menuitem value="Estadisticas General" outcome="/estadisticas/estIFGrales" />
+	 					<p:menuitem value="Estadisticas por Tipo" outcome="/estadisticas/estIFporTipo" />
+ 						<p:menuitem value="Estadisticas por Area" />
+						<p:menuitem value="Estadisticas por Organizacion" />
+	 				</p:menu>
+	 			</p:panel>
  			
  		</ui:define>
  		
