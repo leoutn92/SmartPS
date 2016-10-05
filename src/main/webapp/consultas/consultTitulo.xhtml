@@ -1,0 +1,129 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <h:head>
+    	<title>SmartPS</title>
+    </h:head>
+    
+    <h:body>
+
+	 	<ui:composition template="/templates/template.xhtml">
+	 		<ui:define name="content"> 
+
+	 			<h:outputLabel value="Consulta de Practicas Supervisadas por Titulo"/>
+	 			<div><br /></div>
+			    <h:panelGrid id="consulta" columns="2" >
+			        <h:outputLabel for="titulo" value="Titulo de PS: " />
+			        <h:inputText id="titulo" value="#{consultaTitulo.titulo}" />
+			    </h:panelGrid>
+
+		        <div align="right">
+		        	<br />
+ 					<p:commandButton value="Consultar" action="#{consultaTitulo.consultaByParametro()}" update="resultado" />
+ 					<br /><br></br>
+				</div>
+
+	 			<div><br /></div>
+	 				 			
+				<p:outputPanel id="resultado">
+				
+					<p:fieldset rendered="#{consultaTitulo.panelPS}" legend="Practica Supervisada" style="margin-bottom:20px">
+						<p:dataTable id="pss" var="linea" value="#{consultaTitulo.pslist}">
+													 
+						    <p:column headerText="Estado de PS">
+						        #{linea.estado.nombre}
+						    </p:column>
+						 
+						    <p:column headerText="Area de PS">
+						        #{linea.area.nombre}
+						    </p:column>
+						    
+							<p:column headerText="Tipo de PS">
+						        #{linea.tipoActividad.nombre}
+						    </p:column>
+						    
+						    <p:column headerText="Organizacion de PS">
+						        #{linea.organizacion.nombre}
+						    </p:column>
+						    
+							<p:column headerText="Nombre del Alumno">
+						        #{linea.alumno.nombre}
+						    </p:column>	
+
+							<p:column headerText="Legajo del Alumno">
+						        #{linea.alumno.legajo}
+						    </p:column>
+						    
+							<p:column headerText="Ciclo Lectivo">
+						        #{linea.cicloLectivo}
+						    </p:column>						    
+						
+						</p:dataTable>				        
+					</p:fieldset>
+					
+					<p:fieldset rendered="#{consultaTitulo.panelPS}" legend="Plan de Trabajo" style="margin-bottom:20px">
+						<p:dataTable id="pts" var="lineapt" value="#{consultaTitulo.planes}">
+							
+						    <p:column headerText="Fecha de Presentacion">
+						    	<h:outputText value="#{lineapt.fechaDePresentacion}">
+						        	<f:convertDateTime type="date" />
+						        </h:outputText>
+						    </p:column>
+						    
+						    <p:column headerText="Fecha de Aprob/Desaprob">
+						    	<h:outputText value="#{lineapt.fechaAprobDesaprob}">
+						        	<f:convertDateTime type="date" />
+						        </h:outputText>
+						    </p:column>		    
+						 
+						    <p:column headerText="Observaciones">
+						        #{lineapt.observaciones}
+						    </p:column>
+						    
+							<p:column headerText="Directorio">						        
+						    </p:column>
+
+						</p:dataTable>						
+					</p:fieldset>
+					
+					<p:fieldset rendered="#{consultaTitulo.panelPS}" legend="Informe Final" style="margin-bottom:20px">
+						<p:dataTable id="ifs" var="lineaif" value="#{consultaTitulo.informes}">
+							
+						    <p:column headerText="Fecha de Presentacion">
+						    	<h:outputText value="#{lineaif.fechaDePresentacion}">
+						        	<f:convertDateTime type="date" />
+						        </h:outputText>
+						    </p:column>
+						    
+						    <p:column headerText="Fecha de Aprob/Desaprob">
+						    	<h:outputText value="#{lineaif.fechaAprobDesaprob}">
+						        	<f:convertDateTime type="date" />
+						        </h:outputText>
+						    </p:column>		    
+						 
+						    <p:column headerText="Observaciones">
+						        #{lineaif.observaciones}
+						    </p:column>
+						    
+							<p:column headerText="Directorio">						        
+						    </p:column>
+
+						</p:dataTable>						
+					</p:fieldset>
+					
+					<p:fieldset rendered="#{consultaTitulo.panelNo}" style="margin-bottom:20px">
+						No se encontraron Practicas Supervisadas con dicho titulo
+					</p:fieldset>					
+					
+				</p:outputPanel>
+
+	 		</ui:define>
+	 	</ui:composition>
+
+    </h:body>
+</html>
