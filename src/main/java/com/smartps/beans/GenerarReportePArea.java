@@ -11,54 +11,55 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 
 import com.smartps.dao.PSDao;
-import com.smartps.dao.InformeFinalDao;
-import com.smartps.dao.TipoActividadDao;
+import com.smartps.dao.PlanDeTrabajoDao;
+import com.smartps.dao.AreaDao;
 import com.smartps.model.PS;
-import com.smartps.model.InformeFinal;
-import com.smartps.model.TipoActividad;
+import com.smartps.model.PlanDeTrabajo;
+import com.smartps.model.Area;
 import com.smartps.model.LineaDeReporte;
+import com.smartps.model.LineaPorcentaje;
 
 @ManagedBean
 @RequestScoped
-public class GenerarReporteITipo {
-//GenerarReporteITipo = GenerarReporteInformesPorTipoDeActividad_hdu10 
+public class GenerarReportePArea {
+//GenerarReportePArea = GenerarReportePlanesPorArea_hdu8
 	
 	private PSDao psdao = PSDao.getInstance();
-	private InformeFinalDao ifdao = InformeFinalDao.getInstance();
-	private TipoActividadDao tadao = TipoActividadDao.getInstance();
+	private PlanDeTrabajoDao ptdao = PlanDeTrabajoDao.getInstance();
+	private AreaDao ardao = AreaDao.getInstance();
 
 	private List<PS> pslist;
 	private List<PS> pslistCL;
 	private List<PS> pslistCuatri;
-	private List<InformeFinal> informes;
-	private List<InformeFinal> informesPeriodo;	
+	private List<PlanDeTrabajo> planes;
+	private List<PlanDeTrabajo> planesPeriodo;	
 	private List<LineaDeReporte> linealist;
 	private List<LineaDeReporte> resultlist;
+	private List<LineaPorcentaje> auxporclist;
+	private List<LineaPorcentaje> porclist;
+
 	
-	private List<TipoActividad> tipolist;
-	private String tipo;
-	private Map<String,String> tipos = new HashMap<String, String>();
+	private List<Area> arealist;
+	private String area;
+	private Map<String,String> areas = new HashMap<String, String>();
 	
 	private int cicloLectivo;
 	private int cuatrimestre;
 	private Date desde;
 	private Date hasta;
-	private LineaDeReporte linea;
+	private LineaDeReporte linea;	
+	private LineaPorcentaje linPorc;
 
-	private boolean totTipo;
+	private boolean totArea;
 	private boolean totTodos;
 	
 	//contadores
 	private double cPP;
-	private double cPPre;	
+	private double cPPre;
 	private double cPA;
 	private double cPO;
+	private double cPR;
 	private double cPV;
-	
-	private double cPPF;
-	private double cPTI;
-	private double cPGI;
-	private double cPPA;
 	
 	
 	@PostConstruct
@@ -66,16 +67,18 @@ public class GenerarReporteITipo {
 		pslist = new ArrayList<PS>();
 		pslistCL = new ArrayList<PS>();
 		pslistCuatri = new ArrayList<PS>();
-		informes = new ArrayList<InformeFinal>();
-		informesPeriodo = new ArrayList<InformeFinal>();
+		planes = new ArrayList<PlanDeTrabajo>();
+		planesPeriodo = new ArrayList<PlanDeTrabajo>();
 		linealist = new ArrayList<LineaDeReporte>();
-		resultlist = new ArrayList<LineaDeReporte>();
+		resultlist = new ArrayList<LineaDeReporte>();		
+		auxporclist = new ArrayList<LineaPorcentaje>();
+		porclist = new ArrayList<LineaPorcentaje>();
 		
-		tipolist = new ArrayList<TipoActividad>();
-		tipolist = tadao.getAll();
+		arealist = new ArrayList<Area>();
+		arealist = ardao.getAll();
 		
-		for (int v=0; v<tipolist.size(); v++){
-			tipos.put(tipolist.get(v).getNombre(), tipolist.get(v).getNombre());
+		for (int v=0; v<arealist.size(); v++){
+			areas.put(arealist.get(v).getNombre(), arealist.get(v).getNombre());
 		}
 
 	}
@@ -84,19 +87,19 @@ public class GenerarReporteITipo {
 
 	//Listado		
 
-		informes = ifdao.getAll();
+		planes = ptdao.getAll();
 		pslist = psdao.getAll();
 
 		//Filtros
 		
-		if (tipo.isEmpty()){
+		if (area.isEmpty()){
 			//Ningun campo rellenado
 			if ((desde==null) && (hasta==null) && (cuatrimestre==0) && (cicloLectivo==0)){
-				for (int a=0; a<informes.size(); a++){
+				for (int a=0; a<planes.size(); a++){
 					for (int b=0; b<pslist.size(); b++){
-						if (informes.get(a).getPs().getId()==pslist.get(b).getId()){
+						if (planes.get(a).getPs().getId()==pslist.get(b).getId()){
 							linea = new LineaDeReporte();
-							linea.setFechaDePresentacion(informes.get(a).getFechaDePresentacion());
+							linea.setFechaDePresentacion(planes.get(a).getFechaDePresentacion());
 							linea.setTitulo(pslist.get(b).getTitulo());
 							linea.setEstado(pslist.get(b).getEstado().getNombre());
 							linea.setArea(pslist.get(b).getArea().getNombre());
@@ -108,19 +111,19 @@ public class GenerarReporteITipo {
 					}
 				}
 			} else {
-				//Sin Tipo, con periodo
+				//Sin Area, con periodo
 				if ((desde!=null) && (hasta!=null)){
-					informesPeriodo = ifdao.findByPeriodo(desde, hasta);
-					for (int a=0; a<informesPeriodo.size(); a++){
+					planesPeriodo = ptdao.findByPeriodo(desde, hasta);
+					for (int a=0; a<planesPeriodo.size(); a++){
 						for (int b=0; b<pslist.size(); b++){
-							if (informesPeriodo.get(a).getPs().getId()==pslist.get(b).getId()){
+							if (planesPeriodo.get(a).getPs().getId()==pslist.get(b).getId()){
 								if (
 										((pslist.get(b).getCuatrimestre()==cuatrimestre) || (cuatrimestre==0))
 										&&
 										((pslist.get(b).getCicloLectivo()==cicloLectivo) || (cicloLectivo==0))
 									){
 									linea = new LineaDeReporte();
-									linea.setFechaDePresentacion(informesPeriodo.get(a).getFechaDePresentacion());
+									linea.setFechaDePresentacion(planesPeriodo.get(a).getFechaDePresentacion());
 									linea.setTitulo(pslist.get(b).getTitulo());
 									linea.setEstado(pslist.get(b).getEstado().getNombre());
 									linea.setArea(pslist.get(b).getArea().getNombre());
@@ -133,14 +136,14 @@ public class GenerarReporteITipo {
 						}
 					}
 				} else {
-					//Sin Tipo, Por CicloLectivo
+					//Sin Area, Por CicloLectivo
 					pslistCL = psdao.findByCicloLectivo(cicloLectivo);
 					for (int i=0; i<pslistCL.size(); i++){			
-						for (int j=0; j<informes.size(); j++){
-							if (pslistCL.get(i).getId()==informes.get(j).getPs().getId()){
+						for (int j=0; j<planes.size(); j++){
+							if (pslistCL.get(i).getId()==planes.get(j).getPs().getId()){
 								if ((pslistCL.get(i).getCuatrimestre()==cuatrimestre) || (cuatrimestre==0)){
 									linea = new LineaDeReporte();
-									linea.setFechaDePresentacion(informes.get(j).getFechaDePresentacion());
+									linea.setFechaDePresentacion(planes.get(j).getFechaDePresentacion());
 									linea.setTitulo(pslistCL.get(i).getTitulo());
 									linea.setEstado(pslistCL.get(i).getEstado().getNombre());
 									linea.setArea(pslistCL.get(i).getArea().getNombre());
@@ -153,13 +156,13 @@ public class GenerarReporteITipo {
 						}
 					}
 					if (cicloLectivo==0){
-						//Sin Tipo, Por Cuatrimestre
+						//Sin Area, Por Cuatrimestre
 						pslistCuatri = psdao.findByCuatrimestre(cuatrimestre);
 						for (int x=0; x<pslistCuatri.size(); x++){			
-							for (int y=0; y<informes.size(); y++){
-								if (pslistCuatri.get(x).getId()==informes.get(y).getPs().getId()){
+							for (int y=0; y<planes.size(); y++){
+								if (pslistCuatri.get(x).getId()==planes.get(y).getPs().getId()){
 									linea = new LineaDeReporte();
-									linea.setFechaDePresentacion(informes.get(y).getFechaDePresentacion());
+									linea.setFechaDePresentacion(planes.get(y).getFechaDePresentacion());
 									linea.setTitulo(pslistCuatri.get(x).getTitulo());
 									linea.setEstado(pslistCuatri.get(x).getEstado().getNombre());
 									linea.setArea(pslistCuatri.get(x).getArea().getNombre());
@@ -174,14 +177,14 @@ public class GenerarReporteITipo {
 				}
 			}
 		} else {
-			//Solo con Tipo, los demas null
+			//Solo con Area, los demas null
 			if ((desde==null) && (hasta==null) && (cuatrimestre==0) && (cicloLectivo==0)){
-				for (int a=0; a<informes.size(); a++){
+				for (int a=0; a<planes.size(); a++){
 					for (int b=0; b<pslist.size(); b++){
-						if (informes.get(a).getPs().getId()==pslist.get(b).getId()){
-							if (pslist.get(b).getTipoActividad().getNombre().equals(tipo)){
+						if (planes.get(a).getPs().getId()==pslist.get(b).getId()){
+							if (pslist.get(b).getArea().getNombre().equals(area)){
 								linea = new LineaDeReporte();
-								linea.setFechaDePresentacion(informes.get(a).getFechaDePresentacion());
+								linea.setFechaDePresentacion(planes.get(a).getFechaDePresentacion());
 								linea.setTitulo(pslist.get(b).getTitulo());
 								linea.setEstado(pslist.get(b).getEstado().getNombre());
 								linea.setArea(pslist.get(b).getArea().getNombre());
@@ -195,21 +198,21 @@ public class GenerarReporteITipo {
 				}
 			}
 			
-		//Con Tipo y Por Periodo
+		//Con Area y Por Periodo
 			if ((desde!=null) && (hasta!=null)){
-				informesPeriodo = ifdao.findByPeriodo(desde, hasta);
-				for (int a=0; a<informesPeriodo.size(); a++){
+				planesPeriodo = ptdao.findByPeriodo(desde, hasta);
+				for (int a=0; a<planesPeriodo.size(); a++){
 					for (int b=0; b<pslist.size(); b++){
-						if (informesPeriodo.get(a).getPs().getId()==pslist.get(b).getId()){
+						if (planesPeriodo.get(a).getPs().getId()==pslist.get(b).getId()){
 							if (
 									((pslist.get(b).getCuatrimestre()==cuatrimestre) || (cuatrimestre==0))
 									&&
 									((pslist.get(b).getCicloLectivo()==cicloLectivo) || (cicloLectivo==0))
 									&&
-									(pslist.get(b).getTipoActividad().getNombre().equals(tipo))
+									(pslist.get(b).getArea().getNombre().equals(area))
 								){
 								linea = new LineaDeReporte();
-								linea.setFechaDePresentacion(informesPeriodo.get(a).getFechaDePresentacion());
+								linea.setFechaDePresentacion(planesPeriodo.get(a).getFechaDePresentacion());
 								linea.setTitulo(pslist.get(b).getTitulo());
 								linea.setEstado(pslist.get(b).getEstado().getNombre());
 								linea.setArea(pslist.get(b).getArea().getNombre());
@@ -222,15 +225,15 @@ public class GenerarReporteITipo {
 					}
 				}
 			} else {
-				//Con Tipo, Por CicloLectivo
+				//Con Area, Por CicloLectivo
 				pslistCL = psdao.findByCicloLectivo(cicloLectivo);
 				for (int i=0; i<pslistCL.size(); i++){			
-					for (int j=0; j<informes.size(); j++){
-						if (pslistCL.get(i).getId()==informes.get(j).getPs().getId()){
+					for (int j=0; j<planes.size(); j++){
+						if (pslistCL.get(i).getId()==planes.get(j).getPs().getId()){
 							if ((pslistCL.get(i).getCuatrimestre()==cuatrimestre) || (cuatrimestre==0)){
-								if (pslistCL.get(i).getTipoActividad().getNombre().equals(tipo)){
+								if (pslistCL.get(i).getArea().getNombre().equals(area)){
 									linea = new LineaDeReporte();
-									linea.setFechaDePresentacion(informes.get(j).getFechaDePresentacion());
+									linea.setFechaDePresentacion(planes.get(j).getFechaDePresentacion());
 									linea.setTitulo(pslistCL.get(i).getTitulo());
 									linea.setEstado(pslistCL.get(i).getEstado().getNombre());
 									linea.setArea(pslistCL.get(i).getArea().getNombre());
@@ -244,14 +247,14 @@ public class GenerarReporteITipo {
 					}
 				}
 				if (cicloLectivo==0){
-					//Con Tipo, Por Cuatrimestre
+					//Con Area, Por Cuatrimestre
 					pslistCuatri = psdao.findByCuatrimestre(cuatrimestre);
 					for (int x=0; x<pslistCuatri.size(); x++){			
-						for (int y=0; y<informes.size(); y++){
-							if (pslistCuatri.get(x).getId()==informes.get(y).getPs().getId()){
-								if (pslistCuatri.get(x).getTipoActividad().getNombre().equals(tipo)){
+						for (int y=0; y<planes.size(); y++){
+							if (pslistCuatri.get(x).getId()==planes.get(y).getPs().getId()){
+								if (pslistCuatri.get(x).getArea().getNombre().equals(area)){
 									linea = new LineaDeReporte();
-									linea.setFechaDePresentacion(informes.get(y).getFechaDePresentacion());
+									linea.setFechaDePresentacion(planes.get(y).getFechaDePresentacion());
 									linea.setTitulo(pslistCuatri.get(x).getTitulo());
 									linea.setEstado(pslistCuatri.get(x).getEstado().getNombre());
 									linea.setArea(pslistCuatri.get(x).getArea().getNombre());
@@ -292,24 +295,32 @@ public class GenerarReporteITipo {
 		
 		if (cPP!=0){
 				
-			if (!(tipo.isEmpty())){
-				totTipo = true;
+			if (!(area.isEmpty())){
+				totArea = true;
 				totTodos = false;
 				
-				//Porcentaje Informes Presentado
+				//Porcentaje Planes Presentados
 				double contPPre = 0;
 				for (int q=0; q<resultlist.size(); q++){
-					if (resultlist.get(q).getEstado().equals("Informe presentado")){
+					if (resultlist.get(q).getEstado().equals("Plan presentado")){
 						contPPre++;
 					}
 				}
 				cPPre = ((contPPre/cPP)*100);
 				
-				//Porcentaje Informes Aprobados
+				//Porcentaje Planes Aprobados
 				double contPA = 0;
 				for (int p=0; p<resultlist.size(); p++){
 					if (
+							(resultlist.get(p).getEstado().equals("Plan aprobado"))
+							||
+							(resultlist.get(p).getEstado().equals("Informe presentado"))
+							||
+							(resultlist.get(p).getEstado().equals("Informe observado"))
+							||
 							(resultlist.get(p).getEstado().equals("Informe aprobado"))
+							||
+							(resultlist.get(p).getEstado().equals("Informe vencido"))
 							||
 							(resultlist.get(p).getEstado().equals("PS aprobada"))
 						){
@@ -317,81 +328,75 @@ public class GenerarReporteITipo {
 					}
 				}
 				cPA = ((contPA/cPP)*100);			
-				
-				//Porcentaje Informes Observado
+
+				//Porcentaje Planes Observados
 				double contPO = 0;
 				for (int q=0; q<resultlist.size(); q++){
-					if (resultlist.get(q).getEstado().equals("Informe observado")){
+					if (resultlist.get(q).getEstado().equals("Plan observado")){
 						contPO++;
 					}
 				}
 				cPO = ((contPO/cPP)*100);
 				
-				//Porcentaje Informes Vencidos
+				//Porcentaje Planes Rechazados
+				double contPR = 0;
+				for (int q=0; q<resultlist.size(); q++){
+					if (resultlist.get(q).getEstado().equals("Plan rechazado")){
+						contPR++;
+					}
+				}
+				cPR = ((contPR/cPP)*100);
+				
+				//Porcentaje Planes Vencidos
 				double contPV = 0;
 				for (int r=0; r<resultlist.size(); r++){
-					if (resultlist.get(r).getEstado().equals("Informe vencido")){
+					if (resultlist.get(r).getEstado().equals("Plan vencido")){
 						contPV++;
 					}
 				}
 				cPV = ((contPV/cPP)*100);
 				
 			} else {
-				totTipo = false;
+				totArea = false;
 				totTodos = true;
 				
-				//Porcentaje Proyecto Final
-				double contPF = 0;
-				for (int l=0; l<resultlist.size(); l++){
-					if (resultlist.get(l).getTipoActividad().equals("Proyecto Final")){
-						contPF++;
+				
+				for (int g=0; g<arealist.size(); g++){
+					double contador = 0;
+					for (int h=0; h<resultlist.size(); h++){
+						if (resultlist.get(h).getArea().equals(arealist.get(g).getNombre())){
+							contador++;							
+						}
+					}
+					linPorc = new LineaPorcentaje();
+					linPorc.setArea(arealist.get(g).getNombre());
+					linPorc.setContador(contador);
+					linPorc.setPorcentaje(((contador*100)/cPP));
+					porclist.add(linPorc);
+				}
+				
+				for (int n=0; n<porclist.size(); n++){
+					if (porclist.get(n).getContador()!=0){
+						auxporclist.add(porclist.get(n));
 					}
 				}
-				cPPF = ((contPF/cPP)*100);
-				
-				//Porcentaje Tareas de ingenieria
-				double contTI = 0;
-				for (int n=0; n<resultlist.size(); n++){
-					if (resultlist.get(n).getTipoActividad().equals("Tareas de ingenieria")){
-						contTI++;
-					}
-				}
-				cPTI = ((contTI/cPP)*100);
-				
-				//Porcentaje Grupos de Investigacion
-				double contGI = 0;
-				for (int z=0; z<resultlist.size(); z++){
-					if (resultlist.get(z).getTipoActividad().equals("Grupos de Investigacion")){
-						contGI++;
-					}					
-				}
-				cPGI = ((contGI/cPP)*100);
-				
-				//Porcentaje Pasantia
-				double contPasantia = 0;
-				for (int e=0; e<resultlist.size(); e++){
-					if (resultlist.get(e).getTipoActividad().equals("Pasantia")){
-						contPasantia++;
-					}
-				}
-				cPPA = ((contPasantia/cPP)*100);
-				
+								
 			}
 						
 		}
 		
 	//Redireccion
 		if (resultlist.size()==0){
-			return "estIFporTipoNohay";
+			return "estPTporAreaNohay";
 		} else {
-			return "estIFporTipoListado";
+			return "estPTporAreaListado";
 		}
 
 	}
 
 	
 	public String volver(){
-		return "estIFporTipo";
+		return "estPTporArea";
 	}
 	
 	
@@ -420,20 +425,20 @@ public class GenerarReporteITipo {
 		this.pslistCuatri = pslistCuatri;
 	}
 
-	public List<InformeFinal> getInformes() {
-		return informes;
+	public List<PlanDeTrabajo> getPlanes() {
+		return planes;
 	}
 
-	public void setInformes(List<InformeFinal> informes) {
-		this.informes = informes;
+	public void setPlanes(List<PlanDeTrabajo> planes) {
+		this.planes = planes;
 	}
 
-	public List<InformeFinal> getInformesPeriodo() {
-		return informesPeriodo;
+	public List<PlanDeTrabajo> getPlanesPeriodo() {
+		return planesPeriodo;
 	}
 
-	public void setInformesPeriodo(List<InformeFinal> informesPeriodo) {
-		this.informesPeriodo = informesPeriodo;
+	public void setPlanesPeriodo(List<PlanDeTrabajo> planesPeriodo) {
+		this.planesPeriodo = planesPeriodo;
 	}
 
 	public List<LineaDeReporte> getLinealist() {
@@ -452,28 +457,44 @@ public class GenerarReporteITipo {
 		this.resultlist = resultlist;
 	}
 
-	public List<TipoActividad> getTipolist() {
-		return tipolist;
+	public List<LineaPorcentaje> getAuxporclist() {
+		return auxporclist;
 	}
 
-	public void setTipolist(List<TipoActividad> tipolist) {
-		this.tipolist = tipolist;
+	public void setAuxporclist(List<LineaPorcentaje> auxporclist) {
+		this.auxporclist = auxporclist;
 	}
 
-	public String getTipo() {
-		return tipo;
+	public List<LineaPorcentaje> getPorclist() {
+		return porclist;
 	}
 
-	public void setTipo(String tipo) {
-		this.tipo = tipo;
+	public void setPorclist(List<LineaPorcentaje> porclist) {
+		this.porclist = porclist;
 	}
 
-	public Map<String, String> getTipos() {
-		return tipos;
+	public List<Area> getArealist() {
+		return arealist;
 	}
 
-	public void setTipos(Map<String, String> tipos) {
-		this.tipos = tipos;
+	public void setArealist(List<Area> arealist) {
+		this.arealist = arealist;
+	}
+
+	public String getArea() {
+		return area;
+	}
+
+	public void setArea(String area) {
+		this.area = area;
+	}
+
+	public Map<String, String> getAreas() {
+		return areas;
+	}
+
+	public void setAreas(Map<String, String> areas) {
+		this.areas = areas;
 	}
 
 	public int getCicloLectivo() {
@@ -516,12 +537,20 @@ public class GenerarReporteITipo {
 		this.linea = linea;
 	}
 
-	public boolean isTotTipo() {
-		return totTipo;
+	public LineaPorcentaje getLinPorc() {
+		return linPorc;
 	}
 
-	public void setTotTipo(boolean totTipo) {
-		this.totTipo = totTipo;
+	public void setLinPorc(LineaPorcentaje linPorc) {
+		this.linPorc = linPorc;
+	}
+
+	public boolean isTotArea() {
+		return totArea;
+	}
+
+	public void setTotArea(boolean totArea) {
+		this.totArea = totArea;
 	}
 
 	public boolean isTotTodos() {
@@ -564,6 +593,14 @@ public class GenerarReporteITipo {
 		this.cPO = cPO;
 	}
 
+	public double getcPR() {
+		return cPR;
+	}
+
+	public void setcPR(double cPR) {
+		this.cPR = cPR;
+	}
+
 	public double getcPV() {
 		return cPV;
 	}
@@ -571,37 +608,5 @@ public class GenerarReporteITipo {
 	public void setcPV(double cPV) {
 		this.cPV = cPV;
 	}
-
-	public double getcPPF() {
-		return cPPF;
-	}
-
-	public void setcPPF(double cPPF) {
-		this.cPPF = cPPF;
-	}
-
-	public double getcPTI() {
-		return cPTI;
-	}
-
-	public void setcPTI(double cPTI) {
-		this.cPTI = cPTI;
-	}
-
-	public double getcPGI() {
-		return cPGI;
-	}
-
-	public void setcPGI(double cPGI) {
-		this.cPGI = cPGI;
-	}
-
-	public double getcPPA() {
-		return cPPA;
-	}
-
-	public void setcPPA(double cPPA) {
-		this.cPPA = cPPA;
-	}
-
+	
 }

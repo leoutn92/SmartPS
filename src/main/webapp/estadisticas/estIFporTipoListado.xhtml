@@ -99,18 +99,21 @@
 						        <f:facet name="header">
 						        	<div align="left"><br/><h:outputText value="Totales por Tipo de Actividad"/></div>
 						        </f:facet>
-						        <h:outputLabel for="cantInformesPresentadosTipo" value="Cantidad de Informes Finales presentados: " />
-						        <h:inputText id="cantInformesPresentadosTipo" value="#{generarReporteITipo.cPP}" />
-						        <h:outputLabel value="" />
-						        <h:outputLabel for="porcInformesAprob" value="Porcentaje de Informes Aprobados: " />
-						        <h:inputText id="porcInformesAprob" value="#{generarReporteITipo.cPA}" />
-						        <h:outputLabel value="%" />
-								<h:outputLabel for="porcInformesDesaprob" value="Porcentaje de Informes Observados: " />
-						        <h:inputText id="porcInformesDesaprob" value="#{generarReporteITipo.cPD}" />
-								<h:outputLabel value="%" />				        
-						        <h:outputLabel for="porcInformesVenc" value="Porcentaje de Informes Vencidos" />
-						        <h:inputText id="porcInformesVenc" value="#{generarReporteITipo.cPV}" />
-						        <h:outputLabel value="%" />
+				        <h:outputLabel for="cantInformesPresentados" value="Cantidad de Informes Finales presentados: " />
+				        <h:inputText id="cantInformesPresentados" value="#{generarReporteITipo.cPP}" />
+				        <h:outputLabel value="" />
+						<h:outputLabel for="porcInformesPresent" value="Porcentaje de Informes Presentados: " />
+				        <h:inputText id="porcInformesPresent" value="#{generarReporteITipo.cPPre}" />
+				        <h:outputLabel value="%" />
+				        <h:outputLabel for="porcInformesAprob" value="Porcentaje de Informes Aprobados: " />
+				        <h:inputText id="porcInformesAprob" value="#{generarReporteITipo.cPA}" />
+				        <h:outputLabel value="%" />
+						<h:outputLabel for="porcInformesObserv" value="Porcentaje de Informes Observados: " />
+				        <h:inputText id="porcInformesObserv" value="#{generarReporteITipo.cPO}" />
+						<h:outputLabel value="%" />				        
+				        <h:outputLabel for="porcInformesVenc" value="Porcentaje de Informes Vencidos" />
+				        <h:inputText id="porcInformesVenc" value="#{generarReporteITipo.cPV}" />
+				        <h:outputLabel value="%" />
 				    		</h:panelGrid>
 				    	</p:fieldset>
 				    </p:outputPanel>

@@ -50,8 +50,10 @@ public class GenerarReportePTipo {
 	
 	//contadores
 	private double cPP;
+	private double cPPre;
 	private double cPA;
-	private double cPD;
+	private double cPO;
+	private double cPR;
 	private double cPV;
 	
 	private double cPPF;
@@ -295,6 +297,15 @@ public class GenerarReportePTipo {
 				totTipo = true;
 				totTodos = false;
 				
+				//Porcentaje Planes Presentados
+				double contPPre = 0;
+				for (int q=0; q<resultlist.size(); q++){
+					if (resultlist.get(q).getEstado().equals("Plan presentado")){
+						contPPre++;
+					}
+				}
+				cPPre = ((contPPre/cPP)*100);
+				
 				//Porcentaje Planes Aprobados
 				double contPA = 0;
 				for (int p=0; p<resultlist.size(); p++){
@@ -307,30 +318,37 @@ public class GenerarReportePTipo {
 							||
 							(resultlist.get(p).getEstado().equals("Informe aprobado"))
 							||
+							(resultlist.get(p).getEstado().equals("Informe vencido"))
+							||
 							(resultlist.get(p).getEstado().equals("PS aprobada"))
 						){
 						contPA++;
 					}
 				}
 				cPA = ((contPA/cPP)*100);			
-				
-				//Porcentaje Planes Desaprobados
-				double contPD = 0;
+
+				//Porcentaje Planes Observados
+				double contPO = 0;
 				for (int q=0; q<resultlist.size(); q++){
-					if (resultlist.get(q).getEstado().equals("Plan rechazado")){
-						contPD++;
+					if (resultlist.get(q).getEstado().equals("Plan observado")){
+						contPO++;
 					}
 				}
-				cPD = ((contPD/cPP)*100);
+				cPO = ((contPO/cPP)*100);
+				
+				//Porcentaje Planes Rechazados
+				double contPR = 0;
+				for (int q=0; q<resultlist.size(); q++){
+					if (resultlist.get(q).getEstado().equals("Plan rechazado")){
+						contPR++;
+					}
+				}
+				cPR = ((contPR/cPP)*100);
 				
 				//Porcentaje Planes Vencidos
 				double contPV = 0;
 				for (int r=0; r<resultlist.size(); r++){
-					if (
-							(resultlist.get(r).getEstado().equals("Plan vencido"))
-							||
-							(resultlist.get(r).getEstado().equals("Informe vencido"))
-						){
+					if (resultlist.get(r).getEstado().equals("Plan vencido")){
 						contPV++;
 					}
 				}
@@ -531,13 +549,21 @@ public class GenerarReportePTipo {
 	public void setTotTodos(boolean totTodos) {
 		this.totTodos = totTodos;
 	}
-	
+
 	public double getcPP() {
 		return cPP;
 	}
 
 	public void setcPP(double cPP) {
 		this.cPP = cPP;
+	}
+
+	public double getcPPre() {
+		return cPPre;
+	}
+
+	public void setcPPre(double cPPre) {
+		this.cPPre = cPPre;
 	}
 
 	public double getcPA() {
@@ -548,12 +574,20 @@ public class GenerarReportePTipo {
 		this.cPA = cPA;
 	}
 
-	public double getcPD() {
-		return cPD;
+	public double getcPO() {
+		return cPO;
 	}
 
-	public void setcPD(double cPD) {
-		this.cPD = cPD;
+	public void setcPO(double cPO) {
+		this.cPO = cPO;
+	}
+
+	public double getcPR() {
+		return cPR;
+	}
+
+	public void setcPR(double cPR) {
+		this.cPR = cPR;
 	}
 
 	public double getcPV() {

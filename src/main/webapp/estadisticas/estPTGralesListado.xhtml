@@ -97,11 +97,17 @@
 				        <h:outputLabel for="cantPlanesPresentados" value="Cantidad de Planes de Trabajo presentados: " />
 				        <h:inputText id="cantPlanesPresentados" value="#{generarReportePG.cPP}" />
 				        <h:outputLabel value="" />
+						<h:outputLabel for="porcPlanesPresent" value="Porcentaje de Planes Presentados: " />
+				        <h:inputText id="porcPlanesPresent" value="#{generarReportePG.cPPre}" />
+				        <h:outputLabel value="%" />
 				        <h:outputLabel for="porcPlanesAprob" value="Porcentaje de Planes Aprobados: " />
 				        <h:inputText id="porcPlanesAprob" value="#{generarReportePG.cPA}" />
 				        <h:outputLabel value="%" />
-						<h:outputLabel for="porcPlanesDesaprob" value="Porcentaje de Planes Desaprobados: " />
-				        <h:inputText id="porcPlanesDesaprob" value="#{generarReportePG.cPD}" />
+						<h:outputLabel for="porcPlanesObserv" value="Porcentaje de Planes Observados: " />
+				        <h:inputText id="porcPlanesObserv" value="#{generarReportePG.cPO}" />
+				        <h:outputLabel value="%" />
+						<h:outputLabel for="porcPlanesRechaz" value="Porcentaje de Planes Rechazados: " />
+				        <h:inputText id="porcPlanesRechaz" value="#{generarReportePG.cPR}" />
 						<h:outputLabel value="%" />				        
 				        <h:outputLabel for="porcPlanesVenc" value="Porcentaje de Planes Vencidos" />
 				        <h:inputText id="porcPlanesVenc" value="#{generarReportePG.cPV}" />

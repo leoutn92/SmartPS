@@ -1,0 +1,155 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <h:head>
+    	<title>SmartPS</title>
+    </h:head>
+    
+    <h:body>
+
+	 	<ui:composition template="/templates/template.xhtml">
+	 		<ui:define name="content"> 
+
+	 			<h:outputLabel value="Estadisticas por Areas de Planes de Trabajo de PS"/>
+	 			<div><br /></div>
+
+			    <h:panelGrid id="cursado" columns="3" >
+			    	
+			        <p:outputLabel for="area" value="Area: " />
+					<p:selectOneMenu id="area" value="#{generarReportePArea.area}">
+            			<f:selectItem itemLabel="" itemValue="" />
+            			<f:selectItems value="#{generarReportePArea.areas}" />
+			        </p:selectOneMenu>
+			        <p:outputLabel value="" />
+			        <h:outputLabel for="cicloLectivo" value="Ciclo Lectivo: " />
+					<p:inputText id="cicloLectivo" value="#{generarReportePArea.cicloLectivo}" />
+			        <h:outputLabel value="(2014,2015,2016,...)" />			        
+			        <h:outputLabel for="cuatrimestre" value="Cuatrimestre: " />
+			        <h:inputText id="cuatrimestre" value="#{generarReportePArea.cuatrimestre}" />
+			        <h:outputLabel value="(1,2)" />
+			    </h:panelGrid>
+
+			    <h:panelGrid id="periodo" columns="4" >
+			        <f:facet name="header">
+			        	<div align="left"><br/><h:outputText value="Periodo"/></div>
+			        </f:facet>
+			        
+					<p:outputLabel for="desde" value="Desde: " />
+					<p:calendar id="desde" value="#{generarReportePArea.desde}" showOn="button" />
+		        
+					<p:outputLabel for="hasta" value="Hasta: " />
+					<p:calendar id="hasta" value="#{generarReportePArea.hasta}" showOn="button" />		        	
+			    </h:panelGrid>
+
+	 			<div><br /></div>
+
+		        <div align="right">
+		        	<br />
+ 					<p:commandButton value="Visualizar Listado" action="#{generarReportePArea.busquedaByFiltros()}" update="myPanel" />
+ 					<br /><br></br>
+				</div>
+	 			<div><br /></div>
+				<p:panel id="myPanel">
+					<p:dataTable id="lineas" var="linea" paginator="true" row="10"
+								value="#{generarReportePArea.resultlist}">
+					
+						<f:facet name="header">
+							Listado de Planes de Trabajo
+						</f:facet>
+					
+					    <p:column headerText="Fecha de Presentacion">
+					    	<h:outputText value="#{linea.fechaDePresentacion}">
+					        	<f:convertDateTime type="date" />
+					        </h:outputText>
+					    </p:column>
+					 
+					    <p:column headerText="Titulo de PS">
+					        #{linea.titulo}
+					    </p:column>
+					 
+					    <p:column headerText="Estado de PS">
+					        #{linea.estado}
+					    </p:column>
+					 
+					    <p:column headerText="Area de PS">
+					        #{linea.area}
+					    </p:column>
+					    
+						<p:column headerText="Tipo de PS">
+					        #{linea.tipoActividad}
+					    </p:column>
+					    
+					    <p:column headerText="Nombre del alumno">
+					        #{linea.alumno}
+					    </p:column>
+					    
+						<p:column headerText="Año de ingreso">
+					        #{linea.ingreso}
+					    </p:column>
+					</p:dataTable>
+	
+					<p:outputPanel id="outPtotArea">
+						<p:fieldset rendered="#{generarReportePArea.totArea}" style="margin-bottom:20px">
+							<h:panelGrid id="totalesArea" columns="3" >
+						        <f:facet name="header">
+						        	<div align="left"><br/><h:outputText value="Totales por Area"/></div>
+						        </f:facet>
+						        <h:outputLabel for="cantPlanesPresentados" value="Cantidad de Planes de Trabajo presentados: " />
+						        <h:inputText id="cantPlanesPresentados" value="#{generarReportePArea.cPP}" />
+						        <h:outputLabel value="" />
+								<h:outputLabel for="porcPlanesPresent" value="Porcentaje de Planes Presentados: " />
+						        <h:inputText id="porcPlanesPresent" value="#{generarReportePArea.cPPre}" />
+						        <h:outputLabel value="%" />
+						        <h:outputLabel for="porcPlanesAprob" value="Porcentaje de Planes Aprobados: " />
+						        <h:inputText id="porcPlanesAprob" value="#{generarReportePArea.cPA}" />
+						        <h:outputLabel value="%" />
+								<h:outputLabel for="porcPlanesObserv" value="Porcentaje de Planes Observados: " />
+						        <h:inputText id="porcPlanesObserv" value="#{generarReportePArea.cPO}" />
+						        <h:outputLabel value="%" />
+								<h:outputLabel for="porcPlanesRechaz" value="Porcentaje de Planes Rechazados: " />
+						        <h:inputText id="porcPlanesRechaz" value="#{generarReportePArea.cPR}" />
+								<h:outputLabel value="%" />				        
+						        <h:outputLabel for="porcPlanesVenc" value="Porcentaje de Planes Vencidos" />
+						        <h:inputText id="porcPlanesVenc" value="#{generarReportePArea.cPV}" />
+						        <h:outputLabel value="%" />
+				    		</h:panelGrid>
+				    	</p:fieldset>
+				    </p:outputPanel>
+				    
+				    <p:outputPanel id="outPtotTodos">
+						<p:fieldset rendered="#{generarReportePArea.totTodos}" style="margin-bottom:20px">
+							<h:panelGrid id="totalesTodos" columns="3" >
+						        <f:facet name="header">
+						        	<div align="left"><br/><h:outputText value="Totales"/></div>
+						        </f:facet>
+						        
+						        <p:dataTable id="lineasPorc" var="lineap" value="#{generarReportePArea.auxporclist}">
+									<p:column headerText="Area">
+								        #{lineap.area}
+								    </p:column>
+								    
+								    <p:column headerText="Cantidad de planes">
+								        #{lineap.contador}
+								    </p:column>
+								    
+									<p:column headerText="Porcentaje (%)">
+								        #{lineap.porcentaje}
+								    </p:column>
+								</p:dataTable>
+						        						        
+				    		</h:panelGrid>
+				    	</p:fieldset>
+				    </p:outputPanel>
+				    
+				</p:panel>
+	 		</ui:define>
+	 		
+	 	</ui:composition>
+
+    </h:body>
+</html>

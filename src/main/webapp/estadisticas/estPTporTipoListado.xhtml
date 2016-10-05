@@ -99,18 +99,24 @@
 						        <f:facet name="header">
 						        	<div align="left"><br/><h:outputText value="Totales por Tipo de Actividad"/></div>
 						        </f:facet>
-						        <h:outputLabel for="cantPlanesPresentadosTipo" value="Cantidad de Planes de Trabajo presentados: " />
-						        <h:inputText id="cantPlanesPresentadosTipo" value="#{generarReportePTipo.cPP}" />
-						        <h:outputLabel value="" />
-						        <h:outputLabel for="porcPlanesAprob" value="Porcentaje de Planes Aprobados: " />
-						        <h:inputText id="porcPlanesAprob" value="#{generarReportePTipo.cPA}" />
-						        <h:outputLabel value="%" />
-								<h:outputLabel for="porcPlanesDesaprob" value="Porcentaje de Planes Desaprobados: " />
-						        <h:inputText id="porcPlanesDesaprob" value="#{generarReportePTipo.cPD}" />
-								<h:outputLabel value="%" />				        
-						        <h:outputLabel for="porcPlanesVenc" value="Porcentaje de Planes Vencidos" />
-						        <h:inputText id="porcPlanesVenc" value="#{generarReportePTipo.cPV}" />
-						        <h:outputLabel value="%" />
+				        <h:outputLabel for="cantPlanesPresentados" value="Cantidad de Planes de Trabajo presentados: " />
+				        <h:inputText id="cantPlanesPresentados" value="#{generarReportePTipo.cPP}" />
+				        <h:outputLabel value="" />
+						<h:outputLabel for="porcPlanesPresent" value="Porcentaje de Planes Presentados: " />
+				        <h:inputText id="porcPlanesPresent" value="#{generarReportePTipo.cPPre}" />
+				        <h:outputLabel value="%" />
+				        <h:outputLabel for="porcPlanesAprob" value="Porcentaje de Planes Aprobados: " />
+				        <h:inputText id="porcPlanesAprob" value="#{generarReportePTipo.cPA}" />
+				        <h:outputLabel value="%" />
+						<h:outputLabel for="porcPlanesObserv" value="Porcentaje de Planes Observados: " />
+				        <h:inputText id="porcPlanesObserv" value="#{generarReportePTipo.cPO}" />
+				        <h:outputLabel value="%" />
+						<h:outputLabel for="porcPlanesRechaz" value="Porcentaje de Planes Rechazados: " />
+				        <h:inputText id="porcPlanesRechaz" value="#{generarReportePTipo.cPR}" />
+						<h:outputLabel value="%" />				        
+				        <h:outputLabel for="porcPlanesVenc" value="Porcentaje de Planes Vencidos" />
+				        <h:inputText id="porcPlanesVenc" value="#{generarReportePTipo.cPV}" />
+				        <h:outputLabel value="%" />
 				    		</h:panelGrid>
 				    	</p:fieldset>
 				    </p:outputPanel>

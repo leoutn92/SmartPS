@@ -1,0 +1,152 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <h:head>
+    	<title>SmartPS</title>
+    </h:head>
+    
+    <h:body>
+
+	 	<ui:composition template="/templates/template.xhtml">
+	 		<ui:define name="content"> 
+
+	 			<h:outputLabel value="Estadisticas por Organizaciones de Informes Finales de PS"/>
+	 			<div><br /></div>
+
+			    <h:panelGrid id="cursado" columns="3" >
+			    	
+			        <p:outputLabel for="org" value="Organizacion: " />
+					<p:selectOneMenu id="org" value="#{generarReporteIOrg.org}">
+            			<f:selectItem itemLabel="" itemValue="" />
+            			<f:selectItems value="#{generarReporteIOrg.orgs}" />
+			        </p:selectOneMenu>
+			        <p:outputLabel value="" />
+			        <h:outputLabel for="cicloLectivo" value="Ciclo Lectivo: " />
+					<p:inputText id="cicloLectivo" value="#{generarReporteIOrg.cicloLectivo}" />
+			        <h:outputLabel value="(2014,2015,2016,...)" />			        
+			        <h:outputLabel for="cuatrimestre" value="Cuatrimestre: " />
+			        <h:inputText id="cuatrimestre" value="#{generarReporteIOrg.cuatrimestre}" />
+			        <h:outputLabel value="(1,2)" />
+			    </h:panelGrid>
+
+			    <h:panelGrid id="periodo" columns="4" >
+			        <f:facet name="header">
+			        	<div align="left"><br/><h:outputText value="Periodo"/></div>
+			        </f:facet>
+			        
+					<p:outputLabel for="desde" value="Desde: " />
+					<p:calendar id="desde" value="#{generarReporteIOrg.desde}" showOn="button" />
+		        
+					<p:outputLabel for="hasta" value="Hasta: " />
+					<p:calendar id="hasta" value="#{generarReporteIOrg.hasta}" showOn="button" />		        	
+			    </h:panelGrid>
+
+	 			<div><br /></div>
+
+		        <div align="right">
+		        	<br />
+ 					<p:commandButton value="Visualizar Listado" action="#{generarReporteIOrg.busquedaByFiltros()}" update="myPanel" />
+ 					<br /><br></br>
+				</div>
+	 			<div><br /></div>
+				<p:panel id="myPanel">
+					<p:dataTable id="lineas" var="linea" paginator="true" row="10"
+								value="#{generarReporteIOrg.resultlist}">
+					
+						<f:facet name="header">
+							Listado de Informes Finales
+						</f:facet>
+					
+					    <p:column headerText="Fecha de Presentacion">
+					    	<h:outputText value="#{linea.fechaDePresentacion}">
+					        	<f:convertDateTime type="date" />
+					        </h:outputText>
+					    </p:column>
+					 
+					    <p:column headerText="Titulo de PS">
+					        #{linea.titulo}
+					    </p:column>
+					 
+					    <p:column headerText="Estado de PS">
+					        #{linea.estado}
+					    </p:column>
+					 
+					    <p:column headerText="Organizacion de PS">
+					        #{linea.area}
+					    </p:column>
+					    
+						<p:column headerText="Tipo de PS">
+					        #{linea.tipoActividad}
+					    </p:column>
+					    
+					    <p:column headerText="Nombre del alumno">
+					        #{linea.alumno}
+					    </p:column>
+					    
+						<p:column headerText="Año de ingreso">
+					        #{linea.ingreso}
+					    </p:column>
+					</p:dataTable>
+	
+					<p:outputPanel id="outItotOrg">
+						<p:fieldset rendered="#{generarReporteIOrg.totOrg}" style="margin-bottom:20px">
+							<h:panelGrid id="totalesOrg" columns="3" >
+						        <f:facet name="header">
+						        	<div align="left"><br/><h:outputText value="Totales por Organizacion"/></div>
+						        </f:facet>
+						        <h:outputLabel for="cantInformesPresentados" value="Cantidad de Informes Finales presentados: " />
+						        <h:inputText id="cantInformesPresentados" value="#{generarReporteIOrg.cPP}" />
+						        <h:outputLabel value="" />
+								<h:outputLabel for="porcInformesPresent" value="Porcentaje de Informes Presentados: " />
+						        <h:inputText id="porcInformesPresent" value="#{generarReporteIOrg.cPPre}" />
+						        <h:outputLabel value="%" />
+						        <h:outputLabel for="porcInformesAprob" value="Porcentaje de Informes Aprobados: " />
+						        <h:inputText id="porcInformesAprob" value="#{generarReporteIOrg.cPA}" />
+						        <h:outputLabel value="%" />
+								<h:outputLabel for="porcInformesObserv" value="Porcentaje de Informes Observados: " />
+						        <h:inputText id="porcInformesObserv" value="#{generarReporteIOrg.cPO}" />
+								<h:outputLabel value="%" />				        
+						        <h:outputLabel for="porcInformesVenc" value="Porcentaje de Informes Vencidos" />
+						        <h:inputText id="porcInformesVenc" value="#{generarReporteIOrg.cPV}" />
+						        <h:outputLabel value="%" />
+				    		</h:panelGrid>
+				    	</p:fieldset>
+				    </p:outputPanel>
+				    
+				    <p:outputPanel id="outItotTodos">
+						<p:fieldset rendered="#{generarReporteIOrg.totTodos}" style="margin-bottom:20px">
+							<h:panelGrid id="totalesTodos" columns="3" >
+						        <f:facet name="header">
+						        	<div align="left"><br/><h:outputText value="Totales"/></div>
+						        </f:facet>
+						        
+								<p:dataTable id="lineasPorc" var="lineap" value="#{generarReporteIOrg.auxporclist}">
+									<p:column headerText="Organizacion">
+								        #{lineap.area}
+								    </p:column>
+								    
+								    <p:column headerText="Cantidad de informes">
+								        #{lineap.contador}
+								    </p:column>
+								    
+									<p:column headerText="Porcentaje (%)">
+								        #{lineap.porcentaje}
+								    </p:column>
+								</p:dataTable>
+						        
+				    		</h:panelGrid>
+				    	</p:fieldset>
+				    </p:outputPanel>
+				    
+				</p:panel>
+	 		</ui:define>
+	 		
+	 	</ui:composition>
+
+    </h:body>
+</html>

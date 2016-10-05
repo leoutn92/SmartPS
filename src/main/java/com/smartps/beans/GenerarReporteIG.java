@@ -38,8 +38,9 @@ public class GenerarReporteIG {
 
 	//contadores
 	private double cPP;
+	private double cPPre;	
 	private double cPA;
-	private double cPD;
+	private double cPO;
 	private double cPV;
 	
 	
@@ -170,6 +171,15 @@ public class GenerarReporteIG {
 		
 		if (cPP!=0){
 			
+			//Porcentaje Informes Presentado
+			double contPPre = 0;
+			for (int q=0; q<resultlist.size(); q++){
+				if (resultlist.get(q).getEstado().equals("Informe presentado")){
+					contPPre++;
+				}
+			}
+			cPPre = ((contPPre/cPP)*100);
+			
 			//Porcentaje Informes Aprobados
 			double contPA = 0;
 			for (int p=0; p<resultlist.size(); p++){
@@ -184,13 +194,13 @@ public class GenerarReporteIG {
 			cPA = ((contPA/cPP)*100);			
 			
 			//Porcentaje Informes Observado
-			double contPD = 0;
+			double contPO = 0;
 			for (int q=0; q<resultlist.size(); q++){
 				if (resultlist.get(q).getEstado().equals("Informe observado")){
-					contPD++;
+					contPO++;
 				}
 			}
-			cPD = ((contPD/cPP)*100);
+			cPO = ((contPO/cPP)*100);
 			
 			//Porcentaje Informes Vencidos
 			double contPV = 0;
@@ -325,6 +335,14 @@ public class GenerarReporteIG {
 		this.cPP = cPP;
 	}
 
+	public double getcPPre() {
+		return cPPre;
+	}
+
+	public void setcPPre(double cPPre) {
+		this.cPPre = cPPre;
+	}
+
 	public double getcPA() {
 		return cPA;
 	}
@@ -333,12 +351,12 @@ public class GenerarReporteIG {
 		this.cPA = cPA;
 	}
 
-	public double getcPD() {
-		return cPD;
+	public double getcPO() {
+		return cPO;
 	}
 
-	public void setcPD(double cPD) {
-		this.cPD = cPD;
+	public void setcPO(double cPO) {
+		this.cPO = cPO;
 	}
 
 	public double getcPV() {
