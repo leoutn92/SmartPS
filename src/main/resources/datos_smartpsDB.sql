@@ -20,6 +20,8 @@ INSERT INTO Alumno VALUES(16000,'Aguirre Carolina',2008);
 INSERT INTO Alumno VALUES(16271,'Juan Perez',2008);
 INSERT INTO Alumno VALUES(18333,'Carlos Gomez',2010);
 INSERT INTO Alumno VALUES(18981,'Gonzalo Gonzalez',2011);
+INSERT INTO Alumno VALUES(19456,'Medina Raul',2010);
+INSERT INTO Alumno VALUES(16999,'Martinez Jose',2008);
 
 
 INSERT INTO Area VALUES (1,'Desarrollo y programacion','Teclear todo el dia');

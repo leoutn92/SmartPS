@@ -5,6 +5,8 @@ import java.util.List;
 
 import org.hibernate.Session;
 
+import com.smartps.model.InformeFinal;
+import com.smartps.model.PS;
 import com.smartps.model.PlanDeTrabajo;
 import com.smartps.util.HibernateUtil;
 
@@ -53,5 +55,13 @@ public class PlanDeTrabajoDao extends Dao<PlanDeTrabajo>{
 		return planes;
 	}
 	
+	public List<PlanDeTrabajo> getByIdPs(int idps) {
+		this.getSession();
+		session.beginTransaction();
+		List<PlanDeTrabajo> pts = session.createQuery("SELECT f FROM PlanDeTrabajo f where f.ps.id= :idps")
+				.setParameter("idps",idps).getResultList();
+		session.getTransaction().commit();
+		return pts;
+	}
 	
 }
