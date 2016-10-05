@@ -7,11 +7,9 @@ import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 
-import com.smartps.dao.AlumnoDAO;
 import com.smartps.dao.PSDao;
 import com.smartps.dao.PlanDeTrabajoDao;
 import com.smartps.dao.InformeFinalDao;
-import com.smartps.model.Alumno;
 import com.smartps.model.PS;
 import com.smartps.model.PlanDeTrabajo;
 import com.smartps.model.InformeFinal;
@@ -19,18 +17,13 @@ import com.smartps.model.InformeFinal;
 
 @ManagedBean
 @RequestScoped
-public class ConsultaAlumno {
+public class ConsultaNroDisposicion {
 
-	private AlumnoDAO aldao = new AlumnoDAO();
 	private PSDao psdao = PSDao.getInstance();
 	private PlanDeTrabajoDao ptdao = PlanDeTrabajoDao.getInstance();
 	private InformeFinalDao ifdao = InformeFinalDao.getInstance();
-
-	private Alumno alumn;
 	
-	private int legajo;
-	private String nombreAlumn;
-	private int ingreso;
+	private String nroDisposicion;
 	
 	private List<PS> pslist;
 	private List<PlanDeTrabajo> ptlist;
@@ -39,7 +32,7 @@ public class ConsultaAlumno {
 	private List<InformeFinal> informes;
 	
 	private boolean panelPS;
-	private boolean panelAlumn;
+	private boolean panelNo;
 	
 	
 	@PostConstruct
@@ -54,76 +47,46 @@ public class ConsultaAlumno {
 	
 	public void consultaByParametro(){
 		
-		alumn = aldao.getById(legajo);
-
 		try{
-			if (alumn.getLegajo()==legajo){
-				panelAlumn = true;
-				nombreAlumn = alumn.getNombre();
-				ingreso = alumn.getCicloLectivo();
+			pslist = psdao.findByNroDisposicion(nroDisposicion);
 				
-				pslist = psdao.buscarPorLegajo(legajo);
-				
-				if (pslist.size()==0){
-					panelPS = false;
-				} else {
-					panelPS = true;
-					
-					for (int i=0; i<pslist.size(); i++){
-						ptlist = ptdao.getByIdPs(pslist.get(i).getId());
-						for (int j=0; j<ptlist.size(); j++){
-							planes.add(ptlist.get(j));
-						}
+			if (pslist.size()==0){
+				panelPS = false;
+				panelNo = true;
+			} else {
+				panelPS = true;
+				panelNo = false;
+									
+				for (int i=0; i<pslist.size(); i++){
+					ptlist = ptdao.getByIdPs(pslist.get(i).getId());
+					for (int j=0; j<ptlist.size(); j++){
+						planes.add(ptlist.get(j));
 					}
+				}
 					
-					for (int i=0; i<pslist.size(); i++){
-						iflist = ifdao.getByIdPs(pslist.get(i).getId());
-						for (int j=0; j<iflist.size(); j++){
-							informes.add(iflist.get(j));
-						}
+				for (int i=0; i<pslist.size(); i++){
+					iflist = ifdao.getByIdPs(pslist.get(i).getId());
+					for (int j=0; j<iflist.size(); j++){
+						informes.add(iflist.get(j));
 					}
+				}
 					
-				}	
-			}
+			}	
 		
 		}catch (Exception e){
-			panelAlumn = false;
 			panelPS = false;
+			panelNo = true;
 		}
 	}
 
 
 	
-	public Alumno getAlumn() {
-		return alumn;
+	public String getNroDisposicion() {
+		return nroDisposicion;
 	}
 
-	public void setAlumn(Alumno alumn) {
-		this.alumn = alumn;
-	}
-
-	public int getLegajo() {
-		return legajo;
-	}
-
-	public void setLegajo(int legajo) {
-		this.legajo = legajo;
-	}
-
-	public String getNombreAlumn() {
-		return nombreAlumn;
-	}
-
-	public void setNombreAlumn(String nombreAlumn) {
-		this.nombreAlumn = nombreAlumn;
-	}
-
-	public int getIngreso() {
-		return ingreso;
-	}
-
-	public void setIngreso(int ingreso) {
-		this.ingreso = ingreso;
+	public void setNroDisposicion(String nroDisposicion) {
+		this.nroDisposicion = nroDisposicion;
 	}
 
 	public List<PS> getPslist() {
@@ -174,12 +137,12 @@ public class ConsultaAlumno {
 		this.panelPS = panelPS;
 	}
 
-	public boolean isPanelAlumn() {
-		return panelAlumn;
+	public boolean isPanelNo() {
+		return panelNo;
 	}
 
-	public void setPanelAlumn(boolean panelAlumn) {
-		this.panelAlumn = panelAlumn;
+	public void setPanelNo(boolean panelNo) {
+		this.panelNo = panelNo;
 	}
 	
 }

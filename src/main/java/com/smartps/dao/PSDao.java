@@ -132,4 +132,13 @@ public class PSDao extends Dao<PS> {
 		return pslist;
 	}
 	
+	public List<PS> findByNroDisposicion(String nroDisposicion) {	
+		this.getSession();
+		session.beginTransaction();
+		List<PS> pslist=(List<PS>) session.createQuery("SELECT p FROM PS p WHERE p.nroDisposicion = :nroDisposicion")
+				.setParameter("nroDisposicion", nroDisposicion).getResultList();
+		session.getTransaction().commit();
+		return pslist;
+	}
+	
 }

@@ -36,6 +36,10 @@
 		            <p:menuitem value="Agregar nuevo" outcome="/nuevoInforme" icon="ui-icon-disk" />
 		            <p:menuitem value="Buscar" outcome="/buscarIF" icon="ui-icon-search" />
 		        </p:submenu>
+		        <p:submenu label="Consultas">
+		        	<p:menuitem value="Por Legajo del Alumno" outcome="/consultas/consultLegajo" icon="ui-icon-search"/>
+		        	<p:menuitem value="Por Nro de disposicion" outcome="/consultas/consultNroDisposicion" icon="ui-icon-search"/>		        	
+		        </p:submenu>		        
 		        <p:submenu label="Reportes">
 		        	<p:menuitem value="Estadisticas" outcome="/reportes" icon="ui-icon-star"/>
 		        </p:submenu>
