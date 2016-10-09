@@ -55,5 +55,13 @@ public class AlumnoDAO extends Dao<Alumno> {
 		return lista.size()>0;
 	}
 
+	public List<Alumno> findByIngreso(int cicloLectivo) {	
+		this.getSession();
+		session.beginTransaction();
+		List<Alumno> alumnlist=(List<Alumno>) session.createQuery("SELECT p FROM Alumno p WHERE p.cicloLectivo = :cicloLectivo")
+				.setParameter("cicloLectivo", cicloLectivo).getResultList();
+		session.getTransaction().commit();
+		return alumnlist;
+	}
 	
 }

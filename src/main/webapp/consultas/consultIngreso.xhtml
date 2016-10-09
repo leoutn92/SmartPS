@@ -1,0 +1,83 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <h:head>
+    	<title>SmartPS</title>
+    </h:head>
+    
+    <h:body>
+
+	 	<ui:composition template="/templates/template.xhtml">
+	 		<ui:define name="content"> 
+
+	 			<h:outputLabel value="Consulta de Practicas Supervisadas por año de ingreso de alumno"/>
+	 			<div><br /></div>
+			    <h:panelGrid id="consulta" columns="2" >
+			        <h:outputLabel for="alumno" value="Año de ingreso del alumno: " />
+			        <h:inputText id="alumno" value="#{consultaIngreso.ingreso}" />
+			    </h:panelGrid>
+
+		        <div align="right">
+		        	<br />
+ 					<p:commandButton value="Consultar" action="#{consultaIngreso.consultaByParametro()}" update="resultado" />
+ 					<br /><br></br>
+				</div>
+
+	 			<div><br /></div>
+	 				 			
+				<p:outputPanel id="resultado">
+				
+					<p:fieldset rendered="#{consultaIngreso.panelPS}" legend="Practica Supervisada" style="margin-bottom:20px">
+						<p:dataTable id="pss" var="linea" value="#{consultaIngreso.pss}">
+
+						    <p:column headerText="Titulo de PS">
+						        #{linea.titulo}
+						    </p:column>
+													 
+						    <p:column headerText="Estado de PS">
+						        #{linea.estado.nombre}
+						    </p:column>
+						 
+						    <p:column headerText="Area de PS">
+						        #{linea.area.nombre}
+						    </p:column>
+						    
+							<p:column headerText="Tipo de PS">
+						        #{linea.tipoActividad.nombre}
+						    </p:column>
+						    
+						    <p:column headerText="Organizacion de PS">
+						        #{linea.organizacion.nombre}
+						    </p:column>
+						    
+							<p:column headerText="Nombre del Alumno">
+						        #{linea.alumno.nombre}
+						    </p:column>	
+
+							<p:column headerText="Legajo del Alumno">
+						        #{linea.alumno.legajo}
+						    </p:column>
+						    
+							<p:column headerText="Ciclo Lectivo">
+						        #{linea.cicloLectivo}
+						    </p:column>						    
+						
+						</p:dataTable>				        
+					</p:fieldset>
+					
+					<p:fieldset rendered="#{consultaIngreso.panelNo}" style="margin-bottom:20px">
+						No se encontraron Practicas Supervisadas de alumnos que hayan ingreso ese año
+					</p:fieldset>					
+					
+				</p:outputPanel>
+
+	 		</ui:define>
+	 	</ui:composition>
+
+    </h:body>
+</html>
