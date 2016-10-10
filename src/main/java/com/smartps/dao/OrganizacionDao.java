@@ -9,7 +9,7 @@ import com.smartps.util.HibernateUtil;
 
 public class OrganizacionDao{
 	private static OrganizacionDao instancia=null;
-	Session session= HibernateUtil.getSessionFactory().openSession();
+	Session session= HibernateUtil.getSessionFactory().getCurrentSession();
 
 
 	

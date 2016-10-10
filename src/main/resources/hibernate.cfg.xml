@@ -13,6 +13,8 @@
     <property name="show_sql">true</property>
     <property name="format_sql">true</property>
     <property name="hbm2ddl.auto">update</property>
+    <property name="hibernate.current_session_context_class">thread</property>
+    <property name="hibernate.enable_lazy_load_no_trans">true</property>
     <mapping resource="com/smartps/alumno/Alumno.hbm.xml" />
     <mapping resource="com/smartps/ps/PS.hbm.xml" />
     <mapping resource="com/smartps/estado/Estado.hbm.xml" />

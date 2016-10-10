@@ -13,7 +13,7 @@ import com.smartps.model.PS;
 
 public class AlumnoDAO {
 	private static AlumnoDAO instancia = null;
-	Session session= HibernateUtil.getSessionFactory().openSession();
+	Session session= HibernateUtil.getSessionFactory().getCurrentSession();
 	
 	protected AlumnoDAO(){};
 
@@ -25,25 +25,25 @@ public class AlumnoDAO {
 	}
 	
 	public void save(Alumno alumno){
-		session= HibernateUtil.getSessionFactory().openSession();
+		session= HibernateUtil.getSessionFactory().getCurrentSession();
 		session.beginTransaction();
 		session.save(alumno);
 		session.getTransaction().commit();
 	}
 	
 	public void update(Alumno alumno){
-		session= HibernateUtil.getSessionFactory().openSession();
+		session= HibernateUtil.getSessionFactory().getCurrentSession();
 	}
 	
 	public void delete(Alumno alumno){
-		session= HibernateUtil.getSessionFactory().openSession();
+		session= HibernateUtil.getSessionFactory().getCurrentSession();
 		session.beginTransaction();
 		session.delete(alumno);
 		session.getTransaction().commit();
 	}
 
 	public Alumno buscarAlumno(int legajo) {
-		session= HibernateUtil.getSessionFactory().openSession();
+		session= HibernateUtil.getSessionFactory().getCurrentSession();
 		Alumno alu=(Alumno) session.get(Alumno.class,legajo);
 		return alu;
 	}

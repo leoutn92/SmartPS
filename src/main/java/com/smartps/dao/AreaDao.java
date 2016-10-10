@@ -9,7 +9,7 @@ import com.smartps.util.HibernateUtil;
 
 public class AreaDao {
 	private static AreaDao instancia=null;
-	private Session session = HibernateUtil.getSessionFactory().openSession();
+	private Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 
 	protected AreaDao(){};
 	
@@ -33,7 +33,7 @@ public class AreaDao {
 	
 	
 	public void save(Object area) {
-		session= HibernateUtil.getSessionFactory().openSession();
+		session= HibernateUtil.getSessionFactory().getCurrentSession();
 		session.beginTransaction();
 		session.save(area);
 		session.getTransaction().commit();

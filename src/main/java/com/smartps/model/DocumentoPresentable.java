@@ -1,12 +1,16 @@
 package com.smartps.model;
 
+import java.io.InputStream;
+import java.sql.Blob;
 import java.util.Date;
 
 public class DocumentoPresentable  {
 	private Date fechaDePresentacion;
 	private Date fechaAprobDesaprob;
 	private String observaciones;
-	private String DirDocumentoDigital = " ";
+	private Blob file;
+	private Integer ordenanza;
+	private String dirDocumentoDigital;
 	public Date getFechaDePresentacion() {
 		return fechaDePresentacion;
 	}
@@ -25,10 +29,22 @@ public class DocumentoPresentable  {
 	public void setObservaciones(String observaciones) {
 		this.observaciones = observaciones;
 	}
+	public Integer getOrdenanza() {
+		return ordenanza;
+	}
+	public void setOrdenanza(Integer ordenanza) {
+		this.ordenanza = ordenanza;
+	}
+	public Blob getFile() {
+		return file;
+	}
+	public void setFile(Blob file) {
+		this.file = file;
+	}
 	public String getDirDocumentoDigital() {
-		return DirDocumentoDigital;
+		return dirDocumentoDigital;
 	}
 	public void setDirDocumentoDigital(String dirDocumentoDigital) {
-		DirDocumentoDigital = dirDocumentoDigital;
+		this.dirDocumentoDigital = dirDocumentoDigital;
 	}
 }

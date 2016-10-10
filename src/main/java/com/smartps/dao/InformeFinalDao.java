@@ -11,7 +11,7 @@ import com.smartps.util.HibernateUtil;
 
 public class InformeFinalDao {
 	private static InformeFinalDao instancia = null;
-	Session session= HibernateUtil.getSessionFactory().openSession();
+	Session session= HibernateUtil.getSessionFactory().getCurrentSession();
 	protected InformeFinalDao(){};
 	
 	public static InformeFinalDao getInstance(){
@@ -46,7 +46,7 @@ public class InformeFinalDao {
 	}
 	
 	public void save(InformeFinal informe) {
-		session= HibernateUtil.getSessionFactory().openSession();
+		session= HibernateUtil.getSessionFactory().getCurrentSession();
 		session.beginTransaction();
 		session.save(informe);
 		session.getTransaction().commit();
@@ -58,14 +58,14 @@ public class InformeFinalDao {
 	}
 
 	public void delete(InformeFinal objeto) {
-		session= HibernateUtil.getSessionFactory().openSession();
+		session= HibernateUtil.getSessionFactory().getCurrentSession();
 		session.beginTransaction();
 		session.delete(objeto);
 		session.getTransaction().commit();
 	}
 
 	public List<InformeFinal> getByIdPs(int idps) {
-		session= HibernateUtil.getSessionFactory().openSession();
+		session= HibernateUtil.getSessionFactory().getCurrentSession();
 		List<InformeFinal> ifs = session.createQuery("SELECT f FROM InformeFinal f where f.ps.id= :idps")
 				.setParameter("idps",idps).getResultList();
 		return ifs;

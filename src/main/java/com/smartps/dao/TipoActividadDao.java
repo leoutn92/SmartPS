@@ -9,7 +9,7 @@ import com.smartps.util.HibernateUtil;
 
 public class TipoActividadDao {	
 	private static TipoActividadDao instancia;
-	private Session session = HibernateUtil.getSessionFactory().openSession();
+	private Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 	
 	protected  TipoActividadDao(){
 		
@@ -30,7 +30,7 @@ public class TipoActividadDao {
 }
 	
 	public void save(TipoActividad tActividad) {
-		session= HibernateUtil.getSessionFactory().openSession();
+		session= HibernateUtil.getSessionFactory().getCurrentSession();
 		session.beginTransaction();
 		session.save(tActividad);
 		session.getTransaction().commit();
