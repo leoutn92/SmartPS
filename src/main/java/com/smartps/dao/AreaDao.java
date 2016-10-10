@@ -18,4 +18,3 @@ public class AreaDao extends Dao<Area>{
 	
 	
 }
-	

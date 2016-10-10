@@ -2,13 +2,7 @@ package com.smartps.dao;
 
 import java.util.Date;
 import java.util.List;
-
-import org.hibernate.Session;
-
-import com.smartps.model.InformeFinal;
-import com.smartps.model.PS;
 import com.smartps.model.PlanDeTrabajo;
-import com.smartps.util.HibernateUtil;
 
 public class PlanDeTrabajoDao extends Dao<PlanDeTrabajo>{
 	private static PlanDeTrabajoDao instancia=null;
@@ -63,5 +57,13 @@ public class PlanDeTrabajoDao extends Dao<PlanDeTrabajo>{
 		session.getTransaction().commit();
 		return pts;
 	}
+	
+	public PlanDeTrabajo findByID(int id){
+		session.beginTransaction();
+		PlanDeTrabajo pt = (PlanDeTrabajo) session.find(PlanDeTrabajo.class, id);
+		session.getTransaction().commit();
+		return pt;
+	}
+	
 	
 }

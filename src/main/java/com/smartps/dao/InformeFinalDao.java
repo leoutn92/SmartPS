@@ -4,8 +4,6 @@ import java.util.List;
 import java.util.Date;
 
 import com.smartps.model.InformeFinal;
-import com.smartps.model.PlanDeTrabajo;
-import com.smartps.util.HibernateUtil;
 
 
 public class InformeFinalDao extends Dao<InformeFinal> {

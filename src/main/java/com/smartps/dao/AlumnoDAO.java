@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.smartps.model.Alumno;
 import com.smartps.model.PS;
-import com.smartps.util.HibernateUtil;
 import com.smartps.dao.Dao;
 
 

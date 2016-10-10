@@ -150,4 +150,14 @@ public class PSDao extends Dao<PS> {
 		return pslist;
 	}
 	
+	public PS findById(int id) {
+		session.beginTransaction();
+		PS ps = (PS) session.get(PS.class, id);
+		session.getTransaction().commit();
+		return ps;
+	}
+	
+	
+	
+	
 }

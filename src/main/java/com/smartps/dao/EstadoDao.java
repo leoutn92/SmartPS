@@ -3,7 +3,6 @@ package com.smartps.dao;
 import java.util.List;
 
 import com.smartps.model.Estado;
-import com.smartps.util.HibernateUtil;
 
 public class EstadoDao extends Dao<Estado> {
 	private static EstadoDao instancia = null;
@@ -35,6 +34,17 @@ public class EstadoDao extends Dao<Estado> {
 			return estado.getNombre();
 		}
 		return null;
+	}
+	public Estado getEstadoPlanPresentado() {
+		return this.buscarPorNombre("Plan presentado");
+	}
+	public Estado getEstadoPlanObservado() {
+		// TODO Auto-generated method stub
+		return this.buscarPorNombre("Plan observado");
+	};
+	public Estado getEstadoPlanAprobado() {
+		// TODO Auto-generated method stub
+		return this.buscarPorNombre("Plan aprobado");
 	}
 	
 }

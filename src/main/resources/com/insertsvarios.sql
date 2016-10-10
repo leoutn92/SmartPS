@@ -12,3 +12,5 @@ insert into organizacion values(2,"Globant","We create digital journeys");
 
 insert into tipoactividad values(1,"Relacion Laboral","Jornada completa de 16 horas");
 insert into tipoactividad values(2,"Proyecto independiente","Trabaja desde la comodidad de tu casa");
+
+
