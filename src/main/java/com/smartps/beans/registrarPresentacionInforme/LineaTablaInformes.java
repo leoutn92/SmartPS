@@ -1,10 +1,10 @@
 package com.smartps.beans.registrarPresentacionInforme;
 
+import java.sql.Blob;
 import java.util.Date;
 
 import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
-
 import com.smartps.model.PS;
 @ManagedBean
 @ApplicationScoped
@@ -16,6 +16,13 @@ public class LineaTablaInformes {
 	private String psTitle;
 	private Date fechaPresentacion;
 	private PS ps;
+	private Blob blob;
+	public Blob getBlob() {
+		return blob;
+	}
+	public void setBlob(Blob blob) {
+		this.blob = blob;
+	}
 	public String getNombreAlumno() {
 		return nombreAlumno;
 	}

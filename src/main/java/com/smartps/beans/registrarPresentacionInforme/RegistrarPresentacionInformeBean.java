@@ -1,6 +1,12 @@
 package com.smartps.beans.registrarPresentacionInforme;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.Serializable;
+import java.sql.Blob;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -11,6 +17,8 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.faces.view.ViewScoped;
+
+import org.apache.commons.io.IOUtils;
 
 import com.smartps.dao.EstadoDao;
 import com.smartps.dao.InformeFinalDao;
@@ -200,6 +208,7 @@ public class RegistrarPresentacionInformeBean implements Serializable {
 			PlanDeTrabajo plan = planDeTrabajoDao.getLastByFechaAprobadoDesaprobado(ps.getId());
 			if (plan!=null) {
 				linea.setDirPlan(plan.getDirDocumentoDigital());
+				linea.setBlob(plan.getFile());
 			}
 			tablaInformes.add(linea);
 		}
@@ -221,7 +230,6 @@ public class RegistrarPresentacionInformeBean implements Serializable {
 		return " ";
 	}
 	public String registrarPresentacionInformes() {
-		this.dirPlan=null;
 		String salida=" ";
 		for (LineaTablaInformes lineaTablaInforme: this.tablaInformes) {
 			salida.concat(this.registrarPresentacionInforme(lineaTablaInforme));
@@ -229,6 +237,37 @@ public class RegistrarPresentacionInformeBean implements Serializable {
 		this.updateTablaInformes();
 		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Bien hecho!","los informes han sido registrados exitosamente"));
 		return salida;
+	}
+	
+	public String updatePdf() {
+		this.legajo = Integer.parseInt(FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("legajo"));
+		int idEstadoPlanPresentado = EstadoDao.getInstance().getEstadoPlanAprobado().getId();
+		PS ps = psDao.searchPs(legajo,idEstadoPlanPresentado);	
+		PlanDeTrabajo plan = planDeTrabajoDao.getLastByFechaAprobadoDesaprobado(ps.getId());
+		this.updatePdf(plan.getId());
+		return "";
+	}
+	
+	public void updatePdf(int idPlan) {
+		PlanDeTrabajo plan = planDeTrabajoDao.findByID(idPlan);
+		Blob blob = plan.getFile();
+		File outputFile = new File("C:/Users/User/workspace/SmartPS/src/main/webapp/resources/pdf/docTemp.pdf");
+		try {
+			FileOutputStream foe = new FileOutputStream(outputFile);
+			IOUtils.copy(blob.getBinaryStream(),foe);
+			this.dirPlan="resources/pdf/docTemp.pdf";
+			this.renderedPlanDigital=true;
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 	
 }

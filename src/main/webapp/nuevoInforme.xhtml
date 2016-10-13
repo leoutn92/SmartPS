@@ -39,11 +39,8 @@
 			         #{linea.estado}
 			    </p:column>
 			    <p:column headerText="Plan de ps">
-			    	<h:commandButton value="VER PLAN" action="#{registrarPresentacionInformeBean.setDirPlan()}" update="pdf">
-			    		<f:param name="pdf" value="#{linea.dirPlan}" />
-			    		<f:param name="legajo" value="#{registrarPresentacionInformeBean.legajo}" />
-			    		<f:param name="nomAlumno" value="#{registrarPresentacionInformeBean.nombreAlumno}" />
-			    		<f:param name="psTitle" value="#{registrarPresentacionInformeBean.psTitle}" />
+			    	<h:commandButton value="VER PLAN" action="#{registrarPresentacionInformeBean.updatePdf()}" update="pdf">
+			    		<f:param name="legajo" value="#{linea.legajo}" />
 			    	</h:commandButton>
 			    </p:column>
 			    <p:column headerText="Titulo">
@@ -57,7 +54,7 @@
 			<div align="center">
 				<p:commandButton value="Guardar" actionListener="#{registrarPresentacionInformeBean.registrarInformes}" update="tabla,messages,pdf"/>
 			</div> 
-			<p:panel id="pdf">
+			<p:panel header="Documento digital" id="pdf" toggleable="true" closable="true" rendered="#{registrarPresentacionInformeBean.renderedPlanDigital}">
 				<object type="application/pdf" data="#{registrarPresentacionInformeBean.dirPlan};jsessionid=rfcb8qazvqir1vd4z8o8i74i9?pfdrid_c=true" width="100%" height="300px">
 				</object>
    			</p:panel>
