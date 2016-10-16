@@ -1,10 +1,6 @@
 package com.smartps.beans.aprobarPlan;
 
 import java.io.File;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.sql.Blob;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,8 +10,6 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.faces.view.ViewScoped;
-import javax.sql.rowset.serial.SerialBlob;
-
 import org.apache.commons.io.FileUtils;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;

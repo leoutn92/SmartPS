@@ -1,0 +1,82 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      
+    <h:head>
+    	<title>SmartPS</title>
+    </h:head>
+    
+    <h:body>
+
+ 	<ui:composition template="/templates/template.xhtml">
+ 		<ui:define name="content">
+ 			Registrar Decisión del consejo (Informes)
+ 			<h:panelGrid columns="2">
+ 			<h:outputText value="Legajo"/>   
+        	<h:inputText id="legajo" value="#{desicionDelConsejoInformes.legajo}"/>   
+        	<h:outputText value="Nombre Alumno" />   
+        	<p:inputText id="nomAlumno" value="#{desicionDelConsejoInformes.nombreAlumno}">
+        	</p:inputText>
+        	<h:outputText value="Titulo de Ps" />   
+        	<p:inputText id="psTitle" value="#{desicionDelConsejoInformes.psTitle}">
+        	</p:inputText>    
+			</h:panelGrid>
+    		<p:keyFilter for="legajo" mask="num" />
+    		<p:commandButton value="Buscar" actionListener="#{desicionDelConsejoInformes.updateTablaInformesParaDecision}" update="tabla"/>
+    		<p:dataTable id="tabla" var="linea" value="#{desicionDelConsejoInformes.tablaInformesParaDecision}">
+				<p:column headerText="nombre alumno">
+			         #{linea.nombreAlumno}
+			    </p:column>
+			    <p:column headerText="legajo">
+			         #{linea.legajo}
+			    </p:column>
+			    <p:column headerText="estado">
+			         #{linea.estado}
+			    </p:column>
+			    <p:column headerText="Titulo">
+			         #{linea.psTitle}
+			    </p:column>
+			    <p:column headerText="">
+			        <p:commandButton value="Registrar decision del consejo" type="button" onclick="PF('RDC').show();" >
+			        	<f:param name="linea" value="#{linea.idInforme}"/>
+			        </p:commandButton>
+			   <p:dialog header="Registrar decisión del consejo" widgetVar="RDC" minHeight="80">
+    		   		<h:panelGrid columns="1" rows="4">
+    		   			<h:panelGrid columns="2">
+    						<h:outputText value="Observaciones" />
+    						<p:inputTextarea value="#{linea.observaciones}" rows="6" cols="33" />
+    					</h:panelGrid>
+    					<h:panelGrid columns="2">
+    						<h:outputText value="Ordenanza" />
+    						<p:inputTextarea value="#{linea.ordenanza}" rows="6" cols="33" />
+    					</h:panelGrid>
+    					<h:panelGrid columns="2">
+    						<h:outputText value="Fecha evaluacion" />
+    						<p:outputLabel for="popup">
+        	   					<p:calendar id="popup" value="#{linea.fechaEvaluacion}" />
+        	   				</p:outputLabel>
+    					</h:panelGrid>
+	    				<h:panelGrid columns="4">
+	    					<h:form encType="multipart/form-data">
+    							<p:growl id="messages" showDetail="true"/>
+    							<p:fileUpload fileUploadListener="#{linea.handleFileUpload}" update="messages"/>
+    							<h:commandButton value="Aprobar" ajax="true" actionListener="#{desicionDelConsejoInformes.aprobar}" tabla="tabla,messages">
+			    					<f:attribute name="linea" value="#{linea.idInforme}"/>
+			    				</h:commandButton>
+			    				<h:commandButton value="Desaprobar" ajax="true" actionListener="#{desicionDelConsejoInformes.desaprobar}" tabla="tabla,messages">
+			    					<f:attribute name="linea" value="#{linea.idInforme}"/>
+			    				</h:commandButton>
+							</h:form>
+	    					</h:panelGrid>      		
+    				</h:panelGrid>
+				</p:dialog>
+			   </p:column>
+			</p:dataTable>
+    	</ui:define>
+ 	</ui:composition>
+    </h:body>
+</html>

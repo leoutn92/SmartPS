@@ -46,5 +46,20 @@ public class EstadoDao extends Dao<Estado> {
 		// TODO Auto-generated method stub
 		return this.buscarPorNombre("Plan aprobado");
 	}
+
+	public Estado getEstadoInformePresentado() {
+		// TODO Auto-generated method stub
+		return this.buscarPorNombre("Informe presentado");
+	}
+
+	public Estado getEstadoInformeObservado() {
+		// TODO Auto-generated method stub
+		return this.buscarPorNombre("Informe observado");
+	}
+
+	public Estado getEstadoInformeAprobado() {
+		// TODO Auto-generated method stub
+		return this.buscarPorNombre("Informe aprobado");
+	}
 	
 }

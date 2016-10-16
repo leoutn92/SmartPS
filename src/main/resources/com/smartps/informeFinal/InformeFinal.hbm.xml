@@ -22,5 +22,11 @@
         <property name="DirDocumentoDigital" type="string">
             <column name="directorio" length="200" not-null="false" unique="false" />
         </property>
+        <property name="ordenanza" type="java.lang.Integer">
+            <column name="ordenanza" length="200" not-null="false" unique="false" />
+        </property>
+        <property name="file" type="blob">
+        	<column name="file"/>
+        </property>
     </class>
 </hibernate-mapping>
