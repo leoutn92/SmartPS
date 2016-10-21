@@ -33,7 +33,10 @@
 				<p:outputPanel id="resultado">
 				
 					<p:fieldset rendered="#{consultaNroDisposicion.panelPS}" legend="Practica Supervisada" style="margin-bottom:20px">
-						<p:dataTable id="pss" var="linea" value="#{consultaNroDisposicion.pslist}">
+						<p:dataTable id="pss" var="linea" value="#{consultaNroDisposicion.pslist}" 
+										selection="#{consultaNroDisposicion.selectedps}" rowKey="#{linea.id}">
+						
+							<p:column selectionMode="single" style="width:16px;text-align:center"/>
 							
 							<p:column headerText="Titulo de PS">
 						        #{linea.titulo}
@@ -63,10 +66,17 @@
 						        #{linea.alumno.legajo}
 						    </p:column>
 						
-						</p:dataTable>				        
+						</p:dataTable>
+						
+						<div align="right">
+							<br />
+							<p:commandButton value="Ver Planes e Informes" action="#{consultaNroDisposicion.verPlanInf()}" update="resultado" />
+							<br /><br></br>
+						</div>
+						
 					</p:fieldset>
 					
-					<p:fieldset rendered="#{consultaNroDisposicion.panelPS}" legend="Plan de Trabajo" style="margin-bottom:20px">
+					<p:fieldset rendered="#{consultaNroDisposicion.panelPlanInf}" legend="Plan de Trabajo" style="margin-bottom:20px">
 						<p:dataTable id="pts" var="lineapt" value="#{consultaNroDisposicion.planes}">
 							
 						    <p:column headerText="Fecha de Presentacion">
@@ -91,7 +101,7 @@
 						</p:dataTable>						
 					</p:fieldset>
 					
-					<p:fieldset rendered="#{consultaNroDisposicion.panelPS}" legend="Informe Final" style="margin-bottom:20px">
+					<p:fieldset rendered="#{consultaNroDisposicion.panelPlanInf}" legend="Informe Final" style="margin-bottom:20px">
 						<p:dataTable id="ifs" var="lineaif" value="#{consultaNroDisposicion.informes}">
 							
 						    <p:column headerText="Fecha de Presentacion">

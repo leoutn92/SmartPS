@@ -145,7 +145,7 @@ public class PSDao extends Dao<PS> {
 	public List<PS> findByTitulo(String titulo) {	
 		this.getSession();
 		session.beginTransaction();
-		List<PS> pslist=(List<PS>) session.createQuery("SELECT p FROM PS p WHERE p.titulo = :titulo")
+		List<PS> pslist=(List<PS>) session.createQuery("SELECT p FROM PS p WHERE p.titulo LIKE CONCAT('%', :titulo, '%')")
 				.setParameter("titulo", titulo).getResultList();
 		session.getTransaction().commit();
 		return pslist;
