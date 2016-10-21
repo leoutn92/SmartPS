@@ -32,7 +32,7 @@ public class AlumnoDAO extends Dao<Alumno> {
 			pss=null;
 		}
 		session.getTransaction().commit();
-		return pss.get(0);
+		return pss.get(pss.size()-1);
 	}
 	
 
@@ -49,7 +49,7 @@ public class AlumnoDAO extends Dao<Alumno> {
 	public boolean tienePSVigente(int legajo) {
 		this.getSession();
 		session.beginTransaction();
-		List<PS> lista = session.createQuery("from PS where alumno.legajo = :legajo and not estado.nombre ='PS cancelada' and not estado.nombre ='PS aprobada' and not estado.nombre ='Informe vencido' and not estado.nombre ='Plan rechazado' and not estado.nombre ='Plan vencido'" ).setParameter("legajo", legajo).getResultList();
+		List<PS> lista = session.createQuery("from PS where alumno.legajo = :legajo and not estado.nombre ='PS cancelada' and not estado.nombre ='Informe vencido' and not estado.nombre ='Plan rechazado' and not estado.nombre ='Plan vencido'" ).setParameter("legajo", legajo).getResultList();
 		session.getTransaction().commit();
 		return lista.size()>0;
 	}
@@ -61,6 +61,14 @@ public class AlumnoDAO extends Dao<Alumno> {
 				.setParameter("cicloLectivo", cicloLectivo).getResultList();
 		session.getTransaction().commit();
 		return alumnlist;
+	}
+	
+	public boolean aproboPS(int legajo){
+		this.getSession();
+		session.beginTransaction();
+		List<PS> lista = session.createQuery("from PS where alumno.legajo = :legajo and estado.nombre='PS aprobada'").setParameter("legajo",legajo).getResultList();
+		session.getTransaction().commit();
+		return lista.size()>0;
 	}
 	
 }

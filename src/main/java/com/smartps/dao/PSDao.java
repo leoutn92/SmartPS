@@ -3,6 +3,7 @@ import java.util.List;
 
 import com.smartps.beans.registrarPresentacionInforme.CriteriosParaFiltrarPs;
 import com.smartps.model.PS;
+import com.smartps.model.PlanDeTrabajo;
 import com.smartps.util.HibernateUtil;
 
 public class PSDao extends Dao<PS> {
@@ -155,6 +156,15 @@ public class PSDao extends Dao<PS> {
 		PS ps = (PS) session.get(PS.class, id);
 		session.getTransaction().commit();
 		return ps;
+	}
+	
+	
+	public List<PlanDeTrabajo> getPlanes(int idps){
+		this.getSession();
+		session.beginTransaction();
+		List<PlanDeTrabajo> lista = session.createQuery("from PlanDeTrabajo pl where pl.ps.id = :id order by pl.fechaDePresentacion desc").setParameter("id", idps).getResultList();
+		session.getTransaction().commit();
+		return lista;
 	}
 
 	

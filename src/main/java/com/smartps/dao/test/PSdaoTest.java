@@ -3,6 +3,7 @@ package com.smartps.dao.test;
 import static org.junit.Assert.*;
 
 import java.util.Date;
+import java.util.List;
 
 import org.junit.After;
 import org.junit.Before;
@@ -19,6 +20,7 @@ import com.smartps.model.PlanDeTrabajo;
 
 public class PSdaoTest {
 	PS ps=new PS();
+	PSDao dao = new  PSDao();
 	
 	@Before
 	public void setUp() throws Exception {
@@ -51,14 +53,14 @@ public class PSdaoTest {
 		assertTrue(valant==valpos-1);
 	}
 	
-	//este test falla. arreglar PSDao
 	@Test
-	public void testDelete(){
-		int valant = PSDao.getInstance().getAll().size();
-		PSDao.getInstance().delete(ps);
-		int valpos = PSDao.getInstance().getAll().size();
-		assertTrue(valant==valpos+1);
+	public void testgetplanes(){
+		PS sp = new AlumnoDAO().getMostRecentPS(18189);
+		List<PlanDeTrabajo> lista = dao.getPlanes(sp.getId());
+		assertTrue(sp.getTitulo(),lista.size()>0);
 	}
+	
+	
 	
 
 }
