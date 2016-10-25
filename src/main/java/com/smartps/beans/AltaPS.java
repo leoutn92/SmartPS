@@ -19,6 +19,7 @@ import com.smartps.dao.PSDao;
 import com.smartps.dao.PlanDeTrabajoDao;
 import com.smartps.dao.TipoActividadDao;
 import com.smartps.model.Alumno;
+import com.smartps.model.Estado;
 import com.smartps.model.PS;
 import com.smartps.model.PlanDeTrabajo;
 
@@ -103,7 +104,7 @@ public class AltaPS {
 	public void guardarPS(){		
 		FacesContext context = FacesContext.getCurrentInstance();
 		if (!this.faltanCampos()){
-			ps.setEstado(daoEst.getById(1));
+			ps.setEstado(daoEst.getById(Estado.PLAN_PRESENTADO));
 			ps.setAlumno(alum);
 			daoPS.save(ps);
 			plan.setPs(ps);
@@ -160,7 +161,7 @@ public class AltaPS {
 			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Debe ingresar una fecha de presentación del plan"));
 		}
 		
-		return ps.getTitulo().trim().equals("") || ps.getCuatrimestre()==0 ||ps.getArea()==null || ps.getOrganizacion()==null || ps.getTipoActividad()==null || ps.getAlumno()==null || plan.getFechaDePresentacion()==null;
+		return ps.getTitulo().trim().equals("") || ps.getCuatrimestre()==0 ||ps.getArea()==null || ps.getOrganizacion()==null || ps.getTipoActividad()==null || ps.getAlumno()==null || plan.getFechaDePresentacion()==null || ps.getCicloLectivo()<2000;
 	}
 
 	public boolean isVisiblePanelPSNueva(){

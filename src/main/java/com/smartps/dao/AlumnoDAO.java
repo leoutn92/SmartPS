@@ -25,7 +25,7 @@ public class AlumnoDAO extends Dao<Alumno> {
 	public PS getMostRecentPS(int legajo) {
 		this.getSession();
 		session.beginTransaction();
-		List<PS> pss =(List<PS>) session.createQuery("SELECT p FROM PS p where p.alumno.legajo = :legajo and not( p.estado.nombre = 'Plan vencido') or p.estado.nombre = 'Informe vencido' or p.estado.nombre = 'PS cancelada'  or p.estado.nombre = 'PS aprobada' or p.estado.nombre = 'Plan rechazado'" )
+		List<PS> pss =(List<PS>) session.createQuery("SELECT p FROM PS p where p.alumno.legajo = :legajo and not( p.estado.id=5 or p.estado.id=9 or p.estado.id=11  or p.estado.id=10 or p.estado.id=4)" )
 				.setParameter("legajo",legajo).getResultList();
 		
 		if (pss.isEmpty()){
