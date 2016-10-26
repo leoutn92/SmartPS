@@ -100,19 +100,19 @@
 						        	<div align="left"><br/><h:outputText value="Totales por Area"/></div>
 						        </f:facet>
 						        <h:outputLabel for="cantInformesPresentados" value="Cantidad de Informes Finales presentados: " />
-						        <h:inputText id="cantInformesPresentados" value="#{generarReporteIArea.cPP}" />
+						        <h:inputText id="cantInformesPresentados" value="#{generarReporteIArea.cPP}"><f:convertNumber pattern="#0" /></h:inputText>
 						        <h:outputLabel value="" />
 								<h:outputLabel for="porcInformesPresent" value="Porcentaje de Informes Presentados: " />
-						        <h:inputText id="porcInformesPresent" value="#{generarReporteIArea.cPPre}" />
+						        <h:inputText id="porcInformesPresent" value="#{generarReporteIArea.cPPre}"><f:convertNumber pattern="#0.00" /></h:inputText>
 						        <h:outputLabel value="%" />
 						        <h:outputLabel for="porcInformesAprob" value="Porcentaje de Informes Aprobados: " />
-						        <h:inputText id="porcInformesAprob" value="#{generarReporteIArea.cPA}" />
+						        <h:inputText id="porcInformesAprob" value="#{generarReporteIArea.cPA}"><f:convertNumber pattern="#0.00" /></h:inputText>
 						        <h:outputLabel value="%" />
 								<h:outputLabel for="porcInformesObserv" value="Porcentaje de Informes Observados: " />
-						        <h:inputText id="porcInformesObserv" value="#{generarReporteIArea.cPO}" />
+						        <h:inputText id="porcInformesObserv" value="#{generarReporteIArea.cPO}"><f:convertNumber pattern="#0.00" /></h:inputText>
 								<h:outputLabel value="%" />				        
 						        <h:outputLabel for="porcInformesVenc" value="Porcentaje de Informes Vencidos" />
-						        <h:inputText id="porcInformesVenc" value="#{generarReporteIArea.cPV}" />
+						        <h:inputText id="porcInformesVenc" value="#{generarReporteIArea.cPV}"><f:convertNumber pattern="#0.00" /></h:inputText>
 						        <h:outputLabel value="%" />
 				    		</h:panelGrid>
 				    	</p:fieldset>
@@ -131,11 +131,11 @@
 								    </p:column>
 								    
 								    <p:column headerText="Cantidad de informes">
-								        #{lineap.contador}
+								    	<h:outputText value="#{lineap.contador}"><f:convertNumber pattern="#0" /></h:outputText>								        
 								    </p:column>
 								    
 									<p:column headerText="Porcentaje (%)">
-								        #{lineap.porcentaje}
+										<h:outputText value="#{lineap.porcentaje}"><f:convertNumber pattern="#0.00" /></h:outputText>
 								    </p:column>
 								</p:dataTable>
 						        
