@@ -100,19 +100,19 @@
 						        	<div align="left"><br/><h:outputText value="Totales por Tipo de Actividad"/></div>
 						        </f:facet>
 				        <h:outputLabel for="cantInformesPresentados" value="Cantidad de Informes Finales presentados: " />
-				        <h:inputText id="cantInformesPresentados" value="#{generarReporteITipo.cPP}" />
+				        <h:inputText id="cantInformesPresentados" value="#{generarReporteITipo.cPP}"><f:convertNumber pattern="#0" /></h:inputText>
 				        <h:outputLabel value="" />
 						<h:outputLabel for="porcInformesPresent" value="Porcentaje de Informes Presentados: " />
-				        <h:inputText id="porcInformesPresent" value="#{generarReporteITipo.cPPre}" />
+				        <h:inputText id="porcInformesPresent" value="#{generarReporteITipo.cPPre}"><f:convertNumber pattern="#0.00" /></h:inputText>
 				        <h:outputLabel value="%" />
 				        <h:outputLabel for="porcInformesAprob" value="Porcentaje de Informes Aprobados: " />
-				        <h:inputText id="porcInformesAprob" value="#{generarReporteITipo.cPA}" />
+				        <h:inputText id="porcInformesAprob" value="#{generarReporteITipo.cPA}"><f:convertNumber pattern="#0.00" /></h:inputText>
 				        <h:outputLabel value="%" />
 						<h:outputLabel for="porcInformesObserv" value="Porcentaje de Informes Observados: " />
-				        <h:inputText id="porcInformesObserv" value="#{generarReporteITipo.cPO}" />
+				        <h:inputText id="porcInformesObserv" value="#{generarReporteITipo.cPO}"><f:convertNumber pattern="#0.00" /></h:inputText>
 						<h:outputLabel value="%" />				        
 				        <h:outputLabel for="porcInformesVenc" value="Porcentaje de Informes Vencidos" />
-				        <h:inputText id="porcInformesVenc" value="#{generarReporteITipo.cPV}" />
+				        <h:inputText id="porcInformesVenc" value="#{generarReporteITipo.cPV}"><f:convertNumber pattern="#0.00" /></h:inputText>
 				        <h:outputLabel value="%" />
 				    		</h:panelGrid>
 				    	</p:fieldset>
@@ -124,21 +124,20 @@
 						        <f:facet name="header">
 						        	<div align="left"><br/><h:outputText value="Totales"/></div>
 						        </f:facet>
- 						        <h:outputLabel for="cantInformesPresentadosTodos" value="Cantidad de Informes Finales presentados: " />
-						        <h:inputText id="cantInformesPresentadosTodos" value="#{generarReporteITipo.cPP}" />
-						        <h:outputLabel value="" />
-						        <h:outputLabel for="porcInformesPF" value="Porcentaje de Informes por Proyecto Final: " />
-						        <h:inputText id="porcInformesPF" value="#{generarReporteITipo.cPPF}" />
-						        <h:outputLabel value="%" />
-								<h:outputLabel for="porcInformesTI" value="Porcentaje de Informes por Tareas de Ingenieria: " />
-						        <h:inputText id="porcInformesTI" value="#{generarReporteITipo.cPTI}" />
-								<h:outputLabel value="%" />				        
-						        <h:outputLabel for="porcInformesGI" value="Porcentaje de Informes por Grupos de Investigacion:" />
-						        <h:inputText id="porcInformesGI" value="#{generarReporteITipo.cPGI}" />
-						        <h:outputLabel value="%" />
-						        <h:outputLabel for="porcInformesPasantia" value="Porcentaje de Informes por Pasantia:" />
-						        <h:inputText id="porcInformesPasantia" value="#{generarReporteITipo.cPPA}" />
-						        <h:outputLabel value="%" />
+						        <p:dataTable id="lineasPorc" var="lineap" value="#{generarReporteITipo.auxporclist}">
+									<p:column headerText="Tipo de Actividad">
+								        #{lineap.area}
+								    </p:column>
+								    
+								    <p:column headerText="Cantidad de informes">
+								    	<h:outputText value="#{lineap.contador}"><f:convertNumber pattern="#0" /></h:outputText>								        
+								    </p:column>
+								    
+									<p:column headerText="Porcentaje (%)">
+										<h:outputText value="#{lineap.porcentaje}"><f:convertNumber pattern="#0.00" /></h:outputText>
+								    </p:column>
+								</p:dataTable>
+								
 				    		</h:panelGrid>
 				    	</p:fieldset>
 				    </p:outputPanel>

@@ -45,13 +45,13 @@
 					    					
 				    <p:column filterBy="#{linea.fechaDePresentacion}" headerText="Fecha de Presentacion">
 						<h:outputText value="#{linea.fechaDePresentacion}">
-				        	<f:convertDateTime pattern="yyyy-MM-dd" type="date" />
+				        	<f:convertDateTime type="date" />
 				        </h:outputText>
 				    </p:column>
 					    					
 				    <p:column filterBy="#{linea.fechaAprobDesaprob}" headerText="Fecha de Aprobacion/Desaprobacion" visible="false">
 				   		<h:outputText value="#{linea.fechaAprobDesaprob}">
-				        	<f:convertDateTime pattern="yyyy-MM-dd" type="date" />
+				        	<f:convertDateTime type="date" />
 				        </h:outputText>
 				    </p:column>
 					    

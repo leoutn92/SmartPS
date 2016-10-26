@@ -100,22 +100,22 @@
 						        	<div align="left"><br/><h:outputText value="Totales por Tipo de Actividad"/></div>
 						        </f:facet>
 				        <h:outputLabel for="cantPlanesPresentados" value="Cantidad de Planes de Trabajo presentados: " />
-				        <h:inputText id="cantPlanesPresentados" value="#{generarReportePTipo.cPP}" />
+				        <h:inputText id="cantPlanesPresentados" value="#{generarReportePTipo.cPP}"><f:convertNumber pattern="#0" /></h:inputText>
 				        <h:outputLabel value="" />
 						<h:outputLabel for="porcPlanesPresent" value="Porcentaje de Planes Presentados: " />
-				        <h:inputText id="porcPlanesPresent" value="#{generarReportePTipo.cPPre}" />
+				        <h:inputText id="porcPlanesPresent" value="#{generarReportePTipo.cPPre}"><f:convertNumber pattern="#0.00" /></h:inputText>
 				        <h:outputLabel value="%" />
 				        <h:outputLabel for="porcPlanesAprob" value="Porcentaje de Planes Aprobados: " />
-				        <h:inputText id="porcPlanesAprob" value="#{generarReportePTipo.cPA}" />
+				        <h:inputText id="porcPlanesAprob" value="#{generarReportePTipo.cPA}"><f:convertNumber pattern="#0.00" /></h:inputText>
 				        <h:outputLabel value="%" />
 						<h:outputLabel for="porcPlanesObserv" value="Porcentaje de Planes Observados: " />
-				        <h:inputText id="porcPlanesObserv" value="#{generarReportePTipo.cPO}" />
+				        <h:inputText id="porcPlanesObserv" value="#{generarReportePTipo.cPO}"><f:convertNumber pattern="#0.00" /></h:inputText>
 				        <h:outputLabel value="%" />
 						<h:outputLabel for="porcPlanesRechaz" value="Porcentaje de Planes Rechazados: " />
-				        <h:inputText id="porcPlanesRechaz" value="#{generarReportePTipo.cPR}" />
+				        <h:inputText id="porcPlanesRechaz" value="#{generarReportePTipo.cPR}"><f:convertNumber pattern="#0.00" /></h:inputText>
 						<h:outputLabel value="%" />				        
 				        <h:outputLabel for="porcPlanesVenc" value="Porcentaje de Planes Vencidos" />
-				        <h:inputText id="porcPlanesVenc" value="#{generarReportePTipo.cPV}" />
+				        <h:inputText id="porcPlanesVenc" value="#{generarReportePTipo.cPV}"><f:convertNumber pattern="#0.00" /></h:inputText>
 				        <h:outputLabel value="%" />
 				    		</h:panelGrid>
 				    	</p:fieldset>
@@ -127,21 +127,20 @@
 						        <f:facet name="header">
 						        	<div align="left"><br/><h:outputText value="Totales"/></div>
 						        </f:facet>
- 						        <h:outputLabel for="cantPlanesPresentadosTodos" value="Cantidad de Planes de Trabajo presentados: " />
-						        <h:inputText id="cantPlanesPresentadosTodos" value="#{generarReportePTipo.cPP}" />
-						        <h:outputLabel value="" />
-						        <h:outputLabel for="porcPlanesPF" value="Porcentaje de Planes por Proyecto Final: " />
-						        <h:inputText id="porcPlanesPF" value="#{generarReportePTipo.cPPF}" />
-						        <h:outputLabel value="%" />
-								<h:outputLabel for="porcPlanesTI" value="Porcentaje de Planes por Tareas de Ingenieria: " />
-						        <h:inputText id="porcPlanesTI" value="#{generarReportePTipo.cPTI}" />
-								<h:outputLabel value="%" />				        
-						        <h:outputLabel for="porcPlanesGI" value="Porcentaje de Planes por Grupos de Investigacion:" />
-						        <h:inputText id="porcPlanesGI" value="#{generarReportePTipo.cPGI}" />
-						        <h:outputLabel value="%" />
-						        <h:outputLabel for="porcPlanesPasantia" value="Porcentaje de Planes por Pasantia:" />
-						        <h:inputText id="porcPlanesPasantia" value="#{generarReportePTipo.cPPA}" />
-						        <h:outputLabel value="%" />
+						        <p:dataTable id="lineasPorc" var="lineap" value="#{generarReportePTipo.auxporclist}">
+									<p:column headerText="Tipo de Actividad">
+								        #{lineap.area}
+								    </p:column>
+								    
+								    <p:column headerText="Cantidad de planes">
+								    	<h:outputText value="#{lineap.contador}"><f:convertNumber pattern="#0" /></h:outputText>								        
+								    </p:column>
+								    
+									<p:column headerText="Porcentaje (%)">
+										<h:outputText value="#{lineap.porcentaje}"><f:convertNumber pattern="#0.00" /></h:outputText>
+								    </p:column>
+								</p:dataTable>
+								
 				    		</h:panelGrid>
 				    	</p:fieldset>
 				    </p:outputPanel>
