@@ -1,0 +1,59 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="com.smartps.model.PS" table="PS" catalog="smartpsDB"> 
+        <id name="id" type="java.lang.Integer">
+    		<column name="id_ps" />
+    		<generator class="identity" />
+    	</id>
+		<many-to-one name="alumno" class="com.smartps.model.Alumno" fetch="select">
+            <column name="legajo" not-null="true" />
+        </many-to-one>
+        <many-to-one name="area" class="com.smartps.model.Area" fetch="select">
+            <column name="id_area" not-null="true" />
+        </many-to-one>
+        <many-to-one name="estado" class="com.smartps.model.Estado" fetch="select">
+            <column name="id_estado" not-null="true" />
+        </many-to-one>
+        <many-to-one name="organizacion" class="com.smartps.model.Organizacion" fetch="select">
+            <column name="id_org" not-null="true" />
+        </many-to-one>
+        <many-to-one name="tipoActividad" class="com.smartps.model.TipoActividad" fetch="select">
+            <column name="id_tipo_actividad" not-null="true" />
+        </many-to-one>
+        <!--
+        <composite-id>
+    		<key-property name="legajo" type="java.lang.Integer" column="legajo"/> 
+    		<key-property name="cicloLectivo" type="java.lang.Integer" column="ciclo_lectivo"/>
+    		<key-property name="cuatrimestre" type="java.lang.Integer" column="cuatrimestre"/>  
+		</composite-id>
+        -->
+        <property name="cicloLectivo" type="java.lang.Integer">
+            <column name="ciclo_lectivo" length="5" not-null="true" unique="false" />
+        </property>
+        <property name="cuatrimestre" type="java.lang.Integer">
+            <column name="cuatrimestre" length="5" not-null="true" unique="false" />
+        </property>  
+        <property name="titulo" type="string">
+            <column name="titulo" length="200" not-null="true" unique="false" />
+        </property>
+        <property name="nroDisposicion" type="string">
+            <column name="nro_disposicion" length="20" not-null="false" unique="false" />
+        </property>
+        <set name="informeFinal" table="InformeFinal"
+				inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="id_informe" not-null="false" />
+            </key>
+            <one-to-many class="com.smartps.model.PS" />
+        </set> 
+        <set name="planDeTrabajo" table="PlanDeTrabajo"
+				inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="id_plan" not-null="false" />
+            </key>
+            <one-to-many class="com.smartps.model.PS" />
+        </set>
+    </class>
+</hibernate-mapping>
