@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC
+"-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+
+<hibernate-configuration>
+<session-factory>
+    <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
+    <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/smartpsDB</property>
+    <property name="hibernate.connection.username">root</property>
+    <property name="hibernate.connection.password">root</property>
+    <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
+    <property name="current_session_context_class">thread</property>
+<!--     <property name="hibernate.query.factory_class">org.hibernate.hql.classic.ClassicQueryTranslatorFactory</property> -->
+<!-- 	<property name="hibernate.current_session_context_class">org.hibernate.context.ThreadLocalSessionContext</property> -->
+<!-- 	<property name="hibernate.current_session_context_class">org.hibernate.context.internal.ThreadLocalSessionContext</property> -->
+    <property name="show_sql">true</property>
+    <property name="format_sql">true</property>
+    <property name="hbm2ddl.auto">update</property>
+    <mapping resource="com/smartps/alumno/Alumno.hbm.xml" />
+    <mapping resource="com/smartps/ps/PS.hbm.xml" />
+    <mapping resource="com/smartps/estado/Estado.hbm.xml" />
+    <mapping resource="com/smartps/informeFinal/InformeFinal.hbm.xml" />
+    <mapping resource="com/smartps/organizacion/Organizacion.hbm.xml" />
+    <mapping resource="com/smartps/planDeTrabajo/PlanDeTrabajo.hbm.xml" />
+    <mapping resource="com/smartps/tipoActividad/TipoActividad.hbm.xml" />
+    <mapping resource="com/smartps/area/Area.hbm.xml" />
+</session-factory>
+</hibernate-configuration>
