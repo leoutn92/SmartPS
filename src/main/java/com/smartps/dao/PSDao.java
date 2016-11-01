@@ -2,7 +2,9 @@ package com.smartps.dao;
 import java.util.List;
 
 import com.smartps.beans.registrarPresentacionInforme.CriteriosParaFiltrarPs;
+import com.smartps.model.InformeFinal;
 import com.smartps.model.PS;
+import com.smartps.model.PlanDeTrabajo;
 import com.smartps.util.HibernateUtil;
 
 public class PSDao extends Dao<PS> {
@@ -144,7 +146,7 @@ public class PSDao extends Dao<PS> {
 	public List<PS> findByTitulo(String titulo) {	
 		this.getSession();
 		session.beginTransaction();
-		List<PS> pslist=(List<PS>) session.createQuery("SELECT p FROM PS p WHERE p.titulo = :titulo")
+		List<PS> pslist=(List<PS>) session.createQuery("SELECT p FROM PS p WHERE p.titulo LIKE CONCAT('%', :titulo, '%')")
 				.setParameter("titulo", titulo).getResultList();
 		session.getTransaction().commit();
 		return pslist;
@@ -156,8 +158,23 @@ public class PSDao extends Dao<PS> {
 		session.getTransaction().commit();
 		return ps;
 	}
-
 	
+	
+	public List<PlanDeTrabajo> getPlanes(int idps){
+		this.getSession();
+		session.beginTransaction();
+		List<PlanDeTrabajo> lista = session.createQuery("from PlanDeTrabajo pl where pl.ps.id = :id order by pl.fechaDePresentacion desc").setParameter("id", idps).getResultList();
+		session.getTransaction().commit();
+		return lista;
+	}
+	
+	public List<InformeFinal> getInformes (int idps){
+		this.getSession();
+		session.beginTransaction();
+		List<InformeFinal> lista = session.createQuery("from InformeFinal inf where inf.ps.id = :id order by inf.fechaDePresentacion desc").setParameter("id", idps).getResultList();
+		session.getTransaction().commit();
+		return lista;
+	}
 	
 	
 	

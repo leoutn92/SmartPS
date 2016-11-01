@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
+import javax.faces.bean.ViewScoped;
 
 import com.smartps.dao.PSDao;
 import com.smartps.dao.PlanDeTrabajoDao;
@@ -16,7 +16,7 @@ import com.smartps.model.InformeFinal;
 
 
 @ManagedBean
-@RequestScoped
+@ViewScoped
 public class ConsultaTitulo {
 
 	private PSDao psdao = PSDao.getInstance();
@@ -31,7 +31,10 @@ public class ConsultaTitulo {
 	private List<InformeFinal> iflist;
 	private List<InformeFinal> informes;
 	
+	private PS selectedps;
+	
 	private boolean panelPS;
+	private boolean panelPlanInf;
 	private boolean panelNo;
 	
 	
@@ -52,33 +55,49 @@ public class ConsultaTitulo {
 				
 			if (pslist.size()==0){
 				panelPS = false;
+				panelPlanInf = false;
 				panelNo = true;
 			} else {
 				panelPS = true;
+				panelPlanInf = false;
 				panelNo = false;
-									
-				for (int i=0; i<pslist.size(); i++){
-					ptlist = ptdao.getByIdPs(pslist.get(i).getId());
-					for (int j=0; j<ptlist.size(); j++){
-						planes.add(ptlist.get(j));
-					}
-				}
-					
-				for (int i=0; i<pslist.size(); i++){
-					iflist = ifdao.getByIdPs(pslist.get(i).getId());
-					for (int j=0; j<iflist.size(); j++){
-						informes.add(iflist.get(j));
-					}
-				}
-					
+
 			}	
 		
 		}catch (Exception e){
 			panelPS = false;
+			panelPlanInf = false;
 			panelNo = true;
 		}
 	}
 
+	public void verPlanInf(){
+		
+		try{
+			if (selectedps.getTitulo().equals("")){
+				panelPlanInf = false;
+			}else{
+				panelPlanInf = true;
+				
+				ptlist = ptdao.getByIdPs(selectedps.getId());
+				planes = new ArrayList<PlanDeTrabajo>();
+				for (int j=0; j<ptlist.size(); j++){
+					planes.add(ptlist.get(j));
+				}
+				
+				iflist = ifdao.getByIdPs(selectedps.getId());
+				informes = new ArrayList<InformeFinal>();
+				for (int j=0; j<iflist.size(); j++){
+					informes.add(iflist.get(j));
+				}
+				
+			}
+			
+		}catch (Exception e) {
+			panelPlanInf = false;
+		}
+		
+	}
 
 	
 
@@ -130,12 +149,28 @@ public class ConsultaTitulo {
 		this.informes = informes;
 	}
 
+	public PS getSelectedps() {
+		return selectedps;
+	}
+
+	public void setSelectedps(PS selectedps) {
+		this.selectedps = selectedps;
+	}
+
 	public boolean isPanelPS() {
 		return panelPS;
 	}
 
 	public void setPanelPS(boolean panelPS) {
 		this.panelPS = panelPS;
+	}
+
+	public boolean isPanelPlanInf() {
+		return panelPlanInf;
+	}
+
+	public void setPanelPlanInf(boolean panelPlanInf) {
+		this.panelPlanInf = panelPlanInf;
 	}
 
 	public boolean isPanelNo() {

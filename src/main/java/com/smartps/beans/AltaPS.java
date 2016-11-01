@@ -19,6 +19,7 @@ import com.smartps.dao.PSDao;
 import com.smartps.dao.PlanDeTrabajoDao;
 import com.smartps.dao.TipoActividadDao;
 import com.smartps.model.Alumno;
+import com.smartps.model.Estado;
 import com.smartps.model.PS;
 import com.smartps.model.PlanDeTrabajo;
 
@@ -49,6 +50,7 @@ public class AltaPS {
 	boolean noTienePSVigente;
 	boolean puedePresentarPlan;
 	boolean alumnoEncontrado;
+	boolean aproboPS;
 
 	
 	//resetea todos los campos y banderas del formularios. menos el legajo del tipo
@@ -62,10 +64,11 @@ public class AltaPS {
 		plan = new PlanDeTrabajo();
 		plan.setPs(ps);
 		plan.setFechaDePresentacion(new Date());
-		planes=new ArrayList<PlanDeTrabajo>();//TODO agregar el listadito de presentaciones
+		planes=new ArrayList<PlanDeTrabajo>();
 		noTienePSVigente=false;
 		puedePresentarPlan=false;
 		alumnoEncontrado=false;
+		aproboPS=false;
 		actSelec="";
 		orgSelec="";
 		areaSelec="";
@@ -85,12 +88,13 @@ public class AltaPS {
 			alum.setNombre("Alumno no encontrado");
 		}
 		else{
+			aproboPS=daoAlumno.aproboPS(alum.getLegajo());
 			puedePresentarPlan=daoAlumno.puedePresentarPlan(alum.getLegajo());
 			noTienePSVigente=!daoAlumno.tienePSVigente(alum.getLegajo());				
 			if ( !noTienePSVigente) {
 				ps=daoAlumno.getMostRecentPS(alum.getLegajo());
 				plan.setPs(ps);
-				planes=daoPlan.getAll();//TODO este metodo no sirve. hacer uno para presentaciones de una sola PS
+				planes=daoPS.getPlanes(ps.getId());
 			}
 			
 		}
@@ -99,18 +103,15 @@ public class AltaPS {
 // verifica que esten todos los campos completos (con alambre) y guarda la presentación.
 	public void guardarPS(){		
 		FacesContext context = FacesContext.getCurrentInstance();
-		if (this.faltanCampos()){
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Faltan completar campos"));
-		} else{
-				ps.setEstado(daoEst.getById(1));
-				ps.setAlumno(alum);
-				daoPS.save(ps);
-				plan.setPs(ps);
-				daoPlan.save(plan);
-				context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Éxito","Se guardó correctamente la Presentación del Plan") );
-				this.buscarAlumno();
-
-			}
+		if (!this.faltanCampos()){
+			ps.setEstado(daoEst.getById(Estado.PLAN_PRESENTADO));
+			ps.setAlumno(alum);
+			daoPS.save(ps);
+			plan.setPs(ps);
+			daoPlan.save(plan);
+			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Éxito","Se guardó correctamente la Presentación del Plan") );
+			this.buscarAlumno();
+		}
 	}
 
 
@@ -136,24 +137,47 @@ public class AltaPS {
 
 
 	private boolean faltanCampos(){
+		FacesContext context = FacesContext.getCurrentInstance();
+		if (ps.getTitulo().trim().equals("")){
+			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Debe introducir un título a la práctica"));
+		}
+		if (ps.getCuatrimestre()==0){
+			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Debe seleccionar un cuatrimestre"));
+		}
+		if (ps.getCicloLectivo()<2000){
+			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Debe ingresar un rango valido para cilco lectivo"));
+		}
+		if (ps.getArea()==null){
+			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "No ha seleccionado un area"));
+		}
 		
-		return ps.getTitulo().equals("") || ps.getCuatrimestre()==0 ||ps.getArea()==null || ps.getOrganizacion()==null || ps.getTipoActividad()==null || ps.getAlumno()==null;
+		if (ps.getTipoActividad()==null){
+			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "No ha seleccionado un tipo de actividad"));
+		}
+		if (ps.getOrganizacion()==null){
+			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "No ha seleccionado una organizacion"));
+		}
+		if (plan.getFechaDePresentacion()==null){
+			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Debe ingresar una fecha de presentación del plan"));
+		}
+		
+		return ps.getTitulo().trim().equals("") || ps.getCuatrimestre()==0 ||ps.getArea()==null || ps.getOrganizacion()==null || ps.getTipoActividad()==null || ps.getAlumno()==null || plan.getFechaDePresentacion()==null || ps.getCicloLectivo()<2000;
 	}
 
-	public boolean isVisiblePanelPS(){
-		return alumnoEncontrado && noTienePSVigente;
+	public boolean isVisiblePanelPSNueva(){
+		return alumnoEncontrado && noTienePSVigente &&!aproboPS;
 	}
 	
-	public boolean isVisiblePanelPS2(){
-		return alumnoEncontrado && !noTienePSVigente;
+	public boolean isVisiblePanelPSVigente(){
+		return alumnoEncontrado && !noTienePSVigente &&!aproboPS;
 	}
 	
-	public boolean isVisiblePanelPlan(){
-		return alumnoEncontrado && puedePresentarPlan;
+	public boolean isVisiblePanelPlanNuevo(){
+		return alumnoEncontrado && puedePresentarPlan &&!aproboPS;
 	}
 	
-	public boolean isVisiblePanelPlan2(){
-		return alumnoEncontrado && !puedePresentarPlan;
+	public boolean isVisiblePanelPlanPendiente(){
+		return alumnoEncontrado && !puedePresentarPlan &&!aproboPS;
 	}
 	
 	
@@ -250,7 +274,10 @@ public class AltaPS {
 		return puedePresentarPlan;
 	}
 
-	
+
+	public boolean isAproboPS() {
+		return aproboPS;
+	}
 	
 	
 }

@@ -17,6 +17,7 @@ import com.smartps.model.PS;
 import com.smartps.model.PlanDeTrabajo;
 import com.smartps.model.TipoActividad;
 import com.smartps.model.LineaDeReporte;
+import com.smartps.model.LineaPorcentaje;
 
 @ManagedBean
 @RequestScoped
@@ -34,6 +35,8 @@ public class GenerarReportePTipo {
 	private List<PlanDeTrabajo> planesPeriodo;	
 	private List<LineaDeReporte> linealist;
 	private List<LineaDeReporte> resultlist;
+	private List<LineaPorcentaje> auxporclist;
+	private List<LineaPorcentaje> porclist;	
 	
 	private List<TipoActividad> tipolist;
 	private String tipo;
@@ -44,6 +47,7 @@ public class GenerarReportePTipo {
 	private Date desde;
 	private Date hasta;
 	private LineaDeReporte linea;
+	private LineaPorcentaje linPorc;	
 
 	private boolean totTipo;
 	private boolean totTodos;
@@ -56,10 +60,6 @@ public class GenerarReportePTipo {
 	private double cPR;
 	private double cPV;
 	
-	private double cPPF;
-	private double cPTI;
-	private double cPGI;
-	private double cPPA;
 	
 	
 	@PostConstruct
@@ -71,6 +71,8 @@ public class GenerarReportePTipo {
 		planesPeriodo = new ArrayList<PlanDeTrabajo>();
 		linealist = new ArrayList<LineaDeReporte>();
 		resultlist = new ArrayList<LineaDeReporte>();
+		auxporclist = new ArrayList<LineaPorcentaje>();
+		porclist = new ArrayList<LineaPorcentaje>();		
 		
 		tipolist = new ArrayList<TipoActividad>();
 		tipolist = tadao.getAll();
@@ -358,41 +360,25 @@ public class GenerarReportePTipo {
 				totTipo = false;
 				totTodos = true;
 				
-				//Porcentaje Proyecto Final
-				double contPF = 0;
-				for (int l=0; l<resultlist.size(); l++){
-					if (resultlist.get(l).getTipoActividad().equals("Proyecto Final")){
-						contPF++;
+				for (int g=0; g<tipolist.size(); g++){
+					double contador = 0;
+					for (int h=0; h<resultlist.size(); h++){
+						if (resultlist.get(h).getTipoActividad().equals(tipolist.get(g).getNombre())){
+							contador++;							
+						}
+					}
+					linPorc = new LineaPorcentaje();
+					linPorc.setArea(tipolist.get(g).getNombre());
+					linPorc.setContador(contador);
+					linPorc.setPorcentaje(((contador*100)/cPP));
+					porclist.add(linPorc);
+				}
+				
+				for (int n=0; n<porclist.size(); n++){
+					if (porclist.get(n).getContador()!=0){
+						auxporclist.add(porclist.get(n));
 					}
 				}
-				cPPF = ((contPF/cPP)*100);
-				
-				//Porcentaje Tareas de ingenieria
-				double contTI = 0;
-				for (int n=0; n<resultlist.size(); n++){
-					if (resultlist.get(n).getTipoActividad().equals("Tareas de ingenieria")){
-						contTI++;
-					}
-				}
-				cPTI = ((contTI/cPP)*100);
-				
-				//Porcentaje Grupos de Investigacion
-				double contGI = 0;
-				for (int z=0; z<resultlist.size(); z++){
-					if (resultlist.get(z).getTipoActividad().equals("Grupos de Investigacion")){
-						contGI++;
-					}					
-				}
-				cPGI = ((contGI/cPP)*100);
-				
-				//Porcentaje Pasantia
-				double contPasantia = 0;
-				for (int e=0; e<resultlist.size(); e++){
-					if (resultlist.get(e).getTipoActividad().equals("Pasantia")){
-						contPasantia++;
-					}
-				}
-				cPPA = ((contPasantia/cPP)*100);
 				
 			}
 						
@@ -470,6 +456,22 @@ public class GenerarReportePTipo {
 		this.resultlist = resultlist;
 	}
 
+	public List<LineaPorcentaje> getAuxporclist() {
+		return auxporclist;
+	}
+
+	public void setAuxporclist(List<LineaPorcentaje> auxporclist) {
+		this.auxporclist = auxporclist;
+	}
+
+	public List<LineaPorcentaje> getPorclist() {
+		return porclist;
+	}
+
+	public void setPorclist(List<LineaPorcentaje> porclist) {
+		this.porclist = porclist;
+	}
+
 	public List<TipoActividad> getTipolist() {
 		return tipolist;
 	}
@@ -534,6 +536,14 @@ public class GenerarReportePTipo {
 		this.linea = linea;
 	}
 
+	public LineaPorcentaje getLinPorc() {
+		return linPorc;
+	}
+
+	public void setLinPorc(LineaPorcentaje linPorc) {
+		this.linPorc = linPorc;
+	}
+
 	public boolean isTotTipo() {
 		return totTipo;
 	}
@@ -596,38 +606,6 @@ public class GenerarReportePTipo {
 
 	public void setcPV(double cPV) {
 		this.cPV = cPV;
-	}
-
-	public double getcPPF() {
-		return cPPF;
-	}
-
-	public void setcPPF(double cPPF) {
-		this.cPPF = cPPF;
-	}
-
-	public double getcPTI() {
-		return cPTI;
-	}
-
-	public void setcPTI(double cPTI) {
-		this.cPTI = cPTI;
-	}
-
-	public double getcPGI() {
-		return cPGI;
-	}
-
-	public void setcPGI(double cPGI) {
-		this.cPGI = cPGI;
-	}
-
-	public double getcPPA() {
-		return cPPA;
-	}
-
-	public void setcPPA(double cPPA) {
-		this.cPPA = cPPA;
 	}
 
 }

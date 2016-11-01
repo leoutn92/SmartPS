@@ -95,19 +95,19 @@
 				        	<div align="left"><br/><h:outputText value="Totales"/></div>
 				        </f:facet>
 				        <h:outputLabel for="cantInformesPresentados" value="Cantidad de Informes Finales presentados: " />
-				        <h:inputText id="cantInformesPresentados" value="#{generarReporteIG.cPP}" />
+				        <h:inputText id="cantInformesPresentados" value="#{generarReporteIG.cPP}"><f:convertNumber pattern="#0" /></h:inputText>
 				        <h:outputLabel value="" />
 						<h:outputLabel for="porcInformesPresent" value="Porcentaje de Informes Presentados: " />
-				        <h:inputText id="porcInformesPresent" value="#{generarReporteIG.cPPre}" />
+				        <h:inputText id="porcInformesPresent" value="#{generarReporteIG.cPPre}"><f:convertNumber pattern="#0.00" /></h:inputText>
 				        <h:outputLabel value="%" />
 				        <h:outputLabel for="porcInformesAprob" value="Porcentaje de Informes Aprobados: " />
-				        <h:inputText id="porcInformesAprob" value="#{generarReporteIG.cPA}" />
+				        <h:inputText id="porcInformesAprob" value="#{generarReporteIG.cPA}"><f:convertNumber pattern="#0.00" /></h:inputText>
 				        <h:outputLabel value="%" />
 						<h:outputLabel for="porcInformesObserv" value="Porcentaje de Informes Observados: " />
-				        <h:inputText id="porcInformesObserv" value="#{generarReporteIG.cPO}" />
-						<h:outputLabel value="%" />				        
+				        <h:inputText id="porcInformesObserv" value="#{generarReporteIG.cPO}"><f:convertNumber pattern="#0.00" /></h:inputText>
+						<h:outputLabel value="%" />
 				        <h:outputLabel for="porcInformesVenc" value="Porcentaje de Informes Vencidos" />
-				        <h:inputText id="porcInformesVenc" value="#{generarReporteIG.cPV}" />
+				        <h:inputText id="porcInformesVenc" value="#{generarReporteIG.cPV}"><f:convertNumber pattern="#0.00" /></h:inputText>
 				        <h:outputLabel value="%" />
 				    </h:panelGrid>
 				</p:panel>

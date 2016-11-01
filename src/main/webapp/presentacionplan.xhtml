@@ -19,7 +19,8 @@
 				
 				
 				
- 				<p:outputLabel  value="Registracion de nuevo plan de PS" /><p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
+ 				<p:outputLabel  value="Registracion de nuevo plan de PS" />
+ 				<p:growl id="messages"  autoUpdate="true" showDetail="true" closable="true"  life="10000"/>
  				<p:separator/>
  				
  				<p:fieldset legend="Alumno" style="margin-bottom:20px">
@@ -28,18 +29,19 @@
 	 			 		<p:panelGrid columns="3">									
 							<p:outputLabel value="Nro de legajo"/>
 							<p:inputText id="legajo" value="#{altaPS.legajo}"/>
-							<p:commandButton value="Buscar" actionListener="#{altaPS.buscarAlumno()}" icon="ui-icon-search" update="panelPlan,panelPS,panelPS2,panelPlan2"/>
+							<p:commandButton value="Buscar" actionListener="#{altaPS.buscarAlumno()}" icon="ui-icon-search" update="panelPlanNuevo,panelPSNueva,panelPSVigente,panelPlanPendiente"/>
 															
 							<p:outputLabel value="Nombre del alumno:"/>
 							<p:outputLabel value="#{altaPS.alum.nombre}"/>
+							<p:outputLabel rendered="#{altaPS.aproboPS}" value="El alumno ya ha aprobado Práctica Supervisada"/>
 						</p:panelGrid>				 											
 					</p:fragment>
 				</p:fieldset>
 			
 			
 					
-				<p:outputPanel id="panelPS2">
-					<p:fieldset rendered="#{altaPS.visiblePanelPS2}" legend="Datos de la Práctica Supervisada" style="margin-bottom:20px">
+				<p:outputPanel id="panelPSVigente">
+					<p:fieldset rendered="#{altaPS.visiblePanelPSVigente}" legend="Datos de la Práctica Supervisada" style="margin-bottom:20px">
 					<p:outputLabel value="El alumno ya tiene una PS vigente a la fecha"/>
 					<p:panelGrid columns ="2">
 						<p:outputLabel value="Nombre de la PS:" />
@@ -56,25 +58,40 @@
 					</p:fieldset>
 				</p:outputPanel>
 								
-				<p:outputPanel  id="panelPlan2">
-					<p:fieldset rendered ="#{altaPS.visiblePanelPlan2}" legend="Presentación del Plan" style="margin-bottom:20px">
-						<p:outputLabel value="El alumno tiene planes presentados pendientes"/>
-<!-- 						este fragmento no se renderiza  -->
-		    			<p:dataTable value="#{altaPS.planes}" var="plan">
-    						<p:outputLabel value="#{plan.nombre}"/>
-    					</p:dataTable>
-<!--     					ffdf -->
+				<p:outputPanel  id="panelPlanPendiente">
+					<p:fieldset rendered ="#{altaPS.visiblePanelPlanPendiente}" legend="Presentación del Plan" style="margin-bottom:20px">
+	       				
+	       				<p:dataTable emptyMessage="No registra presentaciones de planes" var="plan" value="#{altaPS.planes}">
+	      					    <f:facet name="header">
+					            	Historial de presentaciones
+						        </f:facet>
+	       					
+	       					<p:column headerText="Fecha de presentación">
+	       						<p:outputLabel value="#{plan.fechaDePresentacion}">
+	       							<f:convertDateTime type="date" />
+	       						</p:outputLabel>
+	       					</p:column>
+	       					<p:column headerText="Fecha de evaluación">
+	       						<p:outputLabel value="#{plan.fechaAprobDesaprob}">
+	       							<f:convertDateTime type="date" />
+	       						</p:outputLabel>
+	       					</p:column>
+	       					<p:column headerText="Observaciones">
+	       						<p:outputLabel value="#{plan.observaciones}"/>
+	       					</p:column>
+	       				</p:dataTable> 
+						
 					</p:fieldset>
 				</p:outputPanel>
 				
-				<p:outputPanel id="panelPS">
+				<p:outputPanel id="panelPSNueva">
 				<p:fragment autoUpdate="true">
-				<p:fieldset rendered="#{altaPS.visiblePanelPS}" legend="Datos de la Práctica Supervisada" style="margin-bottom:20px"> 					
+				<p:fieldset rendered="#{altaPS.visiblePanelPSNueva}" legend="Datos de la Práctica Supervisada" style="margin-bottom:20px"> 					
  					<p:panelGrid columns="4" style="margin-bottom:20px">		 				
 
 						<p:outputLabel value="Título de la PS" />
-						<p:inputText value="#{altaPS.ps.titulo}" />
-						<p:outputLabel />
+						<p:inputText id="titulops" value="#{altaPS.ps.titulo}" />
+						<p:outputLabel/>
 						<p:outputLabel/>
 		        		
 		        		<p:outputLabel value="Tipo" />			        		
@@ -91,7 +108,7 @@
 					    					<p:inputText value="#{tipoActBean.tipoAct.nombre}"/>
 					    					<p:outputLabel value="Descripcion: "/>
 					    					<p:inputText value="#{tipoActBean.tipoAct.descripsion}"/>
-					    					<p:commandButton value="Guardar" actionListener="#{tipoActBean.guardar}" update="panelPS"/>
+					    					<p:commandButton value="Guardar" actionListener="#{tipoActBean.guardar}" update="panelPSNueva"/>
 					    				</p:panelGrid>
 					    			</p:overlayPanel>
 				    	</h:panelGroup> 
@@ -111,7 +128,7 @@
 			    					<p:inputText value="#{areaBean.area.nombre}"/>
 			    					<p:outputLabel value="Descripcion: "/>
 			    					<p:inputText value="#{areaBean.area.descripsion}"/>
-			    					<p:commandButton value="Guardar" actionListener="#{areaBean.guardar}" update="panelPS"/>
+			    					<p:commandButton value="Guardar" actionListener="#{areaBean.guardar}" update="panelPSNueva"/>
 			    				</p:panelGrid>
 			    			</p:overlayPanel>   
 						</h:panelGroup>
@@ -132,7 +149,7 @@
 			    					<p:inputText value="#{orgBean.org.nombre}"/>
 			    					<p:outputLabel value="Descripcion: "/>
 			    					<p:inputText value="#{orgBean.org.descripsion}"/>
-			    					<p:commandButton value="Guardar" actionListener="#{orgBean.guardar}" update="panelPS"/>
+			    					<p:commandButton value="Guardar" actionListener="#{orgBean.guardar}" update="panelPSNueva"/>
 			    				</p:panelGrid>
 			    			</p:overlayPanel>
 	        			</h:panelGroup>	        			
@@ -147,7 +164,7 @@
 						</h:panelGroup>
 						<h:panelGroup>
 							<p:outputLabel value="Ciclo lectivo" />
-							<p:inputText value="#{altaPS.ps.cicloLectivo}" size="7" />
+							<p:inputText id="cicloLectivo" value="#{altaPS.ps.cicloLectivo}" size="7"/>
 						</h:panelGroup>
 					
 	        	
@@ -161,14 +178,36 @@
 			
 				
 				
-				<p:outputPanel id="panelPlan">
-				<p:fieldset  rendered="#{altaPS.visiblePanelPlan}" legend="Presentación del Plan" style="margin-bottom:20px">
+				<p:outputPanel id="panelPlanNuevo">
+				<p:fieldset  rendered="#{altaPS.visiblePanelPlanNuevo}" legend="Presentación del Plan" style="margin-bottom:20px">
 					<p:panelGrid>	
 		 				<p:outputLabel value="Fecha de presentación:" />
 		        		<p:calendar value="#{altaPS.plan.fechaDePresentacion}" showOn="button"/>       		
        				</p:panelGrid>
+       				
+       				
+       				<p:dataTable emptyMessage="No registra presentaciones de planes"  var="plan" value="#{altaPS.planes}">
+      					    <f:facet name="header">
+				            	Historial de presentaciones
+					        </f:facet>
+       					
+       					<p:column headerText="Fecha de presentación">
+       						<p:outputLabel value="#{plan.fechaDePresentacion}">
+       							<f:convertDateTime type="date" />
+       						</p:outputLabel>
+       					</p:column>
+       					<p:column headerText="Fecha de evaluación">
+       						<p:outputLabel value="#{plan.fechaAprobDesaprob}">
+       							<f:convertDateTime type="date" />
+       						</p:outputLabel>
+       					</p:column>
+       					<p:column headerText="Observaciones">
+       						<p:outputLabel value="#{plan.observaciones}"/>
+       					</p:column>
+       				</p:dataTable>     				
+       				
    				</p:fieldset>
-   				<p:commandButton id="botonGuardar" rendered="#{altaPS.visiblePanelPlan}" value="Guardar presentación" actionListener="#{altaPS.guardarPS}" update="panelPlan,panelPS,panelPS2,panelPlan2" >
+   				<p:commandButton id="botonGuardar" rendered="#{altaPS.visiblePanelPlanNuevo}" value="Guardar presentación" icon="ui-icon-save" actionListener="#{altaPS.guardarPS}" update="panelPlanNuevo,panelPSNueva,panelPSVigente,panelPlanPendiente" >
    					<p:confirm header="Confirmación" message="Esta seguro?" icon="ui-icon-alert" />
  				</p:commandButton>
    				</p:outputPanel>   		
@@ -178,23 +217,7 @@
 			        <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
     			</p:confirmDialog>
     			
-    			
-
-    			
-    			
-    			
-    			
-    			
-    			
-
-
-
-  
-								   
-				
-				
-
-	        	
+        	
 
  			</h:form>
  		</ui:define>

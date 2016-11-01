@@ -39,7 +39,7 @@ public class AlumnoDaoTest {
 	@Test
 	public void testUltimaPS(){
 		PS ps = dao.getMostRecentPS(18189);
-		assertTrue(ps.getId()==69);//sabiendo que la ps 69 esta vigente y es la unica vigente		
+		assertTrue(ps.getId()==117);//sabiendo que la ps 117 esta vigente y es la unica vigente		
 		
 	}
 	
@@ -58,5 +58,9 @@ public class AlumnoDaoTest {
 //		assertTrue(dao.getById(9669).getNombre().equals("Juan Perez"));
 //	}
 	
+	@Test
+	public void testaproboPS(){
+		assertTrue(dao.aproboPS(18189));
+	}
 
 }

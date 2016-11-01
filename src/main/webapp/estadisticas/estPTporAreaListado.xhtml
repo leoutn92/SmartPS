@@ -100,22 +100,22 @@
 						        	<div align="left"><br/><h:outputText value="Totales por Area"/></div>
 						        </f:facet>
 						        <h:outputLabel for="cantPlanesPresentados" value="Cantidad de Planes de Trabajo presentados: " />
-						        <h:inputText id="cantPlanesPresentados" value="#{generarReportePArea.cPP}" />
+						        <h:inputText id="cantPlanesPresentados" value="#{generarReportePArea.cPP}"><f:convertNumber pattern="#0" /></h:inputText>
 						        <h:outputLabel value="" />
 								<h:outputLabel for="porcPlanesPresent" value="Porcentaje de Planes Presentados: " />
-						        <h:inputText id="porcPlanesPresent" value="#{generarReportePArea.cPPre}" />
+						        <h:inputText id="porcPlanesPresent" value="#{generarReportePArea.cPPre}"><f:convertNumber pattern="#0.00" /></h:inputText>
 						        <h:outputLabel value="%" />
 						        <h:outputLabel for="porcPlanesAprob" value="Porcentaje de Planes Aprobados: " />
-						        <h:inputText id="porcPlanesAprob" value="#{generarReportePArea.cPA}" />
+						        <h:inputText id="porcPlanesAprob" value="#{generarReportePArea.cPA}"><f:convertNumber pattern="#0.00" /></h:inputText>
 						        <h:outputLabel value="%" />
 								<h:outputLabel for="porcPlanesObserv" value="Porcentaje de Planes Observados: " />
-						        <h:inputText id="porcPlanesObserv" value="#{generarReportePArea.cPO}" />
+						        <h:inputText id="porcPlanesObserv" value="#{generarReportePArea.cPO}"><f:convertNumber pattern="#0.00" /></h:inputText>
 						        <h:outputLabel value="%" />
 								<h:outputLabel for="porcPlanesRechaz" value="Porcentaje de Planes Rechazados: " />
-						        <h:inputText id="porcPlanesRechaz" value="#{generarReportePArea.cPR}" />
+						        <h:inputText id="porcPlanesRechaz" value="#{generarReportePArea.cPR}"><f:convertNumber pattern="#0.00" /></h:inputText>
 								<h:outputLabel value="%" />				        
 						        <h:outputLabel for="porcPlanesVenc" value="Porcentaje de Planes Vencidos" />
-						        <h:inputText id="porcPlanesVenc" value="#{generarReportePArea.cPV}" />
+						        <h:inputText id="porcPlanesVenc" value="#{generarReportePArea.cPV}"><f:convertNumber pattern="#0.00" /></h:inputText>
 						        <h:outputLabel value="%" />
 				    		</h:panelGrid>
 				    	</p:fieldset>
@@ -134,11 +134,11 @@
 								    </p:column>
 								    
 								    <p:column headerText="Cantidad de planes">
-								        #{lineap.contador}
+								    	<h:outputText value="#{lineap.contador}"><f:convertNumber pattern="#0" /></h:outputText>								        
 								    </p:column>
 								    
 									<p:column headerText="Porcentaje (%)">
-								        #{lineap.porcentaje}
+										<h:outputText value="#{lineap.porcentaje}"><f:convertNumber pattern="#0.00" /></h:outputText>
 								    </p:column>
 								</p:dataTable>
 						        						        

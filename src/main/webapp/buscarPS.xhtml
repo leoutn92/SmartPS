@@ -1,0 +1,156 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <h:head>
+    	<title>SmartPS</title>
+    </h:head>
+    
+    <h:body >
+
+ 	<ui:composition template="/templates/template.xhtml">
+ 		<ui:define name="content"> 
+
+ 			<h:form id="form">
+				
+				<p:growl id="msgs" showDetail="true"/>
+				<p:dataTable id="pss" value="#{consultarPS.pss}" var="ps" selectionMode="single" selection="#{consultarPS.ps}" rowKey="#{ps.id}" widgetVar="pssTable">
+				    <f:facet name="header">
+				 		Prácticas Supervisadas
+				 
+<!-- 				        <p:commandButton id="toggler" process="singleDT" type="button" value="Columnas" icon="ui-icon-calculator" /> -->
+<!-- 				        <p:columnToggler datasource="pss" trigger="toggler" /> -->
+				    </f:facet>
+				    
+					<p:ajax event="rowEdit" listener="#{consultarPS.editarColumnaPlan()}" update="@(form:@msgs)" />
+					<p:ajax event="rowEditCancel" listener="#{consultarPS.cancelarEdicionColumnaPlan()}" update="@(form:@msgs)" />
+									    				
+					<p:column headerText="Título" filterBy="#{ps.titulo}" filterMatchMode="contains">
+						#{ps.titulo}
+					</p:column>
+					
+					<p:column headerText="Nombre Alumno" filterBy="#{ps.alumno.nombre}" filterMatchMode="contains">
+						#{ps.alumno.nombre}
+					</p:column>
+					
+					<p:column headerText="Legajo" filterBy="#{ps.alumno.legajo}">
+						#{ps.alumno.legajo}
+					</p:column>
+					
+					<p:column headerText="Estado" filterBy="#{ps.estado.nombre}" filterMatchMode="contains">
+						#{ps.estado.nombre}
+					</p:column>
+					
+					<p:column headerText="Area" filterBy="#{ps.area.nombre}" filterMatchMode="contains">
+						#{ps.area.nombre}
+					</p:column>
+					
+					<p:column headerText="Organizacion" filterBy="#{ps.organizacion.nombre}" filterMatchMode="contains">
+	
+						#{ps.organizacion.nombre}
+					</p:column>
+					
+					<p:column headerText="Tipo Actividad" filterBy="#{ps.tipoActividad.nombre}" filterMatchMode="contains">
+						#{ps.tipoActividad.nombre}
+					</p:column>
+					
+					
+					
+					<p:column headerText="Ciclo lectivo" filterBy="#{ps.cicloLectivo}">
+						#{ps.cicloLectivo}
+					</p:column>
+					
+					<p:column filterBy="#{ps.cuatrimestre}"  headerText="Cuatrimestre">
+	<!-- 					<f:facet name="filter"> -->
+	<!-- 		                <p:selectCheckboxMenu label="Cuantrimestre" onchange="PF('pssTable').filter()" panelStyle="width:125px" scrollHeight="150"> -->
+	<!-- 		                    <f:selectItem itemLabel="1" itemValue="1" /> -->
+	<!-- 		                    <f:selectItem itemLabel="2" itemValue="2" /> -->
+	<!-- 		                </p:selectCheckboxMenu> -->
+	<!-- 		            </f:facet> -->
+						
+						#{ps.cuatrimestre}
+					</p:column>
+					
+			        <f:facet name="footer">
+			            <p:commandButton id="btnBuscarPlanes" update="@(.ui-datatable)" icon="ui-icon-search" value="Ver planes" oncomplete="PF('dialogoPlanes').show()" actionListener="#{consultarPS.actualizarPlanes()}" />
+			            <p:commandButton id="btnBuscarInformes" update="@(.ui-datatable)" icon="ui-icon-search" value="Ver informes" oncomplete="PF('dialogoInformes').show()" actionListener="#{consultarPS.actualizarInformes()}" />
+			            <p:commandButton value="Modificar PS" icon="ui-icon-pencil"  />
+			        </f:facet>				
+					  
+				</p:dataTable>
+				
+				<p:dialog widgetVar="dialogoPlanes" >
+					<p:outputPanel id="planes" >
+						<p:dataTable value="#{consultarPS.planes}" var="plan" style="width:600px" editable="true">
+							
+							<p:column headerText="Fecha de presentación">
+	       						<p:outputLabel value="#{plan.fechaDePresentacion}">
+	       							<f:convertDateTime type="date" />
+	       						</p:outputLabel>
+							</p:column>
+							
+							<p:column headerText="Fecha de evaluación">
+								<p:outputLabel value="#{plan.fechaAprobDesaprob}"/>
+							</p:column>
+							
+							<p:column headerText="Observación">
+								<p:cellEditor>
+									<f:facet name="output"><h:outputText value="#{plan.observaciones}" /></f:facet>
+	               					<f:facet name="input"><p:inputText id="modelInput" value="#{plan.observaciones}" style="width:100%"/></f:facet>
+								</p:cellEditor>
+<!-- 								<p:outputLabel value="#{plan.observaciones}"/> -->
+							</p:column>
+							<p:column>
+							    <p:rowEditor/>
+							</p:column>
+							
+							
+						</p:dataTable>
+					</p:outputPanel>						
+				</p:dialog>
+				
+				<p:dialog widgetVar="dialogoInformes" >
+					<p:outputPanel id="informes" >
+						<p:dataTable value="#{consultarPS.informes}" var="informe" style="width:600px" editable="true">
+							
+							<p:column headerText="Fecha de presentación">
+	       						<p:outputLabel value="#{informes.fechaDePresentacion}">
+	       							<f:convertDateTime type="date" />
+	       						</p:outputLabel>
+							</p:column>
+							
+							<p:column headerText="Fecha de evaluación">
+								<p:outputLabel value="#{informe.fechaAprobDesaprob}"/>
+							</p:column>
+							
+							<p:column headerText="Observación">
+								<p:cellEditor>
+									<f:facet name="output"><h:outputText value="#{informe.observaciones}" /></f:facet>
+	               					<f:facet name="input"><p:inputText id="modelInput" value="#{inrforme.observaciones}" style="width:100%"/></f:facet>
+								</p:cellEditor>
+<!-- 								<p:outputLabel value="#{plan.observaciones}"/> -->
+							</p:column>
+							<p:column>
+							    <p:rowEditor/>
+							</p:column>
+							
+							
+						</p:dataTable>
+					</p:outputPanel>						
+				</p:dialog>
+				
+			
+
+
+ 			</h:form> 			 			
+
+ 		</ui:define>
+ 		 
+ 	</ui:composition>
+
+    </h:body>
+</html>

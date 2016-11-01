@@ -33,8 +33,15 @@
 				<p:outputPanel id="resultado">
 				
 					<p:fieldset rendered="#{consultaTitulo.panelPS}" legend="Practica Supervisada" style="margin-bottom:20px">
-						<p:dataTable id="pss" var="linea" value="#{consultaTitulo.pslist}">
-													 
+						<p:dataTable id="pss" var="linea" value="#{consultaTitulo.pslist}"
+										selection="#{consultaTitulo.selectedps}" rowKey="#{linea.id}" >
+
+							<p:column selectionMode="single" style="width:16px;text-align:center"/>
+
+							<p:column headerText="Titulo">
+						        #{linea.titulo}
+						    </p:column>
+
 						    <p:column headerText="Estado de PS">
 						        #{linea.estado.nombre}
 						    </p:column>
@@ -58,15 +65,20 @@
 							<p:column headerText="Legajo del Alumno">
 						        #{linea.alumno.legajo}
 						    </p:column>
-						    
-							<p:column headerText="Ciclo Lectivo">
-						        #{linea.cicloLectivo}
-						    </p:column>						    
+
+						</p:dataTable>
 						
-						</p:dataTable>				        
+						<div align="right">
+							<br />
+							<p:commandButton value="Ver Planes e Informes" action="#{consultaTitulo.verPlanInf()}" update="resultado" />
+							<br /><br></br>
+						</div>
+						
 					</p:fieldset>
 					
-					<p:fieldset rendered="#{consultaTitulo.panelPS}" legend="Plan de Trabajo" style="margin-bottom:20px">
+					 					
+					
+					<p:fieldset rendered="#{consultaTitulo.panelPlanInf}" legend="Plan de Trabajo" style="margin-bottom:20px">
 						<p:dataTable id="pts" var="lineapt" value="#{consultaTitulo.planes}">
 							
 						    <p:column headerText="Fecha de Presentacion">
@@ -91,7 +103,7 @@
 						</p:dataTable>						
 					</p:fieldset>
 					
-					<p:fieldset rendered="#{consultaTitulo.panelPS}" legend="Informe Final" style="margin-bottom:20px">
+					<p:fieldset rendered="#{consultaTitulo.panelPlanInf}" legend="Informe Final" style="margin-bottom:20px">
 						<p:dataTable id="ifs" var="lineaif" value="#{consultaTitulo.informes}">
 							
 						    <p:column headerText="Fecha de Presentacion">
