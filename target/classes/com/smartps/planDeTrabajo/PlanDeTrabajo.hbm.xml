@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
@@ -29,4 +30,37 @@
         	<column name="file"/>
         </property>
     </class>
+=======
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="com.smartps.model.PlanDeTrabajo" table="PlanDeTrabajo" catalog="smartpsDB">
+    	<id name="id" type="java.lang.Integer">
+            <column name="id_plan_de_trabajo" />
+            <generator class="identity" />
+        </id>
+		<many-to-one name="ps" class="com.smartps.model.PS" >
+     		<column name="id_ps" />
+  		</many-to-one>
+        <property name="fechaDePresentacion" type="java.util.Date">
+            <column name="fecha_presentacion" not-null="true" unique="false" />
+        </property>
+        <property name="fechaAprobDesaprob" type="java.util.Date">
+            <column name="fecha_aprob_desaprob" not-null="false" unique="false" />
+        </property>
+        <property name="observaciones" type="string">
+            <column name="observaciones" length="200" not-null="false" unique="false" />
+        </property>
+        <property name="DirDocumentoDigital" type="string">
+            <column name="directorio" length="200" not-null="false" unique="false" />
+        </property>
+        <property name="ordenanza" type="java.lang.Integer">
+            <column name="ordenanza"/>
+        </property>
+        <property name="file" type="blob">
+        	<column name="file"/>
+        </property>
+    </class>
+>>>>>>> fixHDU3
 </hibernate-mapping>

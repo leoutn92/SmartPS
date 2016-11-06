@@ -3,8 +3,8 @@ package com.smartps.beans.desicionDelConsejoInforme;
 import java.util.Date;
 
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.sql.rowset.serial.SerialBlob;
 
@@ -14,7 +14,7 @@ import org.primefaces.model.UploadedFile;
 import com.smartps.dao.InformeFinalDao;
 import com.smartps.model.InformeFinal;
 @ManagedBean
-@ApplicationScoped
+@ViewScoped
 public class LineaInformeParaDecision {
 	private int idInforme;
 	private String observaciones;
