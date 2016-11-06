@@ -193,8 +193,6 @@ public class RegistrarPresentacionInformeBean implements Serializable {
 		// TODO Auto-generated method stub
 		List<LineaTablaInformes> tablaInformes= new ArrayList<LineaTablaInformes>();
 		List<PS> pssConPlanAprobado = psDao.searchPs(criterios,this.getIdEstadoPlanAprobado());
-		List<PS> pssConInformeObservado = psDao.searchPs(criterios,this.getIdEstadoInformeObservado());
-		pssConPlanAprobado.addAll(pssConInformeObservado);
 		List<PS> pssParaPresentarInforme = pssConPlanAprobado;
 		for (PS ps: pssParaPresentarInforme) {
 			LineaTablaInformes linea=new LineaTablaInformes();
