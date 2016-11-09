@@ -2,8 +2,8 @@ package com.smartps.beans.aprobarPlan;
 import java.util.Date;
 
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.sql.rowset.serial.SerialBlob;
 
@@ -13,8 +13,6 @@ import org.primefaces.model.UploadedFile;
 import com.smartps.dao.PlanDeTrabajoDao;
 import com.smartps.model.PlanDeTrabajo;
 
-@ManagedBean
-@ApplicationScoped
 public class LineaTablaPlanesPresentados {
 	private String nombreAlumno;
 	private String observaciones;

@@ -11,6 +11,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.faces.view.ViewScoped;
 import org.apache.commons.io.FileUtils;
+import org.primefaces.context.RequestContext;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
 
@@ -62,6 +63,7 @@ public class AprobarPlan {
 	}
 	@PostConstruct
 	public void init(){
+		this.tablaPlanesPresentados=new ArrayList<LineaTablaPlanesPresentados>();	
 		this.updateTablaPlanesPresentados();
 	}
 	public void buttonAction(ActionEvent actionEvent) {
@@ -90,12 +92,8 @@ public class AprobarPlan {
 		newCriterios.setNombreAlumno(this.nombreAlumno);
 		newCriterios.setPsTitle(this.psTitle);
 		Estado estado = estadoDao.getEstadoPlanPresentado();
-		Estado estadoPlanObservado = estadoDao.getEstadoPlanObservado();
 		int idEstadoPresentado = estado.getId();
-		int idEstadoObservado =estadoPlanObservado.getId();
-		List<PS> pssObservadas =psDao.searchPs(newCriterios, idEstadoObservado);
 		List<PS> pss= psDao.searchPs(newCriterios,idEstadoPresentado);
-		pss.addAll(pssObservadas);
 		List<LineaTablaPlanesPresentados> tabla = new ArrayList<LineaTablaPlanesPresentados>();
 		for (PS p:pss) {
 			LineaTablaPlanesPresentados linea = new LineaTablaPlanesPresentados(); 
@@ -137,10 +135,35 @@ public class AprobarPlan {
 		this.updateTablaPlanesPresentados();
 	}
 	public void desaprobar(ActionEvent event) {
-		int idPlan =(int) event.getComponent().getAttributes().get("linea");
-		this.evaluar(idPlan);
-		this.desaprobar(idPlan);
+//		int idPlan =(int) event.getComponent().getAttributes().get("linea");
+//		LineaTablaPlanesPresentados linea = this.buscarLineaByIdPlan(idPlan);
+		boolean verificacion = false;
+		String message = "";
+//		if (linea != null){
+//			if(this.tieneErrores(linea)){
+//				 message="error";
+//				 verificacion = true;  
+//				} else {
+					message="se guardo";
+//					verificacion = false;
+//					this.evaluar(idPlan);
+//					this.desaprobar(idPlan);
+//				}
+//		}
+		FacesContext.getCurrentInstance().addMessage(null,new FacesMessage(FacesMessage.SEVERITY_WARN,message,message));
+		RequestContext.getCurrentInstance().addCallbackParam("loggedIn",verificacion);
+//		RequestContext.getCurrentInstance().showMessageInDialog(new FacesMessage(FacesMessage.SEVERITY_WARN,message,message));
 		this.updateTablaPlanesPresentados();
+	}
+	private LineaTablaPlanesPresentados buscarLineaByIdPlan(int idPlan) {
+		// TODO Auto-generated method stub
+		LineaTablaPlanesPresentados linea= null;
+		for (LineaTablaPlanesPresentados l:this.tablaPlanesPresentados) {
+			if (l.getIdPlan()==idPlan) {
+				linea = l; 
+			}
+		}
+		return linea;
 	}
 	public void aprobar(ActionEvent event) {
 		int idPlan =(int) event.getComponent().getAttributes().get("linea");
@@ -173,6 +196,11 @@ public class AprobarPlan {
         FacesContext.getCurrentInstance().addMessage(null, message);
 	}
 	
+	public boolean tieneErrores(LineaTablaPlanesPresentados linea) {
+		return true;
+	}
+	
+	
 	private PlanDeTrabajo evaluar(int idPlan) {
 		// TODO Auto-generated method stub
 		LineaTablaPlanesPresentados linea= new LineaTablaPlanesPresentados();
@@ -181,7 +209,7 @@ public class AprobarPlan {
 				linea = l; 
 			}
 		}
-		PlanDeTrabajo plan = planDeTrabajoDao.findByID(linea.getIdPlan());	
+		PlanDeTrabajo plan = planDeTrabajoDao.findByID(linea.getIdPlan());
 		plan.setFechaAprobDesaprob(linea.getFechaEvaluacion());
 		plan.setObservaciones(linea.getObservaciones());
 		plan.setOrdenanza(linea.getOrdenanza());

@@ -51,7 +51,7 @@
     						<p:inputTextarea value="#{linea.observaciones}" rows="6" cols="33" />
     					</h:panelGrid>
     					<h:panelGrid columns="2">
-    						<h:outputText value="Ordenanza" />
+    						<h:outputText value="Disposicion" />
     						<p:inputTextarea value="#{linea.ordenanza}" rows="6" cols="33" />
     					</h:panelGrid>
     					<h:panelGrid columns="2">
@@ -67,7 +67,7 @@
     							<h:commandButton value="Aprobar" ajax="true" actionListener="#{desicionDelConsejoInformes.aprobar}" tabla="tabla,messages">
 			    					<f:attribute name="linea" value="#{linea.idInforme}"/>
 			    				</h:commandButton>
-			    				<h:commandButton value="Desaprobar" ajax="true" actionListener="#{desicionDelConsejoInformes.desaprobar}" tabla="tabla,messages">
+			    				<h:commandButton value="Observar" ajax="true" actionListener="#{desicionDelConsejoInformes.desaprobar}" tabla="tabla,messages">
 			    					<f:attribute name="linea" value="#{linea.idInforme}"/>
 			    				</h:commandButton>
 							</h:form>

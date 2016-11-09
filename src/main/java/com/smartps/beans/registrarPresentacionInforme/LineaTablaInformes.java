@@ -2,12 +2,12 @@ package com.smartps.beans.registrarPresentacionInforme;
 
 import java.sql.Blob;
 import java.util.Date;
-
-import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
+
 import com.smartps.model.PS;
 @ManagedBean
-@ApplicationScoped
+@ViewScoped
 public class LineaTablaInformes {
 	private String nombreAlumno;
 	private int legajo;

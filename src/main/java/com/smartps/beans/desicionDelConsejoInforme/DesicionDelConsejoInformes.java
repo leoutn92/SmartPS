@@ -103,12 +103,8 @@ public class DesicionDelConsejoInformes {
 		newCriterios.setNombreAlumno(this.nombreAlumno);
 		newCriterios.setPsTitle(this.psTitle);
 		Estado estadoInformePresentado = eDao.getEstadoInformePresentado();
-		Estado estadoInformeObservado = eDao.getEstadoInformeObservado();
 		int idEstadoPresentado = estadoInformePresentado.getId();
-		int idEstadoObservado =estadoInformeObservado.getId();
-		List<PS> pssObservadas =pDao.searchPs(newCriterios, idEstadoObservado);
 		List<PS> pss= pDao.searchPs(newCriterios,idEstadoPresentado);
-		pss.addAll(pssObservadas);
 		List<LineaInformeParaDecision> tabla = new ArrayList<LineaInformeParaDecision>();
 		for (PS p:pss) {
 			LineaInformeParaDecision linea = new LineaInformeParaDecision(); 

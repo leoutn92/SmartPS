@@ -1,78 +1,102 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:p="http://primefaces.org/ui"
-      xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
-      
-    <h:head>
-    	<title>SmartPS</title>
-    </h:head>
-    
-    <h:body>
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
 
- 	<ui:composition template="/templates/template.xhtml">
- 		<ui:define name="content">
+<h:head>
+	<title>SmartPS</title>
+</h:head>
+
+<h:body>
+
+	<ui:composition template="/templates/template.xhtml">
+		<ui:define name="content">
  			Registrar Decisión del consejo (Plan)
- 			<h:panelGrid columns="2">
- 			<h:outputText value="Legajo"/>   
-        	<h:inputText id="legajo" value="#{aprobarPlan.legajo}"/>   
-        	<h:outputText value="Nombre Alumno" />   
-        	<p:inputText id="nomAlumno" value="#{aprobarPlan.nombreAlumno}">
-        	</p:inputText>
-        	<h:outputText value="Titulo de Ps" />   
-        	<p:inputText id="psTitle" value="#{aprobarPlan.psTitle}">
-        	</p:inputText>    
-			</h:panelGrid>
-    		<p:keyFilter for="legajo" mask="num" />
-    		<p:commandButton value="Buscar" actionListener="#{aprobarPlan.buttonAction}" update="tabla"/>
-    		<p:dataTable id="tabla" var="linea" value="#{aprobarPlan.tablaPlanesPresentados}">
+ 			<p:panelGrid columns="2">
+				<h:outputText value="Legajo" />
+				<p:inputText id="legajo" value="#{aprobarPlan.legajo}" />
+				<h:outputText value="Nombre Alumno" />
+				<p:inputText id="nomAlumno" value="#{aprobarPlan.nombreAlumno}">
+				</p:inputText>
+				<h:outputText value="Titulo de Ps" />
+				<p:inputText id="psTitle" value="#{aprobarPlan.psTitle}">
+				</p:inputText>
+			</p:panelGrid>
+			<p:keyFilter for="legajo" mask="num" />
+			<p:commandButton value="Buscar"
+				actionListener="#{aprobarPlan.buttonAction}" update="tabla" />
+			<p:dataTable id="tabla" var="linea"
+				value="#{aprobarPlan.tablaPlanesPresentados}">
 				<p:column headerText="nombre alumno">
 			         #{linea.nombreAlumno}
 			    </p:column>
-			    <p:column headerText="legajo">
+				<p:column headerText="legajo">
 			         #{linea.legajo}
 			    </p:column>
-			    <p:column headerText="estado">
+				<p:column headerText="estado">
 			         #{linea.estado}
 			    </p:column>
-			    <p:column headerText="Titulo">
+				<p:column headerText="Titulo">
 			         #{linea.psTitle}
 			    </p:column>
-			    <p:column headerText="">
-			        <p:commandButton value="Registrar decision del consejo" action="{aprobarPlan.setLinea()}" type="button" onclick="PF('RDC').show();" >
-			        	<f:param name="linea" value="#{linea.idPlan}"/>
-			        </p:commandButton>
-			   <p:dialog header="Registrar decisión del consejo" widgetVar="RDC" minHeight="80">
-    		   	<h:panelGrid columns="1" rows="3">
-    		   			<h:panelGrid columns="2">
-    						<h:outputText value="Observaciones" />
-    						<p:inputTextarea value="#{linea.observaciones}" rows="6" cols="33" />
-    					</h:panelGrid>
-    					<h:panelGrid columns="2">
-    						<h:outputText value="Fecha evaluacion" />
-    						<p:outputLabel for="popup">
-        	   					<p:calendar id="popup" value="#{linea.fechaEvaluacion}" />
-        	   				</p:outputLabel>
-    					</h:panelGrid>
-	    				<h:panelGrid columns="4">
-	    					<h:form encType="multipart/form-data">
-    							<p:growl id="messages" showDetail="true"/>
-    							<p:fileUpload fileUploadListener="#{linea.handleFileUpload}" update="messages"/>
-    							<h:commandButton value="Aprobar" ajax="true" actionListener="#{aprobarPlan.aprobar}" tabla="tabla,messages">
-			    					<f:attribute name="linea" value="#{linea.idPlan}"/>
-			    				</h:commandButton>
-			    				<h:commandButton value="Desaprobar" ajax="true" actionListener="#{aprobarPlan.desaprobar}" tabla="tabla,messages">
-			    					<f:attribute name="linea" value="#{linea.idPlan}"/>
-			    				</h:commandButton>
-							</h:form>
-	    					</h:panelGrid>      		
-    					</h:panelGrid>
-				</p:dialog>
-			   </p:column>
+				<p:column headerText="">
+					<p:commandButton value="Registrar decision del consejo"
+						action="{aprobarPlan.setLinea()}" type="button"
+						onclick="PF('dlg').show();">
+						<f:param name="linea" value="#{linea.idPlan}" />
+					</p:commandButton>
+					<p:growl widgetVar="message" id="messages" showDetail="true" sticky="true" />
+					<h:form encType="multipart/form-data">
+						<p:dialog header="Registrar decisión del consejo" widgetVar="dlg"
+							minHeight="80" resizable="false">
+							<p:panelGrid columns="1" rows="3">
+								<p:panelGrid columns="2">
+									<h:outputText value="Observaciones" />
+									<p:inputTextarea value="#{linea.observaciones}" rows="6"
+										cols="33" />
+								</p:panelGrid>
+								<p:panelGrid columns="2">
+									<h:outputText value="Fecha evaluacion" />
+									<p:outputLabel for="popup">
+										<p:calendar id="popup" value="#{linea.fechaEvaluacion}" />
+									</p:outputLabel>
+								</p:panelGrid>
+								<p:panelGrid columns="4">
+									<p:fileUpload fileUploadListener="#{linea.handleFileUpload}"
+										update="@(.ui-growl)" />
+									<p:commandButton value="Aprobar" ajax="true"
+										actionListener="#{aprobarPlan.aprobar}"
+										update="@(.ui-datatable),@(.ui-growl)">
+										<f:attribute name="linea" value="#{linea.idPlan}" />
+									</p:commandButton>
+									<p:commandButton value="Desaprobar" ajax="true"
+										actionListener="#{aprobarPlan.desaprobar}"
+										oncomplete="handleLoginRequest(xhr, status, args)"
+										update="@(.ui-datatable),@(.ui-growl)">
+										<f:attribute name="linea" value="#{linea.idPlan}" />
+									</p:commandButton>
+									<script type="text/javascript">
+										function handleLoginRequest(xhr,
+												status, args) {
+											if (args.validationFailed
+													|| !args.loggedIn) {
+												PF('dlg').show();
+											} else {
+												PF('dlg').hide();
+												$('#loginLink').fadeOut();
+											}
+										}
+									</script>
+								</p:panelGrid>
+							</p:panelGrid>
+						</p:dialog>
+					</h:form>
+				</p:column>
 			</p:dataTable>
-    	</ui:define>
- 	</ui:composition>
-    </h:body>
+		</ui:define>
+	</ui:composition>
+</h:body>
 </html>

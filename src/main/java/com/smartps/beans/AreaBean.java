@@ -1,5 +1,6 @@
 package com.smartps.beans;
 
+
 import java.util.List;
 
 import javax.annotation.PostConstruct;
