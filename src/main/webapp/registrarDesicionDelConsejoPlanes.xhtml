@@ -69,7 +69,8 @@
 										update="@(.ui-growl)" />
 									<p:commandButton value="Aprobar" ajax="true"
 										actionListener="#{aprobarPlan.aprobar}"
-										update="@(.ui-datatable),@(.ui-growl)">
+										update="@(.ui-datatable),@(.ui-growl)"
+										oncomplete="handleLoginRequest(xhr, status, args)">
 										<f:attribute name="linea" value="#{linea.idPlan}" />
 									</p:commandButton>
 									<p:commandButton value="Desaprobar" ajax="true"
@@ -82,10 +83,16 @@
 										function handleLoginRequest(xhr,
 												status, args) {
 											if (args.validationFailed
-													|| !args.loggedIn) {
+													|| args.tieneErrores) {
 												PF('dlg').show();
+												PF('growlWV').renderMessage({"summary":message,
+						                             "detail":message,
+						                             "severity":message})
 											} else {
 												PF('dlg').hide();
+												PF('growlWV').renderMessage({"summary":message,
+						                             "detail":message,
+						                             "severity":message});
 												$('#loginLink').fadeOut();
 											}
 										}

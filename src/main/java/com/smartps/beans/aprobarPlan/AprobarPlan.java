@@ -1,6 +1,4 @@
 package com.smartps.beans.aprobarPlan;
-
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,7 +8,6 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.faces.view.ViewScoped;
-import org.apache.commons.io.FileUtils;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
@@ -24,6 +21,7 @@ import com.smartps.model.Alumno;
 import com.smartps.model.Estado;
 import com.smartps.model.PS;
 import com.smartps.model.PlanDeTrabajo;
+import com.smartps.util.SmartPSUtils;
 @ManagedBean
 @ViewScoped
 public class AprobarPlan {
@@ -114,47 +112,18 @@ public class AprobarPlan {
 	public void setTablaPlanesPresentados(List<LineaTablaPlanesPresentados> tablaPlanesPresentados) {
 		this.tablaPlanesPresentados = tablaPlanesPresentados;
 	}
-	public PlanDeTrabajo evaluar(LineaTablaPlanesPresentados linea) {
-		PlanDeTrabajo plan = planDeTrabajoDao.findByID(linea.getIdPlan());
-		try {
-			File dest=new File(this.getFile().getFileName());
-			FileUtils.copyInputStreamToFile(this.getFile().getInputstream(),dest);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			System.out.println(e.getMessage());
-		}
-		plan.setFechaAprobDesaprob(linea.getFechaEvaluacion());
-		plan.setObservaciones(linea.getObservaciones());
-		plan.setOrdenanza(linea.getOrdenanza());
-		planDeTrabajoDao.update(plan);
-		return plan;
-	}
-	public void aprobar() {
-		this.evaluar(linea.getIdPlan());
-		this.aprobar(linea.getIdPlan());
-		this.updateTablaPlanesPresentados();
-	}
 	public void desaprobar(ActionEvent event) {
-//		int idPlan =(int) event.getComponent().getAttributes().get("linea");
-//		LineaTablaPlanesPresentados linea = this.buscarLineaByIdPlan(idPlan);
-		boolean verificacion = false;
-		String message = "";
-//		if (linea != null){
-//			if(this.tieneErrores(linea)){
-//				 message="error";
-//				 verificacion = true;  
-//				} else {
-					message="se guardo";
-//					verificacion = false;
-//					this.evaluar(idPlan);
-//					this.desaprobar(idPlan);
-//				}
-//		}
-		FacesContext.getCurrentInstance().addMessage(null,new FacesMessage(FacesMessage.SEVERITY_WARN,message,message));
-		RequestContext.getCurrentInstance().addCallbackParam("loggedIn",verificacion);
-//		RequestContext.getCurrentInstance().showMessageInDialog(new FacesMessage(FacesMessage.SEVERITY_WARN,message,message));
-		this.updateTablaPlanesPresentados();
+		int idPlan =(int) event.getComponent().getAttributes().get("linea");
+		Estado estado = EstadoDao.getInstance().getEstadoPlanObservado();
+		evaluar(idPlan,estado);
 	}
+	private String getMessage(LineaTablaPlanesPresentados linea) {
+		 if(tieneErrores(linea)) {
+			 return "deben completarse todos los campos";
+		 }
+		 return "Bien hecho se registro la decision del consejo respecto del plan";
+	}
+	
 	private LineaTablaPlanesPresentados buscarLineaByIdPlan(int idPlan) {
 		// TODO Auto-generated method stub
 		LineaTablaPlanesPresentados linea= null;
@@ -167,18 +136,8 @@ public class AprobarPlan {
 	}
 	public void aprobar(ActionEvent event) {
 		int idPlan =(int) event.getComponent().getAttributes().get("linea");
-		this.evaluar(idPlan);
-		this.aprobar(idPlan);
-		FacesMessage message = new FacesMessage("Bien hecho! :)", "este plan es ahora un plan aprobado");
-        FacesContext.getCurrentInstance().addMessage(null, message);
-		this.updateTablaPlanesPresentados();
-	}
-	public void aprobar(int idPlan) {
-		PlanDeTrabajo plan = this.evaluar(idPlan);
-		Estado planAprobado = estadoDao.getEstadoPlanAprobado();
-		PS ps = psDao.findById(plan.getPs().getId()); 
-		ps.setEstado(planAprobado);
-		psDao.update(ps);
+		Estado estado = EstadoDao.getInstance().getEstadoPlanAprobado();
+		evaluar(idPlan,estado);
 	}
 	public void handleFileUpload(FileUploadEvent event) {
 		this.setFile(event.getFile());
@@ -186,43 +145,32 @@ public class AprobarPlan {
         FacesContext.getCurrentInstance().addMessage(null, message);
     }
 	
-	public void desaprobar(int idPlan) {
-		PlanDeTrabajo plan = this.evaluar(idPlan);
-		Estado planObserbado = estadoDao.getEstadoPlanObservado();
-		PS ps = psDao.findById(plan.getPs().getId()); 
-		ps.setEstado(planObserbado);
-		psDao.update(ps);
-		FacesMessage message = new FacesMessage("Bien hecho! :)", "este plan es ahora un plan observado");
-        FacesContext.getCurrentInstance().addMessage(null, message);
-	}
 	
 	public boolean tieneErrores(LineaTablaPlanesPresentados linea) {
-		return true;
+		return (((linea == null)) || SmartPSUtils.isNullOrEmpty(linea.getObservaciones())
+				|| (linea.getFechaEvaluacion()==null));
 	}
 	
 	
-	private PlanDeTrabajo evaluar(int idPlan) {
+	private void evaluar(int idPlan,Estado estado) {
 		// TODO Auto-generated method stub
-		LineaTablaPlanesPresentados linea= new LineaTablaPlanesPresentados();
-		for (LineaTablaPlanesPresentados l:this.tablaPlanesPresentados) {
-			if (l.getIdPlan()==idPlan) {
-				linea = l; 
+			LineaTablaPlanesPresentados linea=buscarLineaByIdPlan(idPlan);
+			if (!tieneErrores(linea)) {
+				PlanDeTrabajo plan = planDeTrabajoDao.findByID(linea.getIdPlan());
+				plan.setFechaAprobDesaprob(linea.getFechaEvaluacion());
+				plan.setObservaciones(linea.getObservaciones());
+				plan.setOrdenanza(linea.getOrdenanza());
+				planDeTrabajoDao.update(plan);
+				plan=planDeTrabajoDao.getById(idPlan);
+				PS ps = psDao.findById(plan.getPs().getId()); 
+				ps.setEstado(estado);
+				psDao.update(ps);
+				this.updateTablaPlanesPresentados();
 			}
-		}
-		PlanDeTrabajo plan = planDeTrabajoDao.findByID(linea.getIdPlan());
-		plan.setFechaAprobDesaprob(linea.getFechaEvaluacion());
-		plan.setObservaciones(linea.getObservaciones());
-		plan.setOrdenanza(linea.getOrdenanza());
-		planDeTrabajoDao.update(plan);
-		return plan; 
-	}
-	public void aprobar(LineaTablaPlanesPresentados linea) {
-		PlanDeTrabajo plan = this.evaluar(linea); 
-		Estado planAprobado = estadoDao.getEstadoPlanAprobado();
-		PS ps = psDao.findById(plan.getPs().getId()); 
-		ps.setEstado(planAprobado);
-		psDao.update(ps);
-		this.updateTablaPlanesPresentados();
+			String message = getMessage(linea);
+			FacesContext.getCurrentInstance().addMessage(null,new FacesMessage(FacesMessage.SEVERITY_WARN,message,message));
+			RequestContext.getCurrentInstance().addCallbackParam("tieneErrores",tieneErrores(linea));
+			RequestContext.getCurrentInstance().addCallbackParam("message",message);
 	}
 	public String getNombreAlumno() {
 		return nombreAlumno;
@@ -246,16 +194,5 @@ public class AprobarPlan {
 
 	public void setLegajo(int legajo) {
 		this.legajo = legajo;
-	}
-
-
-	public void desaprobar(LineaTablaPlanesPresentados linea) {
-		// TODO Auto-generated method stub
-		PlanDeTrabajo plan = this.evaluar(linea);
-		Estado planDesaprobado = estadoDao.getEstadoPlanObservado();
-		PS ps = psDao.findById(plan.getPs().getId()); 
-		ps.setEstado(planDesaprobado);
-		psDao.update(ps);
-		this.updateTablaPlanesPresentados();
 	}
 }
