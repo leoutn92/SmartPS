@@ -14,7 +14,9 @@
 
 	<ui:composition template="/templates/template.xhtml">
 		<ui:define name="content">
- 			Registrar Decisión del consejo (Plan)
+ 			<h3><p:outputLabel value="Registrar Decisión del consejo (Plan)" /></h3>
+ 			<p:separator></p:separator>
+ 			<br></br>
  			<p:panelGrid columns="2">
 				<h:outputText value="Legajo" />
 				<p:inputText id="legajo" value="#{aprobarPlan.legajo}" />

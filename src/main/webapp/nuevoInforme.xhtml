@@ -14,7 +14,9 @@
 
  	<ui:composition template="/templates/template.xhtml">
  			<ui:define name="content">
- 			Nuevo Informe
+ 			<h3><p:outputLabel  value="Nuevo Informe" /></h3>
+ 			<p:separator></p:separator>
+ 			<br></br>
     		<h:panelGrid columns="2">
     		<h:outputText value="Legajo"/>   
         	<h:inputText id="legajo" value="#{registrarPresentacionInformeBean.legajo}"/>   
