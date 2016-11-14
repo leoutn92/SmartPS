@@ -43,6 +43,14 @@
 			    <p:column headerText="Titulo">
 			         #{linea.psTitle}
 			    </p:column>
+			    <p:column headerText="Plan de ps">
+			    	<h:form>
+			    		<p:commandButton value="DESCARGAR PLAN" action="#{registrarPresentacionInformeBean.descargarPdf()}">
+-			    			<f:param name="legajo" value="#{linea.legajo}" />
+							<p:fileDownload value="#{registrarPresentacionInformeBean.file}" />
+-			    		</p:commandButton>
+			    	</h:form>
+-			    </p:column>
 			    <p:column headerText="Agregar informe">
 			   		<p:outputLabel for="popup"/>
         	   		<p:calendar id="popup" value="#{linea.fechaPresentacion}" />

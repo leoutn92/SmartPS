@@ -1,9 +1,11 @@
 package com.smartps.beans.registrarPresentacionInforme;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.Serializable;
 import java.sql.Blob;
 import java.sql.SQLException;
@@ -19,6 +21,8 @@ import javax.faces.event.ActionEvent;
 import javax.faces.view.ViewScoped;
 
 import org.apache.commons.io.IOUtils;
+import org.primefaces.model.DefaultStreamedContent;
+import org.primefaces.model.StreamedContent;
 
 import com.smartps.dao.EstadoDao;
 import com.smartps.dao.InformeFinalDao;
@@ -33,7 +37,7 @@ import com.smartps.model.PlanDeTrabajo;
 @ViewScoped
 public class RegistrarPresentacionInformeBean implements Serializable {
 	int legajo;
-	String dirPlan;
+	StreamedContent file;
 	LineaTablaInformes linea;
 	String nombreAlumno="";
 	String psTitle="";
@@ -52,18 +56,7 @@ public class RegistrarPresentacionInformeBean implements Serializable {
 	@PostConstruct
 	public void init(){
 		this.updateTablaInformes();
-	}
-	public String getDirPlan() {
-		return dirPlan;
-	}
-	public String setDirPlan() {
-		this.dirPlan = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("pdf");
-		this.legajo = Integer.parseInt(FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("legajo"));
-		this.nombreAlumno = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("nomAlumno")+"";
-		this.psTitle = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("psTitle")+"";
-		this.renderedPlanDigital=true;
-		this.updateTablaInformes();
-		return this.dirPlan;
+		
 	}
 	public CriteriosParaFiltrarPs getCriterios() {
 		return criterios;
@@ -123,11 +116,6 @@ public class RegistrarPresentacionInformeBean implements Serializable {
 		return "se cargo informe de alumno "+Integer.toString(legajoPs)+" exitosamente";
 	}
 	
-	
-	private int getIdEstadoInformeObservado() {
-		// TODO Auto-generated method stub
-		return estadoDAO.buscarPorNombre("Informe observado").getId();
-	}
 
 	public int getIdEstadoInformePresentado() {
 		// TODO Auto-generated method stub
@@ -156,7 +144,6 @@ public class RegistrarPresentacionInformeBean implements Serializable {
 	}
 	public void buttonAction(ActionEvent actionEvent) {
 		this.updateTablaInformes();
-		this.dirPlan=null;
 		this.renderedPlanDigital=false;
     }
 	public boolean isRenderedPlanDigital() {
@@ -169,9 +156,6 @@ public class RegistrarPresentacionInformeBean implements Serializable {
 		this.registrarPresentacionInformes();
 	}
 	
-	public void setDirectory(String directory) {
-		this.dirPlan=directory;
-	}
 	
 	public void editDirectory() {
 		
@@ -239,35 +223,31 @@ public class RegistrarPresentacionInformeBean implements Serializable {
 		return salida;
 	}
 	
-	public String updatePdf() {
+	public String descargarPdf() {
 		this.legajo = Integer.parseInt(FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("legajo"));
-		int idEstadoPlanPresentado = EstadoDao.getInstance().getEstadoPlanAprobado().getId();
-		PS ps = psDao.searchPs(legajo,idEstadoPlanPresentado);	
+		int idEstadoPlanAprobado = EstadoDao.getInstance().getEstadoPlanAprobado().getId();
+		PS ps = psDao.searchPs(legajo,idEstadoPlanAprobado);	
 		PlanDeTrabajo plan = planDeTrabajoDao.getLastByFechaAprobadoDesaprobado(ps.getId());
-		this.updatePdf(plan.getId());
+		this.descargarPdf(plan.getId()); 
 		return "";
 	}
 	
-	public void updatePdf(int idPlan) {
+	public StreamedContent getFile() {
+		return file;
+	}
+	public void setFile(StreamedContent file) {
+		this.file = file;
+	}
+	public void descargarPdf(int idPlan) {
 		PlanDeTrabajo plan = planDeTrabajoDao.findByID(idPlan);
-		Blob blob = plan.getFile();
-		File outputFile = new File("C:/Users/User/workspace/SmartPS/src/main/webapp/resources/pdf/docTemp.pdf");
 		try {
-			FileOutputStream foe = new FileOutputStream(outputFile);
-			IOUtils.copy(blob.getBinaryStream(),foe);
-			this.dirPlan="resources/pdf/docTemp.pdf";
-			this.renderedPlanDigital=true;
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			byte[] bytes = plan.getFile().getBytes(1,(int)plan.getFile().length());
+			InputStream is = new ByteArrayInputStream(bytes);
+			this.file = new DefaultStreamedContent(is, "image/jpeg", "fileName.jpg");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
 	}
 	
 }
