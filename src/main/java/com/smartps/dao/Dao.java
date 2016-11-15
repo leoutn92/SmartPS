@@ -68,6 +68,18 @@ public class Dao<T>{
 		}
 	}
 	
+	
+	public void saveOrUpdate(T t){
+		this.getSession();
+		Transaction tx =session.beginTransaction();
+		try{
+			session.saveOrUpdate(t);
+			tx.commit();
+		} catch (HibernateException e) {
+			tx.rollback();
+		}
+	}
+	
 	public void delete (T t){
 		this.getSession();
 		Transaction tx =session.beginTransaction();

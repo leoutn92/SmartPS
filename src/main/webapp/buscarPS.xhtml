@@ -23,12 +23,7 @@
 				<p:dataTable id="pss" value="#{consultarPS.pss}" var="ps" selectionMode="single" selection="#{consultarPS.ps}" rowKey="#{ps.id}" widgetVar="pssTable">
 				    <f:facet name="header">
 				 			<h3><p:outputLabel value=""/></h3>
-<!-- 				        <p:commandButton id="toggler" process="singleDT" type="button" value="Columnas" icon="ui-icon-calculator" /> -->
-<!-- 				        <p:columnToggler datasource="pss" trigger="toggler" /> -->
 				    </f:facet>
-				    
-					<p:ajax event="rowEdit" listener="#{consultarPS.editarColumnaPlan()}" update="@(form:@msgs)" />
-					<p:ajax event="rowEditCancel" listener="#{consultarPS.cancelarEdicionColumnaPlan()}" update="@(form:@msgs)" />
 									    				
 					<p:column headerText="Título" filterBy="#{ps.titulo}" filterMatchMode="contains">
 						#{ps.titulo}
@@ -84,18 +79,39 @@
 					  
 				</p:dataTable>
 				
-				<p:dialog widgetVar="dialogoPlanes" >
+				<p:dialog widgetVar="dialogoPlanes">
 					<p:outputPanel id="planes" >
 						<p:dataTable value="#{consultarPS.planes}" var="plan" style="width:600px" editable="true">
+							<p:ajax event="rowEdit" listener="#{consultarPS.editarColumnaPlan}" update="@(.ui-growl)" />
+							<p:ajax event="rowEditCancel" listener="#{consultarPS.cancelarEdicionColumna}" update="@(.ui-growl)" />	
 							
 							<p:column headerText="Fecha de presentación">
-	       						<p:outputLabel value="#{plan.fechaDePresentacion}">
-	       							<f:convertDateTime type="date" />
-	       						</p:outputLabel>
+	       						
+
+								<p:cellEditor>
+	       							<f:facet name="output">
+			       						<p:outputLabel value="#{plan.fechaDePresentacion}">
+			       							<f:convertDateTime type="date" locale="es_AR"/>
+			       						</p:outputLabel>	       							
+	       							</f:facet>
+	       							<f:facet name="input">
+	       								<p:calendar value="#{plan.fechaDePresentacion}"/>	
+	       							</f:facet>
+	       						
+	       						</p:cellEditor>
 							</p:column>
 							
 							<p:column headerText="Fecha de evaluación">
-								<p:outputLabel value="#{plan.fechaAprobDesaprob}"/>
+								<p:cellEditor>
+									<f:facet name="output">
+										<p:outputLabel value="#{plan.fechaAprobDesaprob}">
+											<f:convertDateTime type="date" locale="es_AR"/>
+										</p:outputLabel>									
+									</f:facet>
+									<f:facet name="input">
+										<p:calendar value="#{plan.fechaAprobDesaprob}"/>
+									</f:facet>
+								</p:cellEditor>
 							</p:column>
 							
 							<p:column headerText="Observación">
@@ -103,7 +119,6 @@
 									<f:facet name="output"><h:outputText value="#{plan.observaciones}" /></f:facet>
 	               					<f:facet name="input"><p:inputText id="modelInput" value="#{plan.observaciones}" style="width:100%"/></f:facet>
 								</p:cellEditor>
-<!-- 								<p:outputLabel value="#{plan.observaciones}"/> -->
 							</p:column>
 							<p:column>
 							    <p:rowEditor/>
@@ -114,26 +129,47 @@
 					</p:outputPanel>						
 				</p:dialog>
 				
-				<p:dialog widgetVar="dialogoInformes" >
+				<p:dialog widgetVar="dialogoInformes">
 					<p:outputPanel id="informes" >
 						<p:dataTable value="#{consultarPS.informes}" var="informe" style="width:600px" editable="true">
-							
+							<p:ajax event="rowEdit" listener="#{consultarPS.editarColumnaInforme}" update="@(.ui-growl)" />
+							<p:ajax event="rowEditCancel" listener="#{consultarPS.cancelarEdicionColumna}" update="@(.ui-growl)" />
+									
 							<p:column headerText="Fecha de presentación">
-	       						<p:outputLabel value="#{informes.fechaDePresentacion}">
-	       							<f:convertDateTime type="date" />
-	       						</p:outputLabel>
+	       						<p:cellEditor>
+	       							<f:facet name="output">
+	       								<p:outputLabel value="#{informes.fechaDePresentacion}">
+			       							<f:convertDateTime type="date" locale="es_AR"/>
+			       						</p:outputLabel>	
+	       							</f:facet>
+	       							
+	       							<f:facet name="input">
+	       								<p:calendar value="#{informes.fechaDePresentacion}" />
+	       							</f:facet>
+	       						</p:cellEditor>
 							</p:column>
 							
 							<p:column headerText="Fecha de evaluación">
-								<p:outputLabel value="#{informe.fechaAprobDesaprob}"/>
+								<p:cellEditor>
+									<f:facet name="output">
+										<p:outputLabel value="#{informe.fechaAprobDesaprob}">
+											<f:convertDateTime type="date" locale="es_AR"/>
+										</p:outputLabel>									
+									</f:facet>
+									
+									<f:facet name="input">
+										<p:calendar value="#{informe.fechaAprobDesaprob}"/>
+									</f:facet>
+							
+								</p:cellEditor>
 							</p:column>
+							
 							
 							<p:column headerText="Observación">
 								<p:cellEditor>
 									<f:facet name="output"><h:outputText value="#{informe.observaciones}" /></f:facet>
-	               					<f:facet name="input"><p:inputText id="modelInput" value="#{inrforme.observaciones}" style="width:100%"/></f:facet>
+	               					<f:facet name="input"><p:inputText id="modelInput" value="#{informe.observaciones}" style="width:100%"/></f:facet>
 								</p:cellEditor>
-<!-- 								<p:outputLabel value="#{plan.observaciones}"/> -->
 							</p:column>
 							<p:column>
 							    <p:rowEditor/>

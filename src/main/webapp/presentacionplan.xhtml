@@ -102,7 +102,7 @@
 		        		</p:selectOneMenu>
 		        		<h:panelGroup>
 			        		 <p:commandButton id="nuevaAct" value="Agregar Act" type="button"  />		
-					    			<p:overlayPanel for="nuevaAct" hideEffect="fade">
+					    			<p:overlayPanel for="nuevaAct" hideEffect="fade" modal="true" appendTo="@(body)">
 					    				<p:panelGrid>
 					    					<p:outputLabel value="Nombre: "/>
 					    					<p:inputText value="#{tipoActBean.tipoAct.nombre}"/>
@@ -122,7 +122,7 @@
 						</p:selectOneMenu>
 						<h:panelGroup>
 							<p:commandButton id="nuevaArea" value="Agregar Area" type="button"  />		
-			    			<p:overlayPanel for="nuevaArea" hideEffect="fade">
+			    			<p:overlayPanel for="nuevaArea" hideEffect="fade" modal="true" appendToBody="true" dismissable="true" showCloseIcon="true" >
 			    				<p:panelGrid>
 			    					<p:outputLabel value="Nombre: "/>
 			    					<p:inputText value="#{areaBean.area.nombre}"/>
@@ -193,12 +193,12 @@
        					
        					<p:column headerText="Fecha de presentación">
        						<p:outputLabel value="#{plan.fechaDePresentacion}">
-       							<f:convertDateTime type="date" />
+       							<f:convertDateTime type="date" locale="es_AR"/>
        						</p:outputLabel>
        					</p:column>
        					<p:column headerText="Fecha de evaluación">
        						<p:outputLabel value="#{plan.fechaAprobDesaprob}">
-       							<f:convertDateTime type="date" />
+       							<f:convertDateTime type="date" locale="es_AR"/>
        						</p:outputLabel>
        					</p:column>
        					<p:column headerText="Observaciones">

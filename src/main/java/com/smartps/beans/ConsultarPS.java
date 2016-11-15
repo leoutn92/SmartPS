@@ -11,6 +11,7 @@ import javax.faces.context.FacesContext;
 
 import org.primefaces.event.RowEditEvent;
 
+import com.smartps.dao.InformeFinalDao;
 import com.smartps.dao.PSDao;
 import com.smartps.dao.PlanDeTrabajoDao;
 import com.smartps.model.InformeFinal;
@@ -23,6 +24,7 @@ public class ConsultarPS {
 
 	PSDao daops = new PSDao();
 	PlanDeTrabajoDao daoplanes = new PlanDeTrabajoDao();
+	InformeFinalDao daoinformes = new InformeFinalDao();
 	
 	PS ps;
 	
@@ -40,16 +42,23 @@ public class ConsultarPS {
 
 	public void editarColumnaPlan(RowEditEvent event){
 		PlanDeTrabajo plan = (PlanDeTrabajo )event.getObject();
-//		plan= daoplanes.getById(plan.getId());
-//		daoplanes.update(plan);
+		daoplanes.saveOrUpdate(plan);
 		FacesMessage msg = new FacesMessage("Plan editado", null);
-        FacesContext.getCurrentInstance().addMessage(null, msg);
+		FacesContext.getCurrentInstance().addMessage(null, msg);
 	}
 	
-	public void cancelarEdicionColumnaPlan(){
+	public void cancelarEdicionColumna(){
 		FacesMessage msg = new FacesMessage("Edicion cancelada", null);
         FacesContext.getCurrentInstance().addMessage(null, msg);		
 	}
+	
+	public void editarColumnaInforme (RowEditEvent event){
+		InformeFinal inf = (InformeFinal) event.getObject();
+		daoinformes.saveOrUpdate(inf);
+		FacesMessage msg = new FacesMessage("informe editado", null);
+		FacesContext.getCurrentInstance().addMessage(null, msg);
+	}
+	
 	
 	public void actualizarPlanes(){
 		planes = daops.getPlanes(ps.getId());
