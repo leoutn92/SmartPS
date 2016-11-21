@@ -1,14 +1,6 @@
 package com.smartps.beans.registrarPresentacionInforme;
 
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.io.Serializable;
-import java.sql.Blob;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -19,9 +11,6 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.faces.view.ViewScoped;
-
-import org.apache.commons.io.IOUtils;
-import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 
 import com.smartps.dao.EstadoDao;
@@ -33,9 +22,14 @@ import com.smartps.model.Estado;
 import com.smartps.model.InformeFinal;
 import com.smartps.model.PS;
 import com.smartps.model.PlanDeTrabajo;
+import com.smartps.util.SmartPSUtils;
 @ManagedBean
 @ViewScoped
 public class RegistrarPresentacionInformeBean implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	int legajo;
 	StreamedContent file;
 	LineaTablaInformes linea;
@@ -52,7 +46,8 @@ public class RegistrarPresentacionInformeBean implements Serializable {
 	PlanDeTrabajoDao planDeTrabajoDao = PlanDeTrabajoDao.getInstance();
 	List<LineaTablaInformes> tablaInformes;
 	String mensaje;
-	boolean renderedPlanDigital=false; 
+	boolean renderedPlanDigital=false;
+	private String dirPlan;
 	@PostConstruct
 	public void init(){
 		this.updateTablaInformes();
@@ -193,6 +188,7 @@ public class RegistrarPresentacionInformeBean implements Serializable {
 			if (plan!=null) {
 				linea.setDirPlan(plan.getDirDocumentoDigital());
 				linea.setBlob(plan.getFile());
+				linea.setDirPlan(plan.getDirDocumentoDigital());
 			}
 			tablaInformes.add(linea);
 		}
@@ -223,12 +219,12 @@ public class RegistrarPresentacionInformeBean implements Serializable {
 		return salida;
 	}
 	
-	public String descargarPdf() {
+	public String updatePdf() {
 		this.legajo = Integer.parseInt(FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("legajo"));
 		int idEstadoPlanAprobado = EstadoDao.getInstance().getEstadoPlanAprobado().getId();
 		PS ps = psDao.searchPs(legajo,idEstadoPlanAprobado);	
 		PlanDeTrabajo plan = planDeTrabajoDao.getLastByFechaAprobadoDesaprobado(ps.getId());
-		this.descargarPdf(plan.getId()); 
+		this.updatePdf(plan.getId()); 
 		return "";
 	}
 	
@@ -238,16 +234,16 @@ public class RegistrarPresentacionInformeBean implements Serializable {
 	public void setFile(StreamedContent file) {
 		this.file = file;
 	}
-	public void descargarPdf(int idPlan) {
+	public void updatePdf(int idPlan) {
 		PlanDeTrabajo plan = planDeTrabajoDao.findByID(idPlan);
-		try {
-			byte[] bytes = plan.getFile().getBytes(1,(int)plan.getFile().length());
-			InputStream is = new ByteArrayInputStream(bytes);
-			this.file = new DefaultStreamedContent(is, "image/jpeg", "fileName.jpg");
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		this.setDirPlan(plan.getDirDocumentoDigital());
+		this.setRenderedPlanDigital(true);
+	}
+	public String getDirPlan() {
+		return dirPlan;
+	}
+	public void setDirPlan(String dirPlan) {
+		this.dirPlan = dirPlan;
 	}
 	
 }

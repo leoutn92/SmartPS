@@ -5,6 +5,8 @@ import java.util.Date;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
+import org.primefaces.model.StreamedContent;
+
 import com.smartps.model.PS;
 @ManagedBean
 @ViewScoped
@@ -17,6 +19,7 @@ public class LineaTablaInformes {
 	private Date fechaPresentacion;
 	private PS ps;
 	private Blob blob;
+	private StreamedContent file;
 	public Blob getBlob() {
 		return blob;
 	}
@@ -64,6 +67,12 @@ public class LineaTablaInformes {
 	}
 	public void setPs(PS ps) {
 		this.ps = ps;
+	}
+	public StreamedContent getFile() {
+		return file;
+	}
+	public void setFile(StreamedContent file) {
+		this.file = file;
 	}
 	
 }

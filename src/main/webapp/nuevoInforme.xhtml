@@ -44,21 +44,22 @@
 			         #{linea.psTitle}
 			    </p:column>
 			    <p:column headerText="Plan de ps">
-			    	<h:form>
-			    		<p:commandButton value="DESCARGAR PLAN" action="#{registrarPresentacionInformeBean.descargarPdf()}">
--			    			<f:param name="legajo" value="#{linea.legajo}" />
-							<p:fileDownload value="#{registrarPresentacionInformeBean.file}" />
--			    		</p:commandButton>
-			    	</h:form>
+			    		<h:commandButton value="VER PLAN" action="#{registrarPresentacionInformeBean.updatePdf()}" update="pdf">
+			    		<f:param name="legajo" value="#{linea.legajo}" />
+						</h:commandButton>
 -			    </p:column>
 			    <p:column headerText="Agregar informe">
 			   		<p:outputLabel for="popup"/>
         	   		<p:calendar id="popup" value="#{linea.fechaPresentacion}" />
         	   	</p:column>
-			</p:dataTable>
+			</p:dataTable> 
 			<div align="center">
-				<p:commandButton value="Guardar" actionListener="#{registrarPresentacionInformeBean.registrarInformes}" update="tabla,messages"/>
-			</div> 
+					<p:commandButton value="Guardar" actionListener="#{registrarPresentacionInformeBean.registrarInformes}" update="tabla,messages"/>
+			</div>
+			<p:panel header="Documento digital" id="pdf" toggleable="true" closable="true" rendered="#{registrarPresentacionInformeBean.renderedPlanDigital}">
+					<object type="application/pdf" data="#{registrarPresentacionInformeBean.dirPlan}?pfdrid_c=true" width="100%" height="300px">
+					</object>
+			</p:panel>
 		</ui:define>
 	</ui:composition>
     </h:body>

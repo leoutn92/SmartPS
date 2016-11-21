@@ -1,9 +1,8 @@
 package com.smartps.beans.aprobarPlan;
+import java.io.File;
 import java.util.Date;
 
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.sql.rowset.serial.SerialBlob;
 
@@ -12,8 +11,12 @@ import org.primefaces.model.UploadedFile;
 
 import com.smartps.dao.PlanDeTrabajoDao;
 import com.smartps.model.PlanDeTrabajo;
+import com.smartps.util.SmartPSUtils;
 
 public class LineaTablaPlanesPresentados {
+	public static String path="C:/Users/User/workspace/SmartPS/src/main/webapp";
+	public static String filePrefix="plan_";
+	public static String fileSufix= ".pdf"; 
 	private String nombreAlumno;
 	private String observaciones;
 	private Date fechaEvaluacion;
@@ -86,12 +89,17 @@ public class LineaTablaPlanesPresentados {
 		PlanDeTrabajo plan = planDeTrabajoDao.findByID(this.getIdPlan());
 		if (this.getFile()!=null) {
 			try {
+				int legajo = plan.getPs().getAlumno().getLegajo();
+				int idPlan = plan.getId();
+				String fileName = filePrefix+ legajo + "_" + idPlan +  fileSufix;
+				File file = SmartPSUtils.saveFile(path,this.getFile(),fileName);
+				plan.setDirDocumentoDigital(file.getName());
 				plan.setFile(new SerialBlob(this.getFile().getContents()));
+				planDeTrabajoDao.update(plan);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			planDeTrabajoDao.update(plan);
 		}
 		
 		FacesMessage message = new FacesMessage("Bien hecho! :)", event.getFile().getFileName() + " fue cargado exitosamente.");
