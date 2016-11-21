@@ -185,7 +185,34 @@
 						<p:panel id="panelEdicionPS" autoUpdate="true" >
 							<p:panelGrid columns="2">
 								<p:outputLabel value="Titulo"/>
-								<p:inputText value="#{consultarPS.tituloField}" />
+								<p:inputText value="#{consultarPS.modifPS.titulo}" />
+								<p:outputLabel value="Ciclo lectivo"/>
+								<p:inputText value="#{consultarPS.modifPS.cicloLectivo}" />								
+								<p:outputLabel value="Cuatrimestre"/>
+								<p:inputText value="#{consultarPS.modifPS.cuatrimestre}" />
+				        		
+				        		<p:outputLabel value="Tipo" />			        		
+				        		<p:selectOneMenu value="#{consultarPS.actSelec}"  >
+				        			<p:ajax listener="#{consultarPS.cambioAct}" />
+				        			<f:selectItems value="#{tipoActBean.tiposAct}" var="act" itemLabel="#{act.nombre}" itemValue="#{act.id}" itemDescription="#{act.descripsion}"/>
+				        		</p:selectOneMenu>
+				        		
+				        		<p:outputLabel value="Area" />
+								<p:selectOneMenu value="#{consultarPS.areaSelec}">
+									<p:ajax listener="#{consultarPS.cambioArea}" />
+									<f:selectItem itemLabel="Seleccione uno" itemValue="" />
+									<f:selectItems value="#{areaBean.areas}" var="area" itemLabel="#{area.nombre}" itemValue="#{area.id}" itemDescription="#{area.descripsion}" />							
+								</p:selectOneMenu>
+								
+			        			<p:outputLabel value="Organización:" />
+			        			<p:selectOneMenu value="#{consultarPS.orgSelec}" filter="true">
+				        			<p:ajax listener="#{consultarPS.cambioOrg}" />
+				        			<f:selectItem itemLabel="Seleccione uno" itemValue="" noSelectionOption="true" />
+				        			<f:selectItems value="#{orgBean.organizaciones}" var="org" itemLabel="#{org.nombre}" itemValue="#{org.id}"  itemDescription="#{org.descripsion}"/>
+			        			</p:selectOneMenu>								
+
+								
+								<p:commandButton value="Guardar cambios" update="@(.ui-datatable)" actionListener="#{consultarPS.guardarCambiosPS()}" oncomplete="PF('dialogoModifPS').hide()" />								
 							</p:panelGrid>
 						</p:panel>
 

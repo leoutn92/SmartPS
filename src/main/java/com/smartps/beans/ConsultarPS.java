@@ -11,9 +11,12 @@ import javax.faces.context.FacesContext;
 
 import org.primefaces.event.RowEditEvent;
 
+import com.smartps.dao.AreaDao;
 import com.smartps.dao.InformeFinalDao;
+import com.smartps.dao.OrganizacionDao;
 import com.smartps.dao.PSDao;
 import com.smartps.dao.PlanDeTrabajoDao;
+import com.smartps.dao.TipoActividadDao;
 import com.smartps.model.InformeFinal;
 import com.smartps.model.PS;
 import com.smartps.model.PlanDeTrabajo;
@@ -26,17 +29,20 @@ public class ConsultarPS {
 	PlanDeTrabajoDao daoplanes = new PlanDeTrabajoDao();
 	InformeFinalDao daoinformes = new InformeFinalDao();
 	
-	PS ps;
+	PS ps,modifPS;
 	
 	List<PS> pss;
 	List<PlanDeTrabajo> planes;
 	List<InformeFinal> informes;
 	
-	String tituloField; 
+	String areaSelec;
+	String orgSelec;
+	String actSelec;
 	
 	
 	@PostConstruct
 	public void init(){
+		modifPS=new PS();
 		pss=daops.getAll();
 		planes = new ArrayList<PlanDeTrabajo> ();
 		informes = new ArrayList<InformeFinal>();
@@ -77,11 +83,38 @@ public class ConsultarPS {
 	
 	public void actualizarPS(){
 		if (ps!=null){
-			tituloField=ps.getTitulo();
-			System.out.println(tituloField);
+			modifPS = new PS();
+			modifPS.setTitulo(ps.getTitulo());
+			modifPS.setCuatrimestre(ps.getCuatrimestre());
+			modifPS.setCicloLectivo(ps.getCicloLectivo());
+			actSelec=""+ps.getTipoActividad().getId();
+			orgSelec=""+ps.getOrganizacion().getId();
+			areaSelec=""+ps.getArea().getId();
 		}
 	}
-
+	
+	public void guardarCambiosPS(){
+		ps.setTitulo(modifPS.getTitulo());
+		ps.setCuatrimestre(getModifPS().getCuatrimestre());
+		ps.setCicloLectivo(modifPS.getCicloLectivo());
+		ps.setArea(new AreaDao().getById(Integer.parseInt(areaSelec)));
+		ps.setOrganizacion(new OrganizacionDao().getById(Integer.parseInt(orgSelec)));
+		ps.setTipoActividad(new TipoActividadDao().getById(Integer.parseInt(actSelec)));
+		daops.saveOrUpdate(ps);
+	}
+	
+	public void cambioAct(){
+		modifPS.setTipoActividad(new TipoActividadDao().getById(Integer.parseInt(actSelec)));
+	}
+	
+	public void cambioOrg(){
+		modifPS.setOrganizacion(new OrganizacionDao().getById(Integer.parseInt(orgSelec)));
+	}
+	
+	public void cambioArea(){
+		modifPS.setArea(new AreaDao().getById(Integer.parseInt(areaSelec)));
+	}
+	
 	public List<PS> getPss() {
 		return pss;
 	}
@@ -117,12 +150,42 @@ public class ConsultarPS {
 	}
 
 
-	public String getTituloField() {
-		return tituloField;
+	public PS getModifPS() {
+		return modifPS;
 	}
 
 
-	public void setTituloField(String tituloField) {
-		this.tituloField = tituloField;
+	public void setModifPS(PS modifPS) {
+		this.modifPS = modifPS;
+	}
+
+
+	public String getAreaSelec() {
+		return areaSelec;
+	}
+
+
+	public void setAreaSelec(String areaSelec) {
+		this.areaSelec = areaSelec;
+	}
+
+
+	public String getOrgSelec() {
+		return orgSelec;
+	}
+
+
+	public void setOrgSelec(String orgSelec) {
+		this.orgSelec = orgSelec;
+	}
+
+
+	public String getActSelec() {
+		return actSelec;
+	}
+
+
+	public void setActSelec(String actSelec) {
+		this.actSelec = actSelec;
 	}
 }
