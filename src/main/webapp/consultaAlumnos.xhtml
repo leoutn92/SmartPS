@@ -1,0 +1,68 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <h:head>
+    	<title>SmartPS</title>
+    </h:head>
+    
+    <h:body>
+
+ 	<ui:composition template="/templates/template.xhtml">
+ 		<ui:define name="content"> 
+ 			
+ 			<h3><p:outputLabel  value="Gestion de Alumnos" /></h3>
+			<p:separator/>
+			<br></br>
+			
+			<h:form >
+				<p:messages id="msg"/>
+				<p:panelGrid columns="3">					
+					<p:outputLabel value ="Legajo"/>
+					<p:inputText id="legajo" value="#{alumnosBean.alumno.legajo}" required="true" requiredMessage="Ingrese un nro de legajo" converterMessage="Debe ser un número"/>
+					<p:message for="legajo" />
+					
+					<p:outputLabel value ="Nombre"/>
+					<p:inputText id="nombre" value="#{alumnosBean.alumno.nombre}" required="true" requiredMessage="Ingrese un nombre"/>
+					<p:message for="nombre" />
+					
+					<p:outputLabel value ="Año ingreso"/>
+					<p:inputText id="ingreso" value="#{alumnosBean.alumno.cicloLectivo}" required="true" requiredMessage="Ingrese un año de ingreso" converterMessage="Debe ser un número"/>
+					<p:message for="ingreso" />
+					
+					<p:commandButton value="Agregar alumno" actionListener="#{alumnosBean.guardarAlumno()}"  update="@(.ui-datatable),msg" validateClient="true" ajax="false" icon="ui-icon-check" />
+				</p:panelGrid>
+				
+				
+				
+				
+				<p:dataTable value="#{alumnosBean.alumnos}" var="alu" widgetVar="tablaAlumnos">
+					
+				    <f:facet name="header">
+				 		<h3><p:outputLabel value=""/></h3>
+				    </f:facet>
+					
+					<p:column headerText="Legajo" filterBy="{alu.legajo}" filterMatchMode="contains" style="text-align:center" >
+						<p:outputLabel value="#{alu.legajo}" />
+					</p:column>					
+					
+					<p:column headerText="Nombre" filterBy="{alu.nombre}" filterMatchMode="contains">
+						<p:outputLabel value="#{alu.nombre}" />
+					</p:column>
+					
+					<p:column headerText="Año ingreso" filterBy="{alu.cicloLectivo}" filterMatchMode="contains">
+						<p:outputLabel value="#{alu.cicloLectivo}" />
+					</p:column>
+					
+				</p:dataTable>
+			</h:form>
+ 		</ui:define>
+ 		 
+ 	</ui:composition>
+
+    </h:body>
+</html>
