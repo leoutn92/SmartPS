@@ -32,6 +32,9 @@ public class ConsultarPS {
 	List<PlanDeTrabajo> planes;
 	List<InformeFinal> informes;
 	
+	String tituloField; 
+	
+	
 	@PostConstruct
 	public void init(){
 		pss=daops.getAll();
@@ -61,11 +64,22 @@ public class ConsultarPS {
 	
 	
 	public void actualizarPlanes(){
-		planes = daops.getPlanes(ps.getId());
+		if (ps!=null){
+			planes = daops.getPlanes(ps.getId());
+		}
 	}
 	
 	public void actualizarInformes(){
-		informes = daops.getInformes(ps.getId());
+		if (ps!=null){
+			informes = daops.getInformes(ps.getId());
+		}
+	}
+	
+	public void actualizarPS(){
+		if (ps!=null){
+			tituloField=ps.getTitulo();
+			System.out.println(tituloField);
+		}
 	}
 
 	public List<PS> getPss() {
@@ -100,5 +114,15 @@ public class ConsultarPS {
 
 	public void setPs(PS ps) {
 		this.ps = ps;
+	}
+
+
+	public String getTituloField() {
+		return tituloField;
+	}
+
+
+	public void setTituloField(String tituloField) {
+		this.tituloField = tituloField;
 	}
 }

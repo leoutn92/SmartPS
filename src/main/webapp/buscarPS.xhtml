@@ -74,7 +74,7 @@
 			        <f:facet name="footer">
 			            <p:commandButton id="btnBuscarPlanes" update="@(.ui-datatable)" icon="ui-icon-search" value="Ver planes" oncomplete="PF('dialogoPlanes').show()" actionListener="#{consultarPS.actualizarPlanes()}" />
 			            <p:commandButton id="btnBuscarInformes" update="@(.ui-datatable)" icon="ui-icon-search" value="Ver informes" oncomplete="PF('dialogoInformes').show()" actionListener="#{consultarPS.actualizarInformes()}" />
-			            <p:commandButton value="Modificar PS" icon="ui-icon-pencil"  />
+			            <p:commandButton id="btnModificarPS" update="@(.ui-panel)" icon="ui-icon-pencil" value="Modificar PS"  oncomplete="PF('dialogoModifPS').show()"  actionListener="#{consultarPS.actualizarPS()}" />
 			        </f:facet>				
 					  
 				</p:dataTable>
@@ -180,7 +180,16 @@
 					</p:outputPanel>						
 				</p:dialog>
 				
-			
+				<p:dialog widgetVar="dialogoModifPS">
+					
+						<p:panel id="panelEdicionPS" autoUpdate="true" >
+							<p:panelGrid columns="2">
+								<p:outputLabel value="Titulo"/>
+								<p:inputText value="#{consultarPS.tituloField}" />
+							</p:panelGrid>
+						</p:panel>
+
+				</p:dialog>
 
 
  			</h:form> 			 			
