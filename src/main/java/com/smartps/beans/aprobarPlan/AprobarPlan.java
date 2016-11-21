@@ -98,7 +98,7 @@ public class AprobarPlan {
 			Alumno alumno = p.getAlumno();
 			linea.setNombreAlumno(alumno.getNombre());
 			linea.setLegajo(alumno.getLegajo());
-			linea.setEstado(p.getEstado().getNombre());
+			linea.setEstado(estado.getNombre());
 			linea.setPsTitle(p.getTitulo());
 			int idps = p.getId();
 			linea.setIdPlan(planDeTrabajoDao.getLastByFechaAprobadoDesaprobado(idps).getId());
