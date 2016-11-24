@@ -12,6 +12,7 @@ import javax.faces.context.FacesContext;
 import org.primefaces.event.RowEditEvent;
 
 import com.smartps.dao.AreaDao;
+import com.smartps.dao.EstadoDao;
 import com.smartps.dao.InformeFinalDao;
 import com.smartps.dao.OrganizacionDao;
 import com.smartps.dao.PSDao;
@@ -39,6 +40,8 @@ public class ConsultarPS {
 	String orgSelec;
 	String actSelec;
 	
+	boolean visibleDetalles,puedeCancelarPS,puedeAprobarPS;
+	
 	
 	@PostConstruct
 	public void init(){
@@ -46,6 +49,7 @@ public class ConsultarPS {
 		pss=daops.getAll();
 		planes = new ArrayList<PlanDeTrabajo> ();
 		informes = new ArrayList<InformeFinal>();
+		visibleDetalles=false;
 	}
 	
 
@@ -90,6 +94,8 @@ public class ConsultarPS {
 			actSelec=""+ps.getTipoActividad().getId();
 			orgSelec=""+ps.getOrganizacion().getId();
 			areaSelec=""+ps.getArea().getId();
+			puedeCancelarPS=ps.estaVigente();
+			puedeAprobarPS=ps.puedeAprobar();
 		}
 	}
 	
@@ -101,6 +107,30 @@ public class ConsultarPS {
 		ps.setOrganizacion(new OrganizacionDao().getById(Integer.parseInt(orgSelec)));
 		ps.setTipoActividad(new TipoActividadDao().getById(Integer.parseInt(actSelec)));
 		daops.saveOrUpdate(ps);
+	}
+	
+	public void actualizarPresentacionesPS(){
+		if (ps!= null){
+			modifPS=ps;
+			visibleDetalles=true;
+		}
+		this.actualizarPlanes();
+		this.actualizarInformes();
+	}
+	
+	public void cancelarPS(){
+		if (ps.estaVigente()){
+			ps.setEstado(new EstadoDao().getById(11));
+			daops.save(ps);
+		}
+			
+	}
+	
+	public void aprobarPS(){
+		if (puedeAprobarPS){
+			ps.setEstado(new EstadoDao().getById(10));
+			daops.save(ps);
+		}		
 	}
 	
 	public void cambioAct(){
@@ -187,5 +217,35 @@ public class ConsultarPS {
 
 	public void setActSelec(String actSelec) {
 		this.actSelec = actSelec;
+	}
+
+
+	public boolean isVisibleDetalles() {
+		return visibleDetalles;
+	}
+
+
+	public void setVisibleDetalles(boolean visibleDetalles) {
+		this.visibleDetalles = visibleDetalles;
+	}
+
+
+	public boolean isPuedeCancelarPS() {
+		return puedeCancelarPS;
+	}
+
+
+	public void setPuedeCancelarPS(boolean puedeCancelarPS) {
+		this.puedeCancelarPS = puedeCancelarPS;
+	}
+
+
+	public boolean isPuedeAprobarPS() {
+		return puedeAprobarPS;
+	}
+
+
+	public void setPuedeAprobarPS(boolean puedeAprobar) {
+		this.puedeAprobarPS = puedeAprobar;
 	}
 }

@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class PS implements Serializable {
+	private static final long serialVersionUID = -6065549130439224352L;
 		private int id;
 		private int cicloLectivo;
 		private int cuatrimestre;
@@ -21,6 +22,19 @@ public class PS implements Serializable {
 		public PS() {
 			
 		}
+		
+		//4 5 9 10 11
+		public boolean estaVigente(){
+			if(estado.getId()==4 || estado.getId()==5 ||estado.getId()==9||estado.getId()==10 || estado.getId()==11){
+				return false;
+			}
+			return true;
+		}
+		
+		public boolean puedeAprobar(){
+			return this.getEstado().getId()==8;
+		}
+		
 		public int getCicloLectivo() {
 			return cicloLectivo;
 		}
