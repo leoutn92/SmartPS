@@ -1,0 +1,75 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <h:head>
+    	<title>SmartPS</title>
+    </h:head>
+    
+    <h:body>
+
+ 	<ui:composition template="/templates/template.xhtml">
+ 		<ui:define name="content"> 
+ 		
+	 		<h3><h:outputLabel value="Planes de Trabajo aprobados por vencer"/></h3>
+	 		<p:separator></p:separator>
+	 		<div><br /></div>
+
+			<p:outputPanel>
+			
+				<p:fieldset rendered="#{vencePlan.panelHay}" style="margin-bottom:20px">				
+ 		
+					<p:dataTable id="planes" var="linea" value="#{vencePlan.resultlist}" rowKey="#{linea.id}" >
+		
+						<p:column headerText="Titulo de PS">
+							#{linea.titulo}
+						</p:column>
+						
+						<p:column headerText="Nombre Alumno">
+							#{linea.alumno}
+						</p:column>
+						
+						<p:column headerText="Nro Legajo">
+							#{linea.legajo}
+						</p:column>
+						
+						<p:column headerText="Estado de PS">
+							#{linea.estado}
+						</p:column>
+						
+						<p:column headerText="Fecha de Aprobacion">
+							<h:outputText value="#{linea.fechaAprobacion}">
+								<f:convertDateTime type="date" />
+							</h:outputText>
+						</p:column>
+		
+						<p:column headerText="Fecha de Vencimiento">
+							<h:outputText value="#{linea.fechaVence}">
+								<f:convertDateTime type="date" />
+							</h:outputText>
+						</p:column>
+						
+						<p:column headerText="Dias Restantes">
+							#{linea.diasRestantes}
+						</p:column>
+
+					</p:dataTable>
+
+				</p:fieldset>
+				
+				<p:fieldset rendered="#{vencePlan.panelNohay}" style="margin-bottom:20px">
+					No hay planes de trabajo que hayan sido aprobados y que se venzan en menos de un mes
+				</p:fieldset>
+
+			</p:outputPanel>
+
+ 		</ui:define>
+ 		 
+ 	</ui:composition>
+
+    </h:body>
+</html>

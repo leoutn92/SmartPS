@@ -43,11 +43,15 @@
 		        	<p:menuitem value="Por Titulo" outcome="/consultas/consultTitulo" icon="ui-icon-search"/>
 		        </p:submenu>		        
 		        <p:submenu label="Reportes">
-		        	<p:menuitem value="Estadisticas" outcome="/reportes" icon="ui-icon-star"/>
+		        	<p:menuitem value="Estadisticas" outcome="/reportes" icon="ui-icon-clipboard"/>
 		        </p:submenu>
+		     	<p:submenu label="Vencimientos">
+		            <p:menuitem value="Planes por vencer" outcome="/vencePlanes"  icon="ui-icon-calendar"/>
+		            <p:menuitem value="Informes por vencer" outcome="/venceInformes"  icon="ui-icon-calendar"/>
+		        </p:submenu>			        
 		     	<p:submenu label="Alumnos">
 		            <p:menuitem value="Importar"/>
-		            <p:menuitem value="Buscar" outcome="/consultaAlumnos"/>
+		            <p:menuitem value="Buscar" outcome="/consultaAlumnos"  icon="ui-icon-search"/>
 		        </p:submenu>   
 		        <p:submenu label="Ayuda">
 		            <p:menuitem value="Manual de usuario" url="http://www.primefaces.org" icon="ui-icon-help"/>

@@ -220,13 +220,13 @@
 							<p:column headerText="Fecha de presentación">
 	       						<p:cellEditor>
 	       							<f:facet name="output">
-	       								<p:outputLabel value="#{informes.fechaDePresentacion}">
+	       								<p:outputLabel value="#{informe.fechaDePresentacion}">
 			       							<f:convertDateTime type="date" locale="es_AR"/>
 			       						</p:outputLabel>	
 	       							</f:facet>
 	       							
 	       							<f:facet name="input">
-	       								<p:calendar value="#{informes.fechaDePresentacion}" />
+	       								<p:calendar value="#{informe.fechaDePresentacion}" />
 	       							</f:facet>
 	       						</p:cellEditor>
 							</p:column>
