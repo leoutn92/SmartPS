@@ -103,7 +103,7 @@ public class LineaTablaPlanesPresentados {
 		}
 		
 		FacesMessage message = new FacesMessage("Bien hecho! :)", event.getFile().getFileName() + " fue cargado exitosamente.");
-        FacesContext.getCurrentInstance().addMessage(null, message);
+        FacesContext.getCurrentInstance().addMessage("panel", message);
     }
 	
 

@@ -8,6 +8,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.faces.view.ViewScoped;
+
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
@@ -142,7 +143,7 @@ public class AprobarPlan {
 	public void handleFileUpload(FileUploadEvent event) {
 		this.setFile(event.getFile());
         FacesMessage message = new FacesMessage("Bien hecho! :)", event.getFile().getFileName() + " fue cargado exitosamente.");
-        FacesContext.getCurrentInstance().addMessage(null, message);
+        FacesContext.getCurrentInstance().addMessage("panel", message);
     }
 	
 	
@@ -156,6 +157,7 @@ public class AprobarPlan {
 		// TODO Auto-generated method stub
 			LineaTablaPlanesPresentados linea=buscarLineaByIdPlan(idPlan);
 			if (!tieneErrores(linea)) {
+				String message = getMessage(linea);
 				PlanDeTrabajo plan = planDeTrabajoDao.findByID(linea.getIdPlan());
 				plan.setFechaAprobDesaprob(linea.getFechaEvaluacion());
 				plan.setObservaciones(linea.getObservaciones());
@@ -166,11 +168,21 @@ public class AprobarPlan {
 				ps.setEstado(estado);
 				psDao.update(ps);
 				this.updateTablaPlanesPresentados();
+//				FacesContext.getCurrentInstance().addMessage("puto",new FacesMessage(FacesMessage.SEVERITY_INFO,message,message));
+				RequestContext.getCurrentInstance().showMessageInDialog(new FacesMessage(FacesMessage.SEVERITY_INFO,"Bien hecho!","El plan fue evaluado"));
+				RequestContext.getCurrentInstance().addCallbackParam("tieneErrores",tieneErrores(linea));
+			} else {
+				String message = getMessage(linea);
+				FacesContext.getCurrentInstance().addMessage("panel",new FacesMessage(FacesMessage.SEVERITY_ERROR,message,message));
+				RequestContext.getCurrentInstance().addCallbackParam("tieneErrores",tieneErrores(linea));
 			}
-			String message = getMessage(linea);
-			FacesContext.getCurrentInstance().addMessage(null,new FacesMessage(FacesMessage.SEVERITY_WARN,message,message));
-			RequestContext.getCurrentInstance().addCallbackParam("tieneErrores",tieneErrores(linea));
-			RequestContext.getCurrentInstance().addCallbackParam("message",message);
+	}
+	private String getKey(LineaTablaPlanesPresentados linea) {
+		// TODO Auto-generated method stub
+		if (tieneErrores(linea)) {
+			return "panel";
+		}
+		return "tabla";
 	}
 	public String getNombreAlumno() {
 		return nombreAlumno;

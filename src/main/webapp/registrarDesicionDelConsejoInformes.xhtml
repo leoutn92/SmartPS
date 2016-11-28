@@ -30,6 +30,7 @@
     		<p:keyFilter for="legajo" mask="num" />
     		<p:commandButton value="Buscar" actionListener="#{desicionDelConsejoInformes.updateTablaInformesParaDecision}" update="tabla"/>
     		<p:dataTable id="tabla" var="linea" value="#{desicionDelConsejoInformes.tablaInformesParaDecision}">
+				<p:messages for="tabla"/>
 				<p:column headerText="nombre alumno">
 			         #{linea.nombreAlumno}
 			    </p:column>
@@ -63,17 +64,19 @@
         	   				</p:outputLabel>
     					</h:panelGrid>
 	    				<h:panelGrid columns="4">
-	    					<h:form encType="multipart/form-data">
-    							<p:growl id="messages" showDetail="true"/>
-    							<p:fileUpload fileUploadListener="#{linea.handleFileUpload}" update="messages"/>
-    							<h:commandButton value="Aprobar" ajax="true" actionListener="#{desicionDelConsejoInformes.aprobar}" tabla="tabla,messages">
-			    					<f:attribute name="linea" value="#{linea.idInforme}"/>
-			    				</h:commandButton>
-			    				<h:commandButton value="Observar" ajax="true" actionListener="#{desicionDelConsejoInformes.desaprobar}" tabla="tabla,messages">
-			    					<f:attribute name="linea" value="#{linea.idInforme}"/>
-			    				</h:commandButton>
-							</h:form>
-	    					</h:panelGrid>      		
+    							<p:panelGrid id="panel" columns="1" rows="2">
+    								<p:growl for="panel" autoUpdate="true" redisplay="true" id="messages" showDetail="true"/>
+    								<p:fileUpload fileUploadListener="#{linea.handleFileUpload}" update="messages" label="Seleccionar" cancelLabel="Cancelar" uploadLabel="Subir pdf" />
+	    							<p:panelGrid columns="2">
+	    								<p:commandButton value="Aprobar" ajax="true" actionListener="#{desicionDelConsejoInformes.aprobar}" update="tabla,messages">
+				    						<f:attribute name="linea" value="#{linea.idInforme}"/>
+				    					</p:commandButton>
+				    					<p:commandButton value="Observar" ajax="true" actionListener="#{desicionDelConsejoInformes.desaprobar}" update="tabla,messages">
+				    						<f:attribute name="linea" value="#{linea.idInforme}"/>
+				    					</p:commandButton>
+				    				</p:panelGrid>
+    							</p:panelGrid>
+	    				</h:panelGrid>      		
     				</h:panelGrid>
 				</p:dialog>
 			   </p:column>

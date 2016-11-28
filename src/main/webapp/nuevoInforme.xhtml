@@ -56,7 +56,7 @@
 			<div align="center">
 					<p:commandButton value="Guardar" actionListener="#{registrarPresentacionInformeBean.registrarInformes}" update="tabla,messages"/>
 			</div>
-			<p:panel header="Documento digital" id="pdf" toggleable="true" closable="true" rendered="#{registrarPresentacionInformeBean.renderedPlanDigital}">
+			<p:panel header="Documento digital" id="pdf" toggleable="true" closable="true" rendered="#{registrarPresentacionInformeBean.renderedPlanDigital}" >
 					<object type="application/pdf" data="#{registrarPresentacionInformeBean.dirPlan}?pfdrid_c=true" width="100%" height="300px">
 					</object>
 			</p:panel>

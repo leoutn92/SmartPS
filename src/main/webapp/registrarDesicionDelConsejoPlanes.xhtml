@@ -50,11 +50,11 @@
 						onclick="PF('dlg').show();">
 						<f:param name="linea" value="#{linea.idPlan}" />
 					</p:commandButton>
-					<p:growl widgetVar="message" id="messages" showDetail="true" sticky="true" />
-					<h:form encType="multipart/form-data">
 						<p:dialog header="Registrar decisión del consejo" widgetVar="dlg"
 							minHeight="80" resizable="false">
-							<p:panelGrid columns="1" rows="3">
+							<p:messages widgetVar="message"  for="puto" showDetail="false"/>
+							<p:growl widgetVar="message" id="messages" for="panel" showDetail="false"/>
+							<p:panelGrid columns="1" rows="4">
 								<p:panelGrid columns="2">
 									<h:outputText value="Observaciones" />
 									<p:inputTextarea value="#{linea.observaciones}" rows="6"
@@ -66,35 +66,32 @@
 										<p:calendar id="popup" value="#{linea.fechaEvaluacion}" />
 									</p:outputLabel>
 								</p:panelGrid>
-								<p:panelGrid columns="4">
+								
+								<p:panelGrid id="panel" columns="1" rows="2">
 									<p:fileUpload fileUploadListener="#{linea.handleFileUpload}"
-										update="@(.ui-growl)" />
-									<p:commandButton value="Aprobar" ajax="true"
+										label="Seleccionar" cancelLabel="Cancelar" uploadLabel="Subir pdf"
+										update="messages" />
+									<p:panelGrid columns="2">
+										<p:commandButton value="Aprobar" ajax="true"
 										actionListener="#{aprobarPlan.aprobar}"
 										update="@(.ui-datatable),@(.ui-growl)"
 										oncomplete="handleLoginRequest(xhr, status, args)">
 										<f:attribute name="linea" value="#{linea.idPlan}" />
-									</p:commandButton>
+										</p:commandButton>
 									<p:commandButton value="Desaprobar" ajax="true"
 										actionListener="#{aprobarPlan.desaprobar}"
 										oncomplete="handleLoginRequest(xhr, status, args)"
 										update="@(.ui-datatable),@(.ui-growl)">
 										<f:attribute name="linea" value="#{linea.idPlan}" />
 									</p:commandButton>
-									<script type="text/javascript">
+								</p:panelGrid>				
+								<script type="text/javascript">
 										function handleLoginRequest(xhr,
 												status, args) {
-											if (args.validationFailed
-													|| args.tieneErrores) {
+											if (args.tieneErrores) {
 												PF('dlg').show();
-												PF('growlWV').renderMessage({"summary":message,
-						                             "detail":message,
-						                             "severity":message})
 											} else {
 												PF('dlg').hide();
-												PF('growlWV').renderMessage({"summary":message,
-						                             "detail":message,
-						                             "severity":message});
 												$('#loginLink').fadeOut();
 											}
 										}
@@ -102,7 +99,6 @@
 								</p:panelGrid>
 							</p:panelGrid>
 						</p:dialog>
-					</h:form>
 				</p:column>
 			</p:dataTable>
 		</ui:define>
