@@ -1,10 +1,9 @@
 package com.smartps.beans.desicionDelConsejoInforme;
 
+import java.io.File;
 import java.util.Date;
 
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.sql.rowset.serial.SerialBlob;
 
@@ -13,9 +12,12 @@ import org.primefaces.model.UploadedFile;
 
 import com.smartps.dao.InformeFinalDao;
 import com.smartps.model.InformeFinal;
-@ManagedBean
-@ViewScoped
+import com.smartps.util.SmartPSUtils;
+
 public class LineaInformeParaDecision {
+	public static String path="C:/Users/User/workspace/SmartPS/src/main/webapp";
+	public static String filePrefix="informe_";
+	public static String fileSufix= ".pdf";
 	private int idInforme;
 	private String observaciones;
 	private Integer ordenanza=1;
@@ -25,7 +27,6 @@ public class LineaInformeParaDecision {
 	private String estado;
 	private String psTitle;
 	private UploadedFile file;
-	private InformeFinalDao iDao = new InformeFinalDao();
 	public String getObservaciones() {
 		return observaciones;
 	}
@@ -82,18 +83,23 @@ public class LineaInformeParaDecision {
 	}
 	public void handleFileUpload(FileUploadEvent event) {
 		this.setFile(event.getFile());
-		InformeFinal informe = iDao.findById(this.getIdInforme());
+		InformeFinal informe = InformeFinalDao.getInstance().findById(this.getIdInforme());
 		if (this.getFile()!=null) {
 			try {
+				int legajo = informe.getPs().getAlumno().getLegajo();
+				int idPlan = informe.getId();
+				String fileName = filePrefix+ legajo + "_" + idPlan +  fileSufix;
+				File file = SmartPSUtils.saveFile(path,this.getFile(),fileName);
+				informe.setDirDocumentoDigital(file.getName());
 				informe.setFile(new SerialBlob(this.getFile().getContents()));
+				InformeFinalDao.getInstance().update(informe);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			iDao.update(informe);
 		}
 		
 		FacesMessage message = new FacesMessage("Bien hecho! :)", event.getFile().getFileName() + " fue cargado exitosamente.");
-        FacesContext.getCurrentInstance().addMessage(null, message);
+        FacesContext.getCurrentInstance().addMessage("panel", message);
     }
 }

@@ -1,4 +1,5 @@
 package com.smartps.beans.aprobarPlan;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,12 +24,13 @@ import com.smartps.model.Estado;
 import com.smartps.model.PS;
 import com.smartps.model.PlanDeTrabajo;
 import com.smartps.util.SmartPSUtils;
+
 @ManagedBean
 @ViewScoped
 public class AprobarPlan {
 	static AprobarPlan bean;
-	String nombreAlumno="";
-	String psTitle="";
+	String nombreAlumno = "";
+	String psTitle = "";
 	int legajo;
 	AlumnoDAO alumnoDao = new AlumnoDAO();
 	PSDao psDao = PSDao.getInstance();
@@ -37,54 +39,65 @@ public class AprobarPlan {
 	LineaTablaPlanesPresentados linea;
 	List<LineaTablaPlanesPresentados> tablaPlanesPresentados = new ArrayList<LineaTablaPlanesPresentados>();
 	PlanDeTrabajoDao planDeTrabajoDao = PlanDeTrabajoDao.getInstance();
+
 	public LineaTablaPlanesPresentados getLinea() {
 		return linea;
 	}
+
 	public void setLinea(LineaTablaPlanesPresentados linea) {
 		this.linea = linea;
 	}
+
 	public String setLinea() {
-		int idPlan = Integer.parseInt(FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("linea"));
- 		LineaTablaPlanesPresentados linea= new LineaTablaPlanesPresentados();
-		for (LineaTablaPlanesPresentados l:this.tablaPlanesPresentados) {
-			if (l.getIdPlan()==idPlan) {
-				linea = l; 
+		int idPlan = Integer
+				.parseInt(FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("linea"));
+		LineaTablaPlanesPresentados linea = new LineaTablaPlanesPresentados();
+		for (LineaTablaPlanesPresentados l : this.tablaPlanesPresentados) {
+			if (l.getIdPlan() == idPlan) {
+				linea = l;
 			}
 		}
 		this.linea = linea;
 		return "";
 	}
+
 	public UploadedFile getFile() {
 		return file;
 	}
+
 	public void setFile(UploadedFile file) {
 		this.file = file;
 	}
+
 	@PostConstruct
-	public void init(){
-		this.tablaPlanesPresentados=new ArrayList<LineaTablaPlanesPresentados>();	
+	public void init() {
+		this.tablaPlanesPresentados = new ArrayList<LineaTablaPlanesPresentados>();
 		this.updateTablaPlanesPresentados();
 	}
+
 	public void buttonAction(ActionEvent actionEvent) {
 		this.updateTablaPlanesPresentados();
-    }
+	}
+
 	public static AprobarPlan getInstance() {
-		if (bean==null) {
+		if (bean == null) {
 			bean = new AprobarPlan();
 		}
 		return bean;
-	}	
+	}
+
 	public void updateTablaPlanesPresentados() {
 		// TODO Auto-generated method stub
-		CriteriosParaFiltrarPs newCriterios=new CriteriosParaFiltrarPs();
-		if (this.nombreAlumno!=null) {
+		CriteriosParaFiltrarPs newCriterios = new CriteriosParaFiltrarPs();
+		if (this.nombreAlumno != null) {
 			if (this.nombreAlumno.isEmpty()) {
-				this.nombreAlumno=null;
-			};
+				this.nombreAlumno = null;
+			}
+			;
 		}
-		if (this.psTitle!=null) {
+		if (this.psTitle != null) {
 			if (this.psTitle.isEmpty()) {
-				this.psTitle=null;	
+				this.psTitle = null;
 			}
 		}
 		newCriterios.setLegajo(this.legajo);
@@ -92,10 +105,10 @@ public class AprobarPlan {
 		newCriterios.setPsTitle(this.psTitle);
 		Estado estado = estadoDao.getEstadoPlanPresentado();
 		int idEstadoPresentado = estado.getId();
-		List<PS> pss= psDao.searchPs(newCriterios,idEstadoPresentado);
+		List<PS> pss = psDao.searchPs(newCriterios, idEstadoPresentado);
 		List<LineaTablaPlanesPresentados> tabla = new ArrayList<LineaTablaPlanesPresentados>();
-		for (PS p:pss) {
-			LineaTablaPlanesPresentados linea = new LineaTablaPlanesPresentados(); 
+		for (PS p : pss) {
+			LineaTablaPlanesPresentados linea = new LineaTablaPlanesPresentados();
 			Alumno alumno = p.getAlumno();
 			linea.setNombreAlumno(alumno.getNombre());
 			linea.setLegajo(alumno.getLegajo());
@@ -107,83 +120,83 @@ public class AprobarPlan {
 		}
 		this.tablaPlanesPresentados = tabla;
 	}
+
 	public List<LineaTablaPlanesPresentados> getTablaPlanesPresentados() {
 		return tablaPlanesPresentados;
 	}
+
 	public void setTablaPlanesPresentados(List<LineaTablaPlanesPresentados> tablaPlanesPresentados) {
 		this.tablaPlanesPresentados = tablaPlanesPresentados;
 	}
+
 	public void desaprobar(ActionEvent event) {
-		int idPlan =(int) event.getComponent().getAttributes().get("linea");
+		int idPlan = (int) event.getComponent().getAttributes().get("linea");
 		Estado estado = EstadoDao.getInstance().getEstadoPlanObservado();
-		evaluar(idPlan,estado);
+		evaluar(idPlan, estado);
 	}
+
 	private String getMessage(LineaTablaPlanesPresentados linea) {
-		 if(tieneErrores(linea)) {
-			 return "deben completarse todos los campos";
-		 }
-		 return "Bien hecho se registro la decision del consejo respecto del plan";
+		if (tieneErrores(linea)) {
+			return "deben completarse todos los campos";
+		}
+		return "Bien hecho se registro la decision del consejo respecto del plan";
 	}
-	
+
 	private LineaTablaPlanesPresentados buscarLineaByIdPlan(int idPlan) {
 		// TODO Auto-generated method stub
-		LineaTablaPlanesPresentados linea= null;
-		for (LineaTablaPlanesPresentados l:this.tablaPlanesPresentados) {
-			if (l.getIdPlan()==idPlan) {
-				linea = l; 
+		LineaTablaPlanesPresentados linea = null;
+		for (LineaTablaPlanesPresentados l : this.tablaPlanesPresentados) {
+			if (l.getIdPlan() == idPlan) {
+				linea = l;
 			}
 		}
 		return linea;
 	}
+
 	public void aprobar(ActionEvent event) {
-		int idPlan =(int) event.getComponent().getAttributes().get("linea");
+		int idPlan = (int) event.getComponent().getAttributes().get("linea");
 		Estado estado = EstadoDao.getInstance().getEstadoPlanAprobado();
-		evaluar(idPlan,estado);
+		evaluar(idPlan, estado);
 	}
+
 	public void handleFileUpload(FileUploadEvent event) {
 		this.setFile(event.getFile());
-        FacesMessage message = new FacesMessage("Bien hecho! :)", event.getFile().getFileName() + " fue cargado exitosamente.");
-        FacesContext.getCurrentInstance().addMessage("panel", message);
-    }
-	
-	
+		FacesMessage message = new FacesMessage("Bien hecho! :)",
+				event.getFile().getFileName() + " fue cargado exitosamente.");
+		FacesContext.getCurrentInstance().addMessage("panel", message);
+	}
+
 	public boolean tieneErrores(LineaTablaPlanesPresentados linea) {
 		return (((linea == null)) || SmartPSUtils.isNullOrEmpty(linea.getObservaciones())
-				|| (linea.getFechaEvaluacion()==null));
+				|| (linea.getFechaEvaluacion() == null));
 	}
-	
-	
-	private void evaluar(int idPlan,Estado estado) {
-		// TODO Auto-generated method stub
-			LineaTablaPlanesPresentados linea=buscarLineaByIdPlan(idPlan);
-			if (!tieneErrores(linea)) {
-				String message = getMessage(linea);
-				PlanDeTrabajo plan = planDeTrabajoDao.findByID(linea.getIdPlan());
-				plan.setFechaAprobDesaprob(linea.getFechaEvaluacion());
-				plan.setObservaciones(linea.getObservaciones());
-				plan.setOrdenanza(linea.getOrdenanza());
-				planDeTrabajoDao.update(plan);
-				plan=planDeTrabajoDao.getById(idPlan);
-				PS ps = psDao.findById(plan.getPs().getId()); 
-				ps.setEstado(estado);
-				psDao.update(ps);
-				this.updateTablaPlanesPresentados();
-//				FacesContext.getCurrentInstance().addMessage("puto",new FacesMessage(FacesMessage.SEVERITY_INFO,message,message));
-				RequestContext.getCurrentInstance().showMessageInDialog(new FacesMessage(FacesMessage.SEVERITY_INFO,"Bien hecho!","El plan fue evaluado"));
-				RequestContext.getCurrentInstance().addCallbackParam("tieneErrores",tieneErrores(linea));
-			} else {
-				String message = getMessage(linea);
-				FacesContext.getCurrentInstance().addMessage("panel",new FacesMessage(FacesMessage.SEVERITY_ERROR,message,message));
-				RequestContext.getCurrentInstance().addCallbackParam("tieneErrores",tieneErrores(linea));
-			}
-	}
-	private String getKey(LineaTablaPlanesPresentados linea) {
-		// TODO Auto-generated method stub
-		if (tieneErrores(linea)) {
-			return "panel";
+
+	private void evaluar(int idPlan, Estado estado) {
+		LineaTablaPlanesPresentados linea = buscarLineaByIdPlan(idPlan);
+		if (!tieneErrores(linea)) {
+			PlanDeTrabajo plan = planDeTrabajoDao.findByID(linea.getIdPlan());
+			plan.setFechaAprobDesaprob(linea.getFechaEvaluacion());
+			plan.setObservaciones(linea.getObservaciones());
+			plan.setOrdenanza(linea.getOrdenanza());
+			planDeTrabajoDao.update(plan);
+			plan = planDeTrabajoDao.getById(idPlan);
+			PS ps = psDao.findById(plan.getPs().getId());
+			ps.setEstado(estado);
+			psDao.update(ps);
+			this.updateTablaPlanesPresentados();
+			// FacesContext.getCurrentInstance().addMessage("puto",new
+			// FacesMessage(FacesMessage.SEVERITY_INFO,message,message));
+			RequestContext.getCurrentInstance().showMessageInDialog(
+					new FacesMessage(FacesMessage.SEVERITY_INFO, "Bien hecho!", "El plan fue evaluado"));
+			RequestContext.getCurrentInstance().addCallbackParam("tieneErrores", tieneErrores(linea));
+		} else {
+			String message = getMessage(linea);
+			FacesContext.getCurrentInstance().addMessage("panel",
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, message, message));
+			RequestContext.getCurrentInstance().addCallbackParam("tieneErrores", tieneErrores(linea));
 		}
-		return "tabla";
 	}
+
 	public String getNombreAlumno() {
 		return nombreAlumno;
 	}

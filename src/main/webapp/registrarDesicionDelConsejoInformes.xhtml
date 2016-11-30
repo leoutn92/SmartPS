@@ -30,7 +30,6 @@
     		<p:keyFilter for="legajo" mask="num" />
     		<p:commandButton value="Buscar" actionListener="#{desicionDelConsejoInformes.updateTablaInformesParaDecision}" update="tabla"/>
     		<p:dataTable id="tabla" var="linea" value="#{desicionDelConsejoInformes.tablaInformesParaDecision}">
-				<p:messages for="tabla"/>
 				<p:column headerText="nombre alumno">
 			         #{linea.nombreAlumno}
 			    </p:column>
@@ -44,10 +43,12 @@
 			         #{linea.psTitle}
 			    </p:column>
 			    <p:column headerText="">
-			        <p:commandButton value="Registrar decision del consejo" type="button" onclick="PF('RDC').show();" >
+			        <p:commandButton value="Registrar decision del consejo" type="button" onclick="PF('dlg').show();" >
 			        	<f:param name="linea" value="#{linea.idInforme}"/>
 			        </p:commandButton>
-			   <p:dialog header="Registrar decisión del consejo" widgetVar="RDC" minHeight="80">
+			   <p:dialog header="Registrar decisión del consejo" widgetVar="dlg" minHeight="80">
+			   		<p:messages widgetVar="message"  for="puto" showDetail="false"/>
+					<p:growl widgetVar="message" id="messages" for="panel" showDetail="false"/>
     		   		<h:panelGrid columns="1" rows="4">
     		   			<h:panelGrid columns="2">
     						<h:outputText value="Observaciones" />
@@ -65,15 +66,29 @@
     					</h:panelGrid>
 	    				<h:panelGrid columns="4">
     							<p:panelGrid id="panel" columns="1" rows="2">
-    								<p:growl for="panel" autoUpdate="true" redisplay="true" id="messages" showDetail="true"/>
     								<p:fileUpload fileUploadListener="#{linea.handleFileUpload}" update="messages" label="Seleccionar" cancelLabel="Cancelar" uploadLabel="Subir pdf" />
 	    							<p:panelGrid columns="2">
-	    								<p:commandButton value="Aprobar" ajax="true" actionListener="#{desicionDelConsejoInformes.aprobar}" update="tabla,messages">
+	    								<p:commandButton value="Aprobar" ajax="true" actionListener="#{desicionDelConsejoInformes.aprobar}"
+	    								update="tabla,@(.ui-growl)"
+										oncomplete="handleLoginRequest(xhr, status, args)">
 				    						<f:attribute name="linea" value="#{linea.idInforme}"/>
 				    					</p:commandButton>
-				    					<p:commandButton value="Observar" ajax="true" actionListener="#{desicionDelConsejoInformes.desaprobar}" update="tabla,messages">
+				    					<p:commandButton value="Observar" ajax="true" actionListener="#{desicionDelConsejoInformes.desaprobar}"
+				    					update="tabla,@(.ui-growl)"
+				    					oncomplete="handleLoginRequest(xhr, status, args)">
 				    						<f:attribute name="linea" value="#{linea.idInforme}"/>
 				    					</p:commandButton>
+				    					<script type="text/javascript">
+											function handleLoginRequest(xhr,
+												status, args) {
+											if (args.tieneErrores) {
+												PF('dlg').show();
+											} else {
+												PF('dlg').hide();
+												$('#loginLink').fadeOut();
+											}
+										}
+										</script>
 				    				</p:panelGrid>
     							</p:panelGrid>
 	    				</h:panelGrid>      		

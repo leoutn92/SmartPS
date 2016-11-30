@@ -10,6 +10,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.faces.view.ViewScoped;
 
+import org.primefaces.context.RequestContext;
 import com.smartps.beans.registrarPresentacionInforme.CriteriosParaFiltrarPs;
 import com.smartps.dao.EstadoDao;
 import com.smartps.dao.InformeFinalDao;
@@ -18,6 +19,7 @@ import com.smartps.model.Alumno;
 import com.smartps.model.Estado;
 import com.smartps.model.InformeFinal;
 import com.smartps.model.PS;
+import com.smartps.util.SmartPSUtils;
 @ManagedBean
 @ViewScoped
 public class DesicionDelConsejoInformes {
@@ -165,41 +167,73 @@ public class DesicionDelConsejoInformes {
 		iDao.update(informe);
 		return informe;
 	}
-
-	public void aprobar(int idInforme) {
-		// TODO Auto-generated method stub
-		InformeFinal informe = this.evaluar(idInforme);
-		Estado informeAprobado = eDao.getEstadoInformeAprobado();
-		PS ps = pDao.findById(informe.getPs().getId()); 
-		ps.setEstado(informeAprobado);
-		pDao.update(ps);
-	}
-
-	public void desaprobar(int idInforme) {
-		// TODO Auto-generated method stub
-		InformeFinal informe = this.evaluar(idInforme);
-		Estado informeObservado = eDao.getEstadoInformeObservado();
-		PS ps = pDao.findById(informe.getPs().getId()); 
-		ps.setEstado(informeObservado);
-		pDao.update(ps);
+	
+	private void evaluar(int idInforme,Estado estado) {
+			LineaInformeParaDecision linea = buscarLineaByIdInforme(idInforme);
+			if (!tieneErrores(linea)) {
+				InformeFinal informe= InformeFinalDao.getInstance().findById(idInforme);
+				informe.setFechaAprobDesaprob(linea.getFechaEvaluacion());
+				informe.setObservaciones(linea.getObservaciones());
+				informe.setOrdenanza(linea.getOrdenanza());
+				InformeFinalDao.getInstance().update(informe);
+				InformeFinalDao.getInstance().getById(idInforme);
+				PS ps = PSDao.getInstance().findById(informe.getPs().getId()); 
+				ps.setEstado(estado);
+				this.updateTablaInformesParaDecision();
+				PSDao.getInstance().update(ps);
+//				FacesContext.getCurrentInstance().addMessage("puto",new FacesMessage(FacesMessage.SEVERITY_INFO,message,message));
+				RequestContext.getCurrentInstance().showMessageInDialog(new FacesMessage(FacesMessage.SEVERITY_INFO,"Bien hecho!","El plan fue evaluado"));
+				RequestContext.getCurrentInstance().addCallbackParam("tieneErrores",tieneErrores(linea));
+			} else {
+				String message = getMessage(linea);
+				FacesContext.getCurrentInstance().addMessage("panel",new FacesMessage(FacesMessage.SEVERITY_ERROR,message,message));
+				RequestContext.getCurrentInstance().addCallbackParam("tieneErrores",tieneErrores(linea));
+			}
+			
 	}
 	
-	public void desaprobar(ActionEvent event) {
-		int idInforme =(int) event.getComponent().getAttributes().get("linea");
-		this.evaluar(idInforme);
-		this.desaprobar(idInforme);
+
+	private String getMessage(LineaInformeParaDecision linea) {
+		// TODO Auto-generated method stub
+		if(tieneErrores(linea)) {
+			 return "deben completarse todos los campos";
+		 }
+		 return "Bien hecho se registro la decision del consejo respecto del plan";
+	}
+
+	private boolean tieneErrores(LineaInformeParaDecision linea) {
+		// TODO Auto-generated method stub
+		return (((linea == null)) || SmartPSUtils.isNullOrEmpty(linea.getObservaciones())
+				|| (linea.getFechaEvaluacion() == null));
+	}
+
+	private LineaInformeParaDecision buscarLineaByIdInforme(int idInforme) {
+		LineaInformeParaDecision linea= null;
+		for (LineaInformeParaDecision l:this.tablaInformesParaDecision) {
+			if (l.getIdInforme()==idInforme) {
+				linea = l; 
+			}
+		}
+		return linea;
+	}
+
+	public void aprobar(ActionEvent event) {
+		int idPlan = (int) event.getComponent().getAttributes().get("linea");
+		Estado estado = EstadoDao.getInstance().getEstadoInformeAprobado();
+		evaluar(idPlan, estado);
 		this.updateTablaInformesParaDecision();
 	}
-	public void aprobar(ActionEvent event) {
-		int idInforme =(int) event.getComponent().getAttributes().get("linea");
-		this.evaluar(idInforme);
-		this.aprobar(idInforme);
-		FacesMessage message = new FacesMessage("Bien hecho! :)", "este plan es ahora un plan aprobado");
-        FacesContext.getCurrentInstance().addMessage(null, message);
+
+	
+	public void desaprobar(ActionEvent event) {
+		int idPlan = (int) event.getComponent().getAttributes().get("linea");
+		Estado estado = EstadoDao.getInstance().getEstadoInformeObservado();
+		evaluar(idPlan, estado);
 		this.updateTablaInformesParaDecision();
 	}
 	@PostConstruct
 	public void init(){
+		this.tablaInformesParaDecision = new ArrayList<LineaInformeParaDecision>();
 		this.updateTablaInformesParaDecision();
 	}
 	
