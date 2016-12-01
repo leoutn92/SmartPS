@@ -71,7 +71,6 @@ public class AprobarPlan {
 
 	@PostConstruct
 	public void init() {
-		this.tablaPlanesPresentados = new ArrayList<LineaTablaPlanesPresentados>();
 		this.updateTablaPlanesPresentados();
 	}
 
@@ -115,7 +114,7 @@ public class AprobarPlan {
 			linea.setEstado(estado.getNombre());
 			linea.setPsTitle(p.getTitulo());
 			int idps = p.getId();
-			linea.setIdPlan(planDeTrabajoDao.getLastByFechaAprobadoDesaprobado(idps).getId());
+			linea.setIdPlan(planDeTrabajoDao.getLastByFechaPresentacion(idps).getId());
 			tabla.add(linea);
 		}
 		this.tablaPlanesPresentados = tabla;

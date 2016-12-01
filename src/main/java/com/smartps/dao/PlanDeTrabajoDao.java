@@ -31,6 +31,20 @@ public class PlanDeTrabajoDao extends Dao<PlanDeTrabajo>{
 		}
 		return planes.get(0);
 	}
+	
+	public PlanDeTrabajo getLastByFechaPresentacion(int idps) {
+		this.getSession();
+		session.beginTransaction();
+		List<PlanDeTrabajo> planes = session
+		.createQuery("Select p from PlanDeTrabajo p where p.ps.id= :idps order by fechaDePresentacion desc ")
+		.setParameter("idps",idps).getResultList();
+		session.getTransaction().commit();
+		if (planes.isEmpty()) {
+			return null;
+		}
+		return planes.get(0);
+	}
+	
 
 	
 	public List<PlanDeTrabajo> findByPeriodo(Date desde, Date hasta){

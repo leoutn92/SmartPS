@@ -1,6 +1,5 @@
 package com.smartps.model;
 
-import java.io.InputStream;
 import java.sql.Blob;
 import java.util.Date;
 
