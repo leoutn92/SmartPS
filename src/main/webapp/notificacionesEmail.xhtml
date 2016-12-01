@@ -1,0 +1,112 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <h:head>
+    	<title>SmartPS</title>
+    </h:head>
+    
+    <h:body>
+
+ 	<ui:composition template="/templates/template.xhtml">
+ 		<ui:define name="content"> 
+			<h3><p:outputLabel  value="Enviar Email de notificacion" /></h3>
+			<p:separator/>
+			
+			<p:outputLabel value="Se informará a los siguientes destinatarios..."/>
+			<p:dataTable value="#{receptoresEmailBean.list}" var="rec" emptyMessage="No ha cargado destinatarios a notificar">
+				<p:column headerText="Nombre">
+					<p:outputLabel value="#{rec.nombre}"/>
+				</p:column>
+				<p:column headerText="Dirreccion de email">
+					<p:outputLabel value="#{rec.email}"  />
+				</p:column>
+				
+			<f:facet name="footer">
+				<p:outputLabel value="Agregar nuevo. Nombre:" />
+				<p:inputText value="#{receptoresEmailBean.recep.nombre}" />
+				<p:outputLabel value="Direccion de email"/>
+				<p:inputText value="#{receptoresEmailBean.recep.email}"/>				
+				<p:commandButton value="Agregar" actionListener="#{receptoresEmailBean.guardar()}" update="@(.ui-panel)"/>
+			</f:facet>				
+			</p:dataTable>
+			
+			<br></br>
+			
+			<p:outputLabel value="...respecto de las siguientes evaluaciones realizadas por el consejo"/>
+			
+			<p:dataTable value="#{notificacionesEmailBean.planes}" var="plan" emptyMessage="No  hay novedades para informar">
+				<f:facet name="header">
+					<p:outputLabel value="Planes de Trabajo"/>
+				</f:facet>
+				
+				<p:column headerText="Alumno">
+					<p:outputLabel value="#{plan.ps.alumno.nombre}"/>
+				</p:column>
+				
+				<p:column headerText="Titulo de la PS">
+					<p:outputLabel value="#{plan.ps.titulo}"/>
+				</p:column> 
+				
+				<p:column headerText="Fecha de Presentación" >
+					<p:outputLabel value="#{plan.fechaDePresentacion}">
+ 						<f:convertDateTime type="date" locale="es_AR"/>
+ 					</p:outputLabel>
+				</p:column>
+				
+				<p:column headerText="Fecha de evaluación">
+					<p:outputLabel value="#{plan.fechaAprobDesaprob}">
+						<f:convertDateTime type="date" locale="es_AR"/>
+					</p:outputLabel>																										
+				</p:column>
+				
+				<p:column headerText="Observación">
+					<h:outputText value="#{plan.observaciones}" />
+				</p:column>
+				
+			</p:dataTable>
+			
+			
+			<p:dataTable value="#{notificacionesEmailBean.informes}" var="inf" emptyMessage="No hay novedades para informar">
+				<f:facet name="header">
+					<p:outputLabel value="Informes finales"/>
+				</f:facet>
+				
+				<p:column headerText="Alumno">
+					<p:outputLabel value="#{inf.ps.alumno.nombre}"/>
+				</p:column>
+				
+				<p:column headerText="Titulo de la PS">
+					<p:outputLabel value="#{inf.ps.titulo}"/>
+				</p:column> 
+				
+				<p:column headerText="Fecha de Presentación" >
+					<p:outputLabel value="#{inf.fechaDePresentacion}">
+ 						<f:convertDateTime type="date" locale="es_AR"/>
+ 					</p:outputLabel>
+				</p:column>
+				
+				<p:column headerText="Fecha de evaluación">
+					<p:outputLabel value="#{inf.fechaAprobDesaprob}">
+						<f:convertDateTime type="date" locale="es_AR"/>
+					</p:outputLabel>																										
+				</p:column>
+				
+				<p:column headerText="Observación">
+					<h:outputText value="#{inf.observaciones}" />
+				</p:column>
+				
+			</p:dataTable>
+			
+			<p:commandButton value="Enviar emails" actionListener="#{notificacionesEmailBean.enviarCorreos()}"/>
+			
+ 		</ui:define>
+ 		 
+ 	</ui:composition>
+
+    </h:body>
+</html>
