@@ -25,5 +25,6 @@
     <mapping resource="com/smartps/planDeTrabajo/PlanDeTrabajo.hbm.xml" />
     <mapping resource="com/smartps/tipoActividad/TipoActividad.hbm.xml" />
     <mapping resource="com/smartps/area/Area.hbm.xml" />
+    <mapping class="com.smartps.model.ReceptorEmail"/>
 </session-factory>
 </hibernate-configuration>

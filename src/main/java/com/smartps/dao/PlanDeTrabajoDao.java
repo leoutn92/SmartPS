@@ -91,5 +91,13 @@ public class PlanDeTrabajoDao extends Dao<PlanDeTrabajo>{
 		return pt;
 	}
 	
+//	Devuelve un listado de los planes que han sido evaluados y aún no informados por email
+	public List<PlanDeTrabajo> getNoInformados(){
+		this.getSession();
+		session.beginTransaction();
+		List<PlanDeTrabajo> planes =session.createQuery("from PlanDeTrabajo p where p.fechaAprobDesaprob is not null and p.notificadoEmail=false").getResultList();
+		session.getTransaction().commit();
+		return planes;
+	}
 	
 }

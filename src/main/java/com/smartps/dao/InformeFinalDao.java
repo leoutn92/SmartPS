@@ -6,6 +6,7 @@ import java.util.Date;
 import com.smartps.model.Estado;
 import com.smartps.model.InformeFinal;
 import com.smartps.model.PS;
+import com.smartps.model.PlanDeTrabajo;
 
 public class InformeFinalDao extends Dao<InformeFinal> {
 	private static InformeFinalDao instancia = null;
@@ -97,5 +98,15 @@ public class InformeFinalDao extends Dao<InformeFinal> {
 		}
 		return informes.get(0);
 	}
+
+	//Devuelve un listado de los informes que han sido evaluados y aún no informados por email
+	public List<InformeFinal> getNoInformados(){
+		this.getSession();
+		session.beginTransaction();
+		List<InformeFinal> informes =session.createQuery("from InformeFinal p where p.fechaAprobDesaprob is not null and p.notificadoEmail=false").getResultList();
+		session.getTransaction().commit();
+		return informes;
+	}
+	
 
 }

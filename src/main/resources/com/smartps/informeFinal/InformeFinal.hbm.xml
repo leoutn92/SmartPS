@@ -27,6 +27,9 @@
         </property>
         <property name="file" type="blob">
         	<column name="file"/>
+        </property>        
+        <property name="notificadoEmail" type="boolean">
+        	<column name="notificadoEmail"/>
         </property>
     </class>
 </hibernate-mapping>
