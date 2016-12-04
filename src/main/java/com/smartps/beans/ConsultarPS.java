@@ -42,6 +42,13 @@ public class ConsultarPS {
 	
 	boolean visibleDetalles,puedeCancelarPS,puedeAprobarPS;
 	
+	private String dirPlan;
+	private boolean renderedPlanDigital;
+	private PlanDeTrabajoDao planDeTrabajoDao = PlanDeTrabajoDao.getInstance();
+	private InformeFinalDao iDao= InformeFinalDao.getInstance();
+	
+	private String dirInformeDigital;
+	private boolean renderedInformeDigital;
 	
 	@PostConstruct
 	public void init(){
@@ -248,4 +255,71 @@ public class ConsultarPS {
 	public void setPuedeAprobarPS(boolean puedeAprobar) {
 		this.puedeAprobarPS = puedeAprobar;
 	}
+
+
+	public String getDirPlan() {
+		return dirPlan;
+	}
+
+
+	public void setDirPlan(String dirPlan) {
+		this.dirPlan = dirPlan;
+	}
+
+
+	public boolean isRenderedPlanDigital() {
+		return renderedPlanDigital;
+	}
+
+
+	public void setRenderedPlanDigital(boolean renderedPlanDigital) {
+		this.renderedPlanDigital = renderedPlanDigital;
+	}
+	
+	public String updatePdf() {
+		int idPlan = Integer.parseInt(FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("idPlan"));	
+		this.updatePdf(idPlan); 
+		return "";
+	}
+	
+	public String updatePdfForInforme() {
+		int idInforme = Integer.parseInt(FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("idInforme"));	
+		this.updatePdfForInforme(idInforme); 
+		return "";
+	}
+	
+	
+	private void updatePdfForInforme(int idInforme) {
+		InformeFinal informe = iDao.getById(idInforme);
+		this.setDirInformeDigital(informe.getDirDocumentoDigital());;
+		this.setRenderedInformeDigital(true);
+	}
+
+
+	public void updatePdf(int idPlan) {
+		PlanDeTrabajo plan = planDeTrabajoDao.findByID(idPlan);
+		this.setDirPlan(plan.getDirDocumentoDigital());
+		this.setRenderedPlanDigital(true);
+	}
+
+
+	public String getDirInformeDigital() {
+		return dirInformeDigital;
+	}
+
+
+	public void setDirInformeDigital(String dirInformeDigital) {
+		this.dirInformeDigital = dirInformeDigital;
+	}
+
+
+	public boolean isRenderedInformeDigital() {
+		return renderedInformeDigital;
+	}
+
+
+	public void setRenderedInformeDigital(boolean renderedInformeDigital) {
+		this.renderedInformeDigital = renderedInformeDigital;
+	}
+	
 }

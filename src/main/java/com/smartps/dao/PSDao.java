@@ -128,7 +128,7 @@ public class PSDao extends Dao<PS> {
 	public List<PS> findByLegajo(int legajo) {	
 		this.getSession();
 		session.beginTransaction();
-		List<PS> pslist=(List<PS>) session.createQuery("SELECT p FROM PS p WHERE p.legajo = :legajo")
+		List<PS> pslist=(List<PS>) session.createQuery("SELECT p FROM PS p WHERE p.alumno.legajo = :legajo")
 				.setParameter("legajo", legajo).getResultList();
 		session.getTransaction().commit();
 		return pslist;

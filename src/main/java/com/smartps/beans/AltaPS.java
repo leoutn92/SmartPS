@@ -35,6 +35,9 @@ public class AltaPS {
 	PSDao daoPS = new PSDao();
 	PlanDeTrabajoDao daoPlan = new PlanDeTrabajoDao();
 	EstadoDao daoEst = new EstadoDao();
+	
+	private String dirPlan;
+	private boolean renderedPlanDigital;
 		
 	
 	PS ps;
@@ -51,6 +54,8 @@ public class AltaPS {
 	boolean puedePresentarPlan;
 	boolean alumnoEncontrado;
 	boolean aproboPS;
+	private PSDao psDao;
+	private PlanDeTrabajoDao planDeTrabajoDao;
 
 	
 	//resetea todos los campos y banderas del formularios. menos el legajo del tipo
@@ -201,6 +206,23 @@ public class AltaPS {
 //	}
 	
 	
+	public String updatePdf() {
+		this.legajo = Integer.parseInt(FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("legajo"));
+		int idEstadoPlanAprobado = EstadoDao.getInstance().getEstadoPlanAprobado().getId();
+		PS ps = psDao.searchPs(legajo,idEstadoPlanAprobado);	
+		PlanDeTrabajo plan = planDeTrabajoDao.getLastByFechaAprobadoDesaprobado(ps.getId());
+		this.updatePdf(plan.getId()); 
+		return "";
+	}
+	
+	public void updatePdf(int idPlan) {
+		PlanDeTrabajo plan = planDeTrabajoDao.findByID(idPlan);
+		this.setDirPlan(plan.getDirDocumentoDigital());
+		this.setRenderedPlanDigital(true);
+	}
+	
+	
+	
 	public String getOrgSelec() {
 		return orgSelec;
 	}
@@ -277,6 +299,25 @@ public class AltaPS {
 
 	public boolean isAproboPS() {
 		return aproboPS;
+	}
+
+
+	public String getDirPlan() {
+		return dirPlan;
+	}
+
+
+	public void setDirPlan(String dirPlan) {
+		this.dirPlan = dirPlan;
+	}
+
+	public boolean isRenderedPlanDigital() {
+		return renderedPlanDigital;
+	}
+
+
+	public void setRenderedPlanDigital(boolean renderedPlanDigital) {
+		this.renderedPlanDigital = renderedPlanDigital;
 	}
 	
 	

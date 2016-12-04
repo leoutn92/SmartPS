@@ -126,10 +126,15 @@
 							</p:column>
 							
 							<p:column headerText="Archivo adjunto">
-								<p:commandButton value="Ver archivo"/>
+								<h:commandButton value="Ver archivo" action="#{consultarPS.updatePdf()}" update="pdf">
+									<f:param name="idPlan" value="#{plan.id}" />
+								</h:commandButton>
 							</p:column>
-							
 						</p:dataTable>
+						<p:panel header="Documento digital" id="pdf" toggleable="true" closable="true" rendered="#{consultarPS.renderedPlanDigital}" >
+								<object type="application/pdf" data="#{consultarPS.dirPlan}?pfdrid_c=true" width="100%" height="300px">
+								</object>
+						</p:panel>
 					</p:fieldset>
 					<br></br>
 					
@@ -153,12 +158,16 @@
 							</p:column>
 							
 							<p:column headerText="Archivo adjunto">
-								<p:commandButton value="Ver archivo"/>
+								<h:commandButton value="Ver archivo" action="#{consultarPS.updatePdfForInforme()}" update="pdf2">
+									<f:param name="idInforme" value="#{informe.id}" />
+								</h:commandButton>
 							</p:column>
-							
 						</p:dataTable>
+						<p:panel header="Documento digital" id="pdf2" toggleable="true" closable="true" rendered="#{consultarPS.renderedInformeDigital}" >
+								<object type="application/pdf" data="#{consultarPS.dirInformeDigital}?pfdrid_c=true" width="100%" height="300px">
+								</object>
+							</p:panel>
 					</p:fieldset>
-					
 				</p:panel>
 				
 				<p:dialog widgetVar="dialogoPlanes">
