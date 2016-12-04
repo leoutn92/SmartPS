@@ -45,7 +45,19 @@ public class PlanDeTrabajoDao extends Dao<PlanDeTrabajo>{
 		return planes.get(0);
 	}
 	
-
+	public PlanDeTrabajo getWithoutFechaEvaluacion(int idps) {
+		this.getSession();
+		session.beginTransaction();
+		List<PlanDeTrabajo> planes = session
+		.createQuery("Select p from PlanDeTrabajo p where ((p.ps.id= :idps) and (p.fechaAprobDesaprob is null))")
+		.setParameter("idps",idps).getResultList();
+		session.getTransaction().commit();
+		if (planes.isEmpty()) {
+			return null;
+		}
+		return planes.get(0);
+	}
+	
 	
 	public List<PlanDeTrabajo> findByPeriodo(Date desde, Date hasta){
 		this.getSession();

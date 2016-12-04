@@ -116,7 +116,7 @@ public class DesicionDelConsejoInformes {
 			linea.setEstado(p.getEstado().getNombre());
 			linea.setPsTitle(p.getTitulo());
 			int idps = p.getId();
-			linea.setIdInforme(iDao.getLastByFechaAprobadoDesaprobado(idps).getId());
+			linea.setIdInforme(iDao.getWithoutFechaEvaluacion(idps).getId());
 			tabla.add(linea);
 		}
 		this.tablaInformesParaDecision = tabla;
@@ -171,17 +171,16 @@ public class DesicionDelConsejoInformes {
 	private void evaluar(int idInforme,Estado estado) {
 			LineaInformeParaDecision linea = buscarLineaByIdInforme(idInforme);
 			if (!tieneErrores(linea)) {
-				InformeFinal informe= InformeFinalDao.getInstance().findById(idInforme);
+				InformeFinal informe= iDao.findById(idInforme);
 				informe.setFechaAprobDesaprob(linea.getFechaEvaluacion());
 				informe.setObservaciones(linea.getObservaciones());
 				informe.setOrdenanza(linea.getOrdenanza());
-				InformeFinalDao.getInstance().update(informe);
-				InformeFinalDao.getInstance().getById(idInforme);
-				PS ps = PSDao.getInstance().findById(informe.getPs().getId()); 
+				iDao.update(informe);
+				informe = iDao.getById(idInforme);
+				PS ps = pDao.findById(informe.getPs().getId()); 
 				ps.setEstado(estado);
+				pDao.update(ps);
 				this.updateTablaInformesParaDecision();
-				PSDao.getInstance().update(ps);
-//				FacesContext.getCurrentInstance().addMessage("puto",new FacesMessage(FacesMessage.SEVERITY_INFO,message,message));
 				RequestContext.getCurrentInstance().showMessageInDialog(new FacesMessage(FacesMessage.SEVERITY_INFO,"Bien hecho!","El plan fue evaluado"));
 				RequestContext.getCurrentInstance().addCallbackParam("tieneErrores",tieneErrores(linea));
 			} else {
@@ -221,7 +220,6 @@ public class DesicionDelConsejoInformes {
 		int idPlan = (int) event.getComponent().getAttributes().get("linea");
 		Estado estado = EstadoDao.getInstance().getEstadoInformeAprobado();
 		evaluar(idPlan, estado);
-		this.updateTablaInformesParaDecision();
 	}
 
 	
@@ -229,11 +227,9 @@ public class DesicionDelConsejoInformes {
 		int idPlan = (int) event.getComponent().getAttributes().get("linea");
 		Estado estado = EstadoDao.getInstance().getEstadoInformeObservado();
 		evaluar(idPlan, estado);
-		this.updateTablaInformesParaDecision();
 	}
 	@PostConstruct
 	public void init(){
-		this.tablaInformesParaDecision = new ArrayList<LineaInformeParaDecision>();
 		this.updateTablaInformesParaDecision();
 	}
 	

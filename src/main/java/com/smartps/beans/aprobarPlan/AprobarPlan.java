@@ -114,7 +114,7 @@ public class AprobarPlan {
 			linea.setEstado(estado.getNombre());
 			linea.setPsTitle(p.getTitulo());
 			int idps = p.getId();
-			linea.setIdPlan(planDeTrabajoDao.getLastByFechaPresentacion(idps).getId());
+			linea.setIdPlan(planDeTrabajoDao.getWithoutFechaEvaluacion(idps).getId());
 			tabla.add(linea);
 		}
 		this.tablaPlanesPresentados = tabla;
@@ -183,8 +183,6 @@ public class AprobarPlan {
 			ps.setEstado(estado);
 			psDao.update(ps);
 			this.updateTablaPlanesPresentados();
-			// FacesContext.getCurrentInstance().addMessage("puto",new
-			// FacesMessage(FacesMessage.SEVERITY_INFO,message,message));
 			RequestContext.getCurrentInstance().showMessageInDialog(
 					new FacesMessage(FacesMessage.SEVERITY_INFO, "Bien hecho!", "El plan fue evaluado"));
 			RequestContext.getCurrentInstance().addCallbackParam("tieneErrores", tieneErrores(linea));

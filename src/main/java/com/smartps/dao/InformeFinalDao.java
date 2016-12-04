@@ -2,6 +2,8 @@ package com.smartps.dao;
 
 import java.util.List;
 import java.util.Date;
+
+import com.smartps.model.Estado;
 import com.smartps.model.InformeFinal;
 import com.smartps.model.PS;
 
@@ -67,6 +69,33 @@ public class InformeFinalDao extends Dao<InformeFinal> {
 		session.getTransaction().commit();
 		return informeFinal;
 	}
+
+	public InformeFinal getLastByFechaPresentacion(int idps) {
+		// TODO Auto-generated method stub
+		this.getSession();
+		session.beginTransaction();
+		List<InformeFinal> informes = session
+		.createQuery("Select i from InformeFinal i where i.ps.id= :idps order by fechaDePresentacion desc ")
+		.setParameter("idps",idps).getResultList();
+		session.getTransaction().commit();
+		if (informes.isEmpty()) {
+			return null;
+		}
+		return informes.get(0);
+	}
 	
+	public InformeFinal getWithoutFechaEvaluacion(int idps) {
+		// TODO Auto-generated method stub
+		this.getSession();
+		session.beginTransaction();
+		List<InformeFinal> informes = session
+		.createQuery("Select i from InformeFinal i where ((i.ps.id= :idps) and (i.fechaAprobDesaprob is null))")
+		.setParameter("idps",idps).getResultList();
+		session.getTransaction().commit();
+		if (informes.isEmpty()) {
+			return null;
+		}
+		return informes.get(0);
+	}
 
 }

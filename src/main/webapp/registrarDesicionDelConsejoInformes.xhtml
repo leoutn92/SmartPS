@@ -29,7 +29,7 @@
 			</h:panelGrid>
     		<p:keyFilter for="legajo" mask="num" />
     		<p:commandButton value="Buscar" actionListener="#{desicionDelConsejoInformes.updateTablaInformesParaDecision}" update="tabla"/>
-    		<p:dataTable id="tabla" var="linea" value="#{desicionDelConsejoInformes.tablaInformesParaDecision}">
+    		<p:dataTable id="tabla" lazy="true" var="linea" value="#{desicionDelConsejoInformes.tablaInformesParaDecision}">
 				<p:column headerText="nombre alumno">
 			         #{linea.nombreAlumno}
 			    </p:column>
@@ -69,12 +69,12 @@
     								<p:fileUpload fileUploadListener="#{linea.handleFileUpload}" update="messages" label="Seleccionar" cancelLabel="Cancelar" uploadLabel="Subir pdf" />
 	    							<p:panelGrid columns="2">
 	    								<p:commandButton value="Aprobar" ajax="true" actionListener="#{desicionDelConsejoInformes.aprobar}"
-	    								update="tabla,@(.ui-growl)"
+	    								update="@(.ui-datatable),@(.ui-growl)"
 										oncomplete="handleLoginRequest(xhr, status, args)">
 				    						<f:attribute name="linea" value="#{linea.idInforme}"/>
 				    					</p:commandButton>
 				    					<p:commandButton value="Observar" ajax="true" actionListener="#{desicionDelConsejoInformes.desaprobar}"
-				    					update="tabla,@(.ui-growl)"
+				    					update="@(.ui-datatable),@(.ui-growl)"
 				    					oncomplete="handleLoginRequest(xhr, status, args)">
 				    						<f:attribute name="linea" value="#{linea.idInforme}"/>
 				    					</p:commandButton>

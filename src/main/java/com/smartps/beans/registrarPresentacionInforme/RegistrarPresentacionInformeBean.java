@@ -22,7 +22,6 @@ import com.smartps.model.Estado;
 import com.smartps.model.InformeFinal;
 import com.smartps.model.PS;
 import com.smartps.model.PlanDeTrabajo;
-import com.smartps.util.SmartPSUtils;
 @ManagedBean
 @ViewScoped
 public class RegistrarPresentacionInformeBean implements Serializable {
@@ -182,7 +181,6 @@ public class RegistrarPresentacionInformeBean implements Serializable {
 			linea.setPsTitle(ps.getTitulo());
 			linea.setNombreAlumno(ps.getAlumno().getNombre());
 			String nombreEstado = estadoDAO.getNameById(ps.getEstado().getId());
-//	LUCAS	String nombreEstado = estadoDAO.getById(ps.getEstado().getId()).getNombre();
 			linea.setEstado(nombreEstado);
 			PlanDeTrabajo plan = planDeTrabajoDao.getLastByFechaAprobadoDesaprobado(ps.getId());
 			if (plan!=null) {
@@ -203,6 +201,7 @@ public class RegistrarPresentacionInformeBean implements Serializable {
 			inFinalDao.save(informe);
 			Estado estado=estadoDAO.buscarPorNombre("Informe presentado");
 			ps.setEstado(estado);
+			psDao.update(ps);
 			psDao.updateEstado(ps.getId(),this.getIdEstadoInformePresentado());
 			int legajoPs=ps.getAlumno().getLegajo();
 			return "se cargo informe de alumno "+Integer.toString(legajoPs)+" exitosamente";
