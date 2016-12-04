@@ -17,6 +17,7 @@
 			<h3><p:outputLabel  value="Enviar Email de notificacion" /></h3>
 			<p:separator/>
 			
+			<p:growl/>
 			<p:outputLabel value="Se informará a los siguientes destinatarios..."/>
 			<p:dataTable value="#{receptoresEmailBean.list}" var="rec" emptyMessage="No ha cargado destinatarios a notificar">
 				<p:column headerText="Nombre">
@@ -102,7 +103,16 @@
 				
 			</p:dataTable>
 			
-			<p:commandButton value="Enviar emails" actionListener="#{notificacionesEmailBean.enviarCorreos()}"/>
+			<p:commandButton value="Enviar emails" actionListener="#{notificacionesEmailBean.enviarCorreos()}" update="@all">
+				<p:confirm header="Confirmación" message="Se procederá a notificar por email a los involucrados"/>
+			</p:commandButton>
+			
+			
+			
+		    <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+		        <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+		        <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+		    </p:confirmDialog>
 			
  		</ui:define>
  		 

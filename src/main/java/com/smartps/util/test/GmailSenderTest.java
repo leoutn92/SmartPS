@@ -21,10 +21,7 @@ public class GmailSenderTest {
 
 	@Test
 	public void testenviaDeAUno() {
-		NotificacionesEmailBean bean = new NotificacionesEmailBean();
-		bean.init();
-		bean.armarCorreo();
-		new GmailSender().sentMessage("lucasv666@ca.frre.utn.edu.ar", "hola que tal") ;
+		new GmailSender().sentMessage("lucasv666@gmail.com", "hola que tal") ;
 		assertTrue(true);
 	}
 

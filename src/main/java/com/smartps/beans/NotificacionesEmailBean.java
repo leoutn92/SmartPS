@@ -4,12 +4,13 @@ import java.text.SimpleDateFormat;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 
 import com.smartps.dao.InformeFinalDao;
 import com.smartps.dao.PlanDeTrabajoDao;
-import com.smartps.dao.ReceptorEmailDao;
 import com.smartps.model.DocumentoDePS;
 import com.smartps.model.InformeFinal;
 import com.smartps.model.PlanDeTrabajo;
@@ -37,8 +38,10 @@ public class NotificacionesEmailBean {
 	public void enviarCorreos(){
 		this.armarCorreo();
 		System.out.println(mensaje);
-		System.out.println(new ReceptorEmailDao().getAll().size());
 		new GmailSender().sentAllMessages(mensaje);
+		this.marcarInformados();
+		this.init();
+		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Se enviaron correctamente todos los mensajes", ""));
 	}
 	
 	public void armarCorreo(){
@@ -72,6 +75,18 @@ public class NotificacionesEmailBean {
 		}
 		col=col+"</td></tr>";
 		return col;
+	}
+	
+	private void marcarInformados(){
+		for (PlanDeTrabajo plan:planes){
+			plan.setNotificadoEmail(true);
+			daopalnes.saveOrUpdate(plan);
+		}
+		
+		for (InformeFinal inf : informes){
+			inf.setNotificadoEmail(true);
+			daoinformes.saveOrUpdate(inf);
+		}
 	}
 	
 	public List<InformeFinal> getInformes() {

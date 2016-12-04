@@ -30,7 +30,6 @@ public class GmailSender {
 					return new PasswordAuthentication("smartps.utn","habilitacion2016");
 				}
 			});
-		
 	}
 	
 	//Note that the HTML should not contain the <html>, <head> or <body>
@@ -46,7 +45,7 @@ public class GmailSender {
 
 			Transport.send(message);
 
-			System.out.println("Email enviados");
+			System.out.println("Email enviado a "+sentTo);
 
 		} catch (MessagingException e) {
 			throw new RuntimeException(e);

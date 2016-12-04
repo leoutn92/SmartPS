@@ -34,5 +34,7 @@ public class NotifEmailBeanTest {
 		bean.enviarCorreos();
 		assertTrue(true);
 	}
+	
+
 
 }
