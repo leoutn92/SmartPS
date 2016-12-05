@@ -29,7 +29,7 @@
 			</h:panelGrid>
     		<p:keyFilter for="legajo" mask="num" />
     		<p:commandButton value="Buscar" actionListener="#{desicionDelConsejoInformes.updateTablaInformesParaDecision}" update="tabla"/>
-    		<p:dataTable id="tabla" lazy="true" var="linea" value="#{desicionDelConsejoInformes.tablaInformesParaDecision}">
+    		<p:dataTable id="tabla" lazy="true" var="linea" emptyMessage="no registra informes en condiciones de ser evaluados" value="#{desicionDelConsejoInformes.tablaInformesParaDecision}">
 				<p:column headerText="nombre alumno">
 			         #{linea.nombreAlumno}
 			    </p:column>

@@ -4,6 +4,8 @@ import java.io.File;
 import java.util.Date;
 
 import javax.faces.application.FacesMessage;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.sql.rowset.serial.SerialBlob;
 
@@ -13,7 +15,8 @@ import org.primefaces.model.UploadedFile;
 import com.smartps.dao.InformeFinalDao;
 import com.smartps.model.InformeFinal;
 import com.smartps.util.SmartPSUtils;
-
+@ManagedBean
+@ViewScoped
 public class LineaInformeParaDecision {
 	public static String path="C:/Users/User/workspace/SmartPS/src/main/webapp";
 	public static String filePrefix="informe_";

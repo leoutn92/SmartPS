@@ -30,7 +30,7 @@
 			<p:keyFilter for="legajo" mask="num" />
 			<p:commandButton value="Buscar"
 				actionListener="#{aprobarPlan.buttonAction}" update="tabla" />
-			<p:dataTable id="tabla" var="linea" lazy="true"
+			<p:dataTable id="tabla" var="linea" lazy="true" emptyMessage="no registra planes en condiciones de ser evaluados"
 				value="#{aprobarPlan.tablaPlanesPresentados}">
 				<p:column headerText="nombre alumno">
 			         #{linea.nombreAlumno}

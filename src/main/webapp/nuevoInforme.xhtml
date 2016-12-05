@@ -30,7 +30,7 @@
     		<p:keyFilter for="legajo" mask="num" />
     		<p:commandButton value="Buscar" actionListener="#{registrarPresentacionInformeBean.buttonAction}" update="tabla"/>
     		<p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" severity="info" />
-			<p:dataTable id="tabla" var="linea" value="#{registrarPresentacionInformeBean.tablaInformes}">
+			<p:dataTable id="tabla" var="linea" emptyMessage="no se registran practicas en condiciones de presentar informes" value="#{registrarPresentacionInformeBean.tablaInformes}">
 				<p:column headerText="nombre alumno">
 			         #{linea.nombreAlumno}
 			    </p:column>

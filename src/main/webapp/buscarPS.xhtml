@@ -131,11 +131,11 @@
 								</h:commandButton>
 							</p:column>
 						</p:dataTable>
-						<p:panel header="Documento digital" id="pdf" toggleable="true" closable="true" rendered="#{consultarPS.renderedPlanDigital}" >
+					</p:fieldset>
+					<p:panel header="Documento digital" id="pdf" toggleable="true" closable="true" rendered="#{consultarPS.renderedPlanDigital}" >
 								<object type="application/pdf" data="#{consultarPS.dirPlan}?pfdrid_c=true" width="100%" height="300px">
 								</object>
-						</p:panel>
-					</p:fieldset>
+					</p:panel>
 					<br></br>
 					
 					<p:fieldset legend="Presentaciones de Informes">
@@ -163,10 +163,10 @@
 								</h:commandButton>
 							</p:column>
 						</p:dataTable>
-						<p:panel header="Documento digital" id="pdf2" toggleable="true" closable="true" rendered="#{consultarPS.renderedInformeDigital}" >
+						<p:panel header="Documento digital" id="pdf2" toggleable="true" closable="true" visible="#{consultarPS.renderedInformeDigital}" rendered="#{consultarPS.renderedInformeDigital}" >
 								<object type="application/pdf" data="#{consultarPS.dirInformeDigital}?pfdrid_c=true" width="100%" height="300px">
 								</object>
-							</p:panel>
+						</p:panel>
 					</p:fieldset>
 				</p:panel>
 				
@@ -190,7 +190,7 @@
 	       							</f:facet>
 	       						
 	       						</p:cellEditor>
-							</p:column>
+							</p:column>	
 							
 							<p:column headerText="Fecha de evaluación">
 								<p:cellEditor>

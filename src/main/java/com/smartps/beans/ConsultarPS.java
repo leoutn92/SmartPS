@@ -43,12 +43,12 @@ public class ConsultarPS {
 	boolean visibleDetalles,puedeCancelarPS,puedeAprobarPS;
 	
 	private String dirPlan;
-	private boolean renderedPlanDigital;
+	private boolean renderedPlanDigital=false;
 	private PlanDeTrabajoDao planDeTrabajoDao = PlanDeTrabajoDao.getInstance();
 	private InformeFinalDao iDao= InformeFinalDao.getInstance();
 	
 	private String dirInformeDigital;
-	private boolean renderedInformeDigital;
+	private boolean renderedInformeDigital=false;
 	
 	@PostConstruct
 	public void init(){
@@ -278,13 +278,15 @@ public class ConsultarPS {
 	
 	public String updatePdf() {
 		int idPlan = Integer.parseInt(FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("idPlan"));	
-		this.updatePdf(idPlan); 
+		this.updatePdf(idPlan);
+		this.setRenderedPlanDigital(true);
 		return "";
 	}
 	
 	public String updatePdfForInforme() {
 		int idInforme = Integer.parseInt(FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("idInforme"));	
-		this.updatePdfForInforme(idInforme); 
+		this.updatePdfForInforme(idInforme);
+		this.setRenderedInformeDigital(true);
 		return "";
 	}
 	
