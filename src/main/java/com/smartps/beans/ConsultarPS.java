@@ -44,8 +44,7 @@ public class ConsultarPS {
 	
 	private String dirPlan;
 	private boolean renderedPlanDigital=false;
-	private PlanDeTrabajoDao planDeTrabajoDao = PlanDeTrabajoDao.getInstance();
-	private InformeFinalDao iDao= InformeFinalDao.getInstance();
+
 	
 	private String dirInformeDigital;
 	private boolean renderedInformeDigital=false;
@@ -292,14 +291,14 @@ public class ConsultarPS {
 	
 	
 	private void updatePdfForInforme(int idInforme) {
-		InformeFinal informe = iDao.getById(idInforme);
+		InformeFinal informe = daoinformes.getById(idInforme);
 		this.setDirInformeDigital(informe.getDirDocumentoDigital());;
 		this.setRenderedInformeDigital(true);
 	}
 
 
 	public void updatePdf(int idPlan) {
-		PlanDeTrabajo plan = planDeTrabajoDao.findByID(idPlan);
+		PlanDeTrabajo plan = daoplanes.findByID(idPlan);
 		this.setDirPlan(plan.getDirDocumentoDigital());
 		this.setRenderedPlanDigital(true);
 	}

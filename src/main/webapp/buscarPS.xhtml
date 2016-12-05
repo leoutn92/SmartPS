@@ -19,46 +19,46 @@
 				<br></br>
 				<p:growl id="msgs" showDetail="true"/>
 				<p:panel id="ListadoPSs">
-					<p:dataTable id="pss" value="#{consultarPS.pss}" var="ps" selectionMode="single" selection="#{consultarPS.ps}" rowKey="#{ps.id}" widgetVar="pssTable">
+					<p:dataTable id="pss" value="#{consultarPS.pss}" var="selectedps" selectionMode="single" selection="#{consultarPS.ps}" rowKey="#selectedps}" widgetVar="pssTable">
 					    <f:facet name="header">
 					 		<h3><p:outputLabel value=""/></h3>
 					    </f:facet>
 										    				
-						<p:column headerText="Título" filterBy="#{ps.titulo}" filterMatchMode="contains">
-							#{ps.titulo}
+						<p:column headerText="Título" filterBy="#{selectedps.titulo}" filterMatchMode="contains">
+							#{selectedps.titulo}
 						</p:column>
 						
-						<p:column headerText="Nombre Alumno" filterBy="#{ps.alumno.nombre}" filterMatchMode="contains">
-							#{ps.alumno.nombre}
+						<p:column headerText="Nombre Alumno" filterBy="#{selectedps.alumno.nombre}" filterMatchMode="contains">
+							#{selectedps.alumno.nombre}
 						</p:column>
 						
-						<p:column headerText="Legajo" filterBy="#{ps.alumno.legajo}">
-							#{ps.alumno.legajo}
+						<p:column headerText="Legajo" filterBy="#{selectedps.alumno.legajo}">
+							#{selectedps.alumno.legajo}
 						</p:column>
 						
-						<p:column headerText="Estado" filterBy="#{ps.estado.nombre}" filterMatchMode="contains">
-							#{ps.estado.nombre}
+						<p:column headerText="Estado" filterBy="#{selectedps.estado.nombre}" filterMatchMode="contains">
+							#{selectedps.estado.nombre}
 						</p:column>
 						
-						<p:column headerText="Area" filterBy="#{ps.area.nombre}" filterMatchMode="contains">
-							#{ps.area.nombre}
+						<p:column headerText="Area" filterBy="#{selectedps.area.nombre}" filterMatchMode="contains">
+							#{selectedps.area.nombre}
 						</p:column>
 						
-						<p:column headerText="Organizacion" filterBy="#{ps.organizacion.nombre}" filterMatchMode="contains">
+						<p:column headerText="Organizacion" filterBy="#{selectedps.organizacion.nombre}" filterMatchMode="contains">
 		
-							#{ps.organizacion.nombre}
+							#{selectedps.organizacion.nombre}
 						</p:column>
 						
-						<p:column headerText="Tipo Actividad" filterBy="#{ps.tipoActividad.nombre}" filterMatchMode="contains">
-							#{ps.tipoActividad.nombre}
+						<p:column headerText="Tipo Actividad" filterBy="#{selectedps.tipoActividad.nombre}" filterMatchMode="contains">
+							#{selectedps.tipoActividad.nombre}
 						</p:column>
 						
-						<p:column headerText="Ciclo lectivo" filterBy="#{ps.cicloLectivo}">
-							#{ps.cicloLectivo}
+						<p:column headerText="Ciclo lectivo" filterBy="#{selectedps.cicloLectivo}">
+							#{selectedps.cicloLectivo}
 						</p:column>
 						
-						<p:column filterBy="#{ps.cuatrimestre}"  headerText="Cuatrimestre">						
-							#{ps.cuatrimestre}
+						<p:column filterBy="#{selectedps.cuatrimestre}"  headerText="Cuatrimestre">						
+							#{selectedps.cuatrimestre}
 						</p:column>
 						
 				        <f:facet name="footer">
@@ -126,7 +126,7 @@
 							</p:column>
 							
 							<p:column headerText="Archivo adjunto">
-								<h:commandButton value="Ver archivo" action="#{consultarPS.updatePdf()}" update="pdf">
+								<h:commandButton value="Ver archivo" action="#{consultarPS.updatePdf()}" update="pdf" disabled="#{plan.file==null}">
 									<f:param name="idPlan" value="#{plan.id}" />
 								</h:commandButton>
 							</p:column>
@@ -158,7 +158,7 @@
 							</p:column>
 							
 							<p:column headerText="Archivo adjunto">
-								<h:commandButton value="Ver archivo" action="#{consultarPS.updatePdfForInforme()}" update="pdf2">
+								<h:commandButton value="Ver archivo" action="#{consultarPS.updatePdfForInforme()}" update="pdf2" disabled="#{informe.file ==null}">
 									<f:param name="idInforme" value="#{informe.id}" />
 								</h:commandButton>
 							</p:column>
