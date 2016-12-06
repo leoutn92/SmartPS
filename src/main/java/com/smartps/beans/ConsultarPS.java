@@ -30,7 +30,7 @@ public class ConsultarPS {
 	PlanDeTrabajoDao daoplanes = new PlanDeTrabajoDao();
 	InformeFinalDao daoinformes = new InformeFinalDao();
 	
-	PS ps,modifPS;
+	PS selectedPS,modifPS,detailedPS;
 	
 	List<PS> pss;
 	List<PlanDeTrabajo> planes;
@@ -42,6 +42,26 @@ public class ConsultarPS {
 	
 	boolean visibleDetalles,puedeCancelarPS,puedeAprobarPS;
 	
+	public PS getSelectedPS() {
+		return selectedPS;
+	}
+
+
+	public void setSelectedPS(PS selectedPS) {
+		this.selectedPS = selectedPS;
+	}
+
+
+	public PS getDetailedPS() {
+		return detailedPS;
+	}
+
+
+	public void setDetailedPS(PS detailedPS) {
+		this.detailedPS = detailedPS;
+	}
+
+
 	private String dirPlan;
 	private boolean renderedPlanDigital=false;
 
@@ -52,6 +72,7 @@ public class ConsultarPS {
 	@PostConstruct
 	public void init(){
 		modifPS=new PS();
+		detailedPS= new PS();
 		pss=daops.getAll();
 		planes = new ArrayList<PlanDeTrabajo> ();
 		informes = new ArrayList<InformeFinal>();
@@ -80,44 +101,44 @@ public class ConsultarPS {
 	
 	
 	public void actualizarPlanes(){
-		if (ps!=null){
-			planes = daops.getPlanes(ps.getId());
+		if (selectedPS!=null){
+			planes = daops.getPlanes(selectedPS.getId());
 		}
 	}
 	
 	public void actualizarInformes(){
-		if (ps!=null){
-			informes = daops.getInformes(ps.getId());
+		if (selectedPS!=null){
+			informes = daops.getInformes(selectedPS.getId());
 		}
 	}
 	
 	public void actualizarPS(){
-		if (ps!=null){
+		if (selectedPS!=null){
 			modifPS = new PS();
-			modifPS.setTitulo(ps.getTitulo());
-			modifPS.setCuatrimestre(ps.getCuatrimestre());
-			modifPS.setCicloLectivo(ps.getCicloLectivo());
-			actSelec=""+ps.getTipoActividad().getId();
-			orgSelec=""+ps.getOrganizacion().getId();
-			areaSelec=""+ps.getArea().getId();
-			puedeCancelarPS=ps.estaVigente();
-			puedeAprobarPS=ps.puedeAprobar();
+			modifPS.setTitulo(selectedPS.getTitulo());
+			modifPS.setCuatrimestre(selectedPS.getCuatrimestre());
+			modifPS.setCicloLectivo(selectedPS.getCicloLectivo());
+			actSelec=""+selectedPS.getTipoActividad().getId();
+			orgSelec=""+selectedPS.getOrganizacion().getId();
+			areaSelec=""+selectedPS.getArea().getId();
+			puedeCancelarPS=selectedPS.estaVigente();
+			puedeAprobarPS=selectedPS.puedeAprobar();
 		}
 	}
 	
 	public void guardarCambiosPS(){
-		ps.setTitulo(modifPS.getTitulo());
-		ps.setCuatrimestre(getModifPS().getCuatrimestre());
-		ps.setCicloLectivo(modifPS.getCicloLectivo());
-		ps.setArea(new AreaDao().getById(Integer.parseInt(areaSelec)));
-		ps.setOrganizacion(new OrganizacionDao().getById(Integer.parseInt(orgSelec)));
-		ps.setTipoActividad(new TipoActividadDao().getById(Integer.parseInt(actSelec)));
-		daops.saveOrUpdate(ps);
+		selectedPS.setTitulo(modifPS.getTitulo());
+		selectedPS.setCuatrimestre(getModifPS().getCuatrimestre());
+		selectedPS.setCicloLectivo(modifPS.getCicloLectivo());
+		selectedPS.setArea(new AreaDao().getById(Integer.parseInt(areaSelec)));
+		selectedPS.setOrganizacion(new OrganizacionDao().getById(Integer.parseInt(orgSelec)));
+		selectedPS.setTipoActividad(new TipoActividadDao().getById(Integer.parseInt(actSelec)));
+		daops.saveOrUpdate(selectedPS);
 	}
 	
 	public void actualizarPresentacionesPS(){
-		if (ps!= null){
-			modifPS=ps;
+		if (selectedPS!= null){
+			modifPS=selectedPS;
 			visibleDetalles=true;
 		}
 		this.actualizarPlanes();
@@ -125,17 +146,17 @@ public class ConsultarPS {
 	}
 	
 	public void cancelarPS(){
-		if (ps.estaVigente()){
-			ps.setEstado(new EstadoDao().getById(11));
-			daops.save(ps);
+		if (selectedPS.estaVigente()){
+			selectedPS.setEstado(new EstadoDao().getById(11));
+			daops.save(selectedPS);
 		}
 			
 	}
 	
 	public void aprobarPS(){
 		if (puedeAprobarPS){
-			ps.setEstado(new EstadoDao().getById(10));
-			daops.save(ps);
+			selectedPS.setEstado(new EstadoDao().getById(10));
+			daops.save(selectedPS);
 		}		
 	}
 	
@@ -174,15 +195,6 @@ public class ConsultarPS {
 
 	public void setInformes(List<InformeFinal> informes) {
 		this.informes = informes;
-	}
-
-
-	public PS getPs() {
-		return ps;
-	}
-
-	public void setPs(PS ps) {
-		this.ps = ps;
 	}
 
 

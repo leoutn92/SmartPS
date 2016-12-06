@@ -23,6 +23,24 @@ public class PS implements Serializable {
 			
 		}
 		
+		
+		
+		public PS(int id, int cicloLectivo, int cuatrimestre, String titulo, String nroDisposicion, Area area,
+				Estado estado, Organizacion organizacion, TipoActividad tipoActividad, Alumno alumno) {
+			super();
+			this.id = id;
+			this.cicloLectivo = cicloLectivo;
+			this.cuatrimestre = cuatrimestre;
+			this.titulo = titulo;
+			this.nroDisposicion = nroDisposicion;
+			this.area = area;
+			this.estado = estado;
+			this.organizacion = organizacion;
+			this.tipoActividad = tipoActividad;
+			this.alumno = alumno;
+		}
+		
+
 		//4 5 9 10 11
 		public boolean estaVigente(){
 			if(estado.getId()==4 || estado.getId()==5 ||estado.getId()==9||estado.getId()==10 || estado.getId()==11){
