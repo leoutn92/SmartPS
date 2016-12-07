@@ -181,7 +181,7 @@ public class DesicionDelConsejoInformes {
 				ps.setEstado(estado);
 				pDao.update(ps);
 				this.updateTablaInformesParaDecision();
-				RequestContext.getCurrentInstance().showMessageInDialog(new FacesMessage(FacesMessage.SEVERITY_INFO,"Bien hecho!","El plan fue evaluado"));
+				RequestContext.getCurrentInstance().showMessageInDialog(new FacesMessage(FacesMessage.SEVERITY_INFO,"Bien hecho!","El informe fue evaluado"));
 				RequestContext.getCurrentInstance().addCallbackParam("tieneErrores",tieneErrores(linea));
 			} else {
 				String message = getMessage(linea);
