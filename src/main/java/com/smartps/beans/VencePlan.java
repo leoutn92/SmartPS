@@ -9,6 +9,7 @@ import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
+import com.smartps.dao.EstadoDao;
 import com.smartps.dao.PSDao;
 import com.smartps.dao.PlanDeTrabajoDao;
 import com.smartps.model.PS;
@@ -20,8 +21,8 @@ import com.smartps.model.LineaVence;
 public class VencePlan {
 //hdu13_planesPorVencer
 	
-	private PSDao psdao = PSDao.getInstance();
-	private PlanDeTrabajoDao ptdao = PlanDeTrabajoDao.getInstance();
+	private PSDao psdao = new PSDao();
+	private PlanDeTrabajoDao ptdao = new PlanDeTrabajoDao();
 	
 	private List<PS> pslist;
 	private List<PS> psEstado;
@@ -32,9 +33,25 @@ public class VencePlan {
 	private LineaVence linea;
 	private boolean panelHay;
 	private boolean panelNohay;
+	
+	private PS selectedPS;
+	
+	public void vencerPlan(){
+		System.out.println(selectedPS.getId());
+		selectedPS.setEstado(new EstadoDao().getById(5));
+		psdao.saveOrUpdate(selectedPS);
+	}
 
 
 	
+	public PS getSelectedPS() {
+		return selectedPS;
+	}
+
+	public void setSelectedPS(PS selectedPS) {
+		this.selectedPS = selectedPS;
+	}
+
 	@PostConstruct
 	public void init(){
 		pslist = new ArrayList<PS>();
@@ -86,6 +103,7 @@ public class VencePlan {
 				linea.setLegajo(psEstado.get(j).getAlumno().getLegajo());
 				linea.setEstado(psEstado.get(j).getEstado().getNombre());
 				linea.setFechaAprobacion(plan.getFechaAprobDesaprob());
+				linea.setPs(plan.getPs());
 				linea.setFechaVence(fechaVencimiento);
 				
 				//Dia Actual y Dias Restantes
@@ -93,7 +111,7 @@ public class VencePlan {
 				final long MILLSECS_PER_DAY = 24 * 60 * 60 * 1000;				
 				long diff = (fechaVencimiento.getTime() - diaActual.getTime())/MILLSECS_PER_DAY;				
 
-				linea.setDiasRestantes(diff);
+				linea.setDiasRestantes((int)diff);
 	
 				//Falta menos de un mes
 				if (diff<32){

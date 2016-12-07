@@ -86,7 +86,7 @@ public class VenceInforme {
 				final long MILLSECS_PER_DAY = 24 * 60 * 60 * 1000;				
 				long diff = (fechaVencimiento.getTime() - diaActual.getTime())/MILLSECS_PER_DAY;				
 
-				linea.setDiasRestantes(diff);
+				linea.setDiasRestantes((int)diff);
 	
 				//Falta menos de un mes
 				if (diff<32){

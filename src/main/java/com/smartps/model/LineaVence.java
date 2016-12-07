@@ -6,11 +6,28 @@ public class LineaVence {
 
 	private String titulo;
 	private String alumno;
+	public PS getPs() {
+		return ps;
+	}
+
+
+	public void setPs(PS ps) {
+		this.ps = ps;
+	}
+
 	private int legajo;
 	private String estado;
 	private Date fechaAprobacion;
 	private Date fechaVence;
-	private long diasRestantes;
+	private PS ps;
+	private int diasRestantes;
+	
+	public String getDiasRestantesString(){
+		if (diasRestantes<0){
+			return ("Plan Vencido hace: " + new Integer(-1*diasRestantes).toString()+ " dias");
+		}
+		return ("Dias para vencer " + new Integer(diasRestantes).toString());
+	}
 	
 	
 	public String getTitulo() {
@@ -61,12 +78,14 @@ public class LineaVence {
 		this.fechaVence = fechaVence;
 	}
 
-	public long getDiasRestantes() {
+	public int getDiasRestantes() {
 		return diasRestantes;
 	}
 
-	public void setDiasRestantes(long diasRestantes) {
+	public void setDiasRestantes(int diasRestantes) {
 		this.diasRestantes = diasRestantes;
 	}
+
+
 
 }
