@@ -84,7 +84,7 @@ public class Dao<T>{
 		this.getSession();
 		Transaction tx =session.beginTransaction();
 		try {
-			session.update(t);
+			session.delete(t);
 			tx.commit();
 		} catch (HibernateException e){
 			tx.rollback();

@@ -17,25 +17,54 @@
 			<h3><p:outputLabel  value="Enviar Email de notificacion" /></h3>
 			<p:separator/>
 			
-			<p:growl/>
+			<p:growl showDetail="true"/>
 			<p:panel>
 			<p:outputLabel value="Se informará a los siguientes destinatarios..."/>
-			<p:dataTable value="#{receptoresEmailBean.list}" var="rec" emptyMessage="No ha cargado destinatarios a notificar">
+			<p:dataTable value="#{receptoresEmailBean.list}" var="rec" emptyMessage="No ha cargado destinatarios a notificar" editable="true">
+				
+		       <p:ajax event="rowEdit" listener="#{receptoresEmailBean.onRowEdit}" update="@all" />
+		       <p:ajax event="rowEditCancel" listener="#{receptoresEmailBean.onRowCancel}" update="@all" />			
+				
 				<p:column headerText="Nombre">
-					<p:outputLabel value="#{rec.nombre}"/>
+					<p:cellEditor>
+						<f:facet name="input"><p:inputText value="#{rec.nombre}" /></f:facet>
+						<f:facet name="output"><p:outputLabel value="#{rec.nombre}"/></f:facet>
+					</p:cellEditor>
+					
 				</p:column>
 				<p:column headerText="Dirreccion de email">
-					<p:outputLabel value="#{rec.email}"  />
+					<p:cellEditor>
+						<f:facet name="input"> <p:inputText value="#{rec.email}" /></f:facet>
+						<f:facet name="output"> <p:outputLabel value="#{rec.email}"/></f:facet>
+					</p:cellEditor>					
 				</p:column>
 				
-			<f:facet name="footer">
+				<p:column style="width:75px;text-align: center" >
+	           		<p:panelGrid columns="2" styleClass="panelNoBorder" >
+		           		<p:rowEditor editTitle="Edit" />
+		           		<p:commandButton action="#{receptoresEmailBean.remove()}" icon="ui-icon-trash" style="width:25px" update="@all">
+		           			<f:setPropertyActionListener value="#{rec}" target="#{receptoresEmailBean.selectedRecep}" />
+		           			<p:confirm header="Confirmación" message="Desea realmente quitar al destinatario de la lista?"/>
+		           		</p:commandButton>
+	           		</p:panelGrid>
+	       		</p:column>
+				
+			
 				<p:outputLabel value="Agregar nuevo. Nombre:" />
 				<p:inputText value="#{receptoresEmailBean.recep.nombre}" />
 				<p:outputLabel value="Direccion de email"/>
 				<p:inputText value="#{receptoresEmailBean.recep.email}"/>				
-				<p:commandButton value="Agregar" actionListener="#{receptoresEmailBean.guardar()}" update="@(.ui-panel)"/>
-			</f:facet>				
+				<p:commandButton value="Agregar" actionListener="#{receptoresEmailBean.guardar()}" update="@all"/>
+						
 			</p:dataTable>
+			<br></br>
+				<p:panelGrid >
+				<p:outputLabel value="Agregar nuevo: Nombre:" />
+				<p:inputText value="#{receptoresEmailBean.recep.nombre}" />
+				<p:outputLabel value="Direccion de email"/>
+				<p:inputText value="#{receptoresEmailBean.recep.email}"/>				
+				<p:commandButton value="Agregar" actionListener="#{receptoresEmailBean.guardar()}" update="@all"/>
+				</p:panelGrid>
 			</p:panel>
 			
 			<br></br>
@@ -74,7 +103,7 @@
 				
 			</p:dataTable>
 			
-			
+			<br></br>
 			
 			<p:dataTable value="#{notificacionesEmailBean.informes}" var="inf" emptyMessage="No hay novedades para informar">
 				<f:facet name="header">

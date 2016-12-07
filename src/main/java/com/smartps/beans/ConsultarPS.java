@@ -138,7 +138,7 @@ public class ConsultarPS {
 	
 	public void actualizarPresentacionesPS(){
 		if (selectedPS!= null){
-			modifPS=selectedPS;
+			detailedPS= new PS(selectedPS.getId(), selectedPS.getCicloLectivo(), selectedPS.getCuatrimestre(), selectedPS.getTitulo(), selectedPS.getNroDisposicion(), selectedPS.getArea(), selectedPS.getEstado(), selectedPS.getOrganizacion(), selectedPS.getTipoActividad(), selectedPS.getAlumno());
 			visibleDetalles=true;
 		}
 		this.actualizarPlanes();
