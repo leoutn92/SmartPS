@@ -87,18 +87,17 @@
 				<p:outputPanel id="panelPSNueva">
 				<p:fragment autoUpdate="true">
 				<p:fieldset rendered="#{altaPS.visiblePanelPSNueva}" legend="Datos de la Práctica Supervisada" style="margin-bottom:20px"> 					
- 					<p:panelGrid columns="4" style="margin-bottom:20px">		 				
+ 					<p:panelGrid columns="3" style="margin-bottom:20px">		 				
 
 						<p:outputLabel value="Título de la PS" />
 						<p:inputText id="titulops" value="#{altaPS.ps.titulo}" />
-						<p:outputLabel/>
 						<p:outputLabel/>
 		        		
 		        		<p:outputLabel value="Tipo" />			        		
 		        		<p:selectOneMenu value="#{altaPS.actSelec}" >
 		        			<p:ajax listener="#{altaPS.cambioAct}" />
 		        			<f:selectItem itemLabel="Seleccione uno" itemValue="" noSelectionOption="true" />
-		        			<f:selectItems value="#{tipoActBean.tiposAct}" var="act" itemLabel="#{act.nombre}" itemValue="#{act.id}" />
+		        			<f:selectItems value="#{tipoActBean.tiposAct}" var="act" itemLabel="#{act.nombre}" itemValue="#{act.id}" itemDescription="#{act.descripsion}" />
 		        		</p:selectOneMenu>
 		        		<h:panelGroup>
 			        		 <p:commandButton id="nuevaAct" value="Agregar Act" type="button"  />		
@@ -112,13 +111,13 @@
 					    				</p:panelGrid>
 					    			</p:overlayPanel>
 				    	</h:panelGroup> 
-		        		<p:outputLabel value="#{altaPS.ps.tipoActividad.descripsion}" />
+
 	        	
 						<p:outputLabel value="Area" />
 						<p:selectOneMenu value="#{altaPS.areaSelec}">
 							<p:ajax listener="#{altaPS.cambioArea}" />
 							<f:selectItem itemLabel="Seleccione uno" itemValue="" />
-							<f:selectItems value="#{areaBean.areas}" var="area" itemLabel="#{area.nombre}" itemValue="#{area.id}" />							
+							<f:selectItems value="#{areaBean.areas}" var="area" itemLabel="#{area.nombre}" itemValue="#{area.id}" itemDescription="#{area.descripsion}"/>							
 						</p:selectOneMenu>
 						<h:panelGroup>
 							<p:commandButton id="nuevaArea" value="Agregar Area" type="button"  />		
@@ -132,14 +131,14 @@
 			    				</p:panelGrid>
 			    			</p:overlayPanel>   
 						</h:panelGroup>
-						<p:outputLabel value="#{altaPS.ps.area.descripsion}" />
+
 		        	
 		        	
 	        			<p:outputLabel value="Organización:" />
 	        			<p:selectOneMenu value="#{altaPS.orgSelec}" filter="true">
 		        			<p:ajax listener="#{altaPS.cambioOrg}" />
 		        			<f:selectItem itemLabel="Seleccione uno" itemValue="" noSelectionOption="true" />
-		        			<f:selectItems value="#{orgBean.organizaciones}" var="org" itemLabel="#{org.nombre}" itemValue="#{org.id}" />
+		        			<f:selectItems value="#{orgBean.organizaciones}" var="org" itemLabel="#{org.nombre}" itemValue="#{org.id}" itemDescription="#{org.descripsion}" />
 	        			</p:selectOneMenu>
 	        			<h:panelGroup>
 	        				<p:commandButton id="nuevaOrg" value="Agregar Org" type="button"  />		
@@ -153,7 +152,6 @@
 			    				</p:panelGrid>
 			    			</p:overlayPanel>
 	        			</h:panelGroup>	        			
-	        			<p:outputLabel value="#{altaPS.ps.organizacion.descripsion}" />
 		        	
 						<h:panelGroup>
 							<p:outputLabel value="Cuatrimestre" />
