@@ -5,7 +5,7 @@
 	<artifactId>smartPS</artifactId>
 	<version>1.0.0-RELASE</version>
 	<packaging>war</packaging>
-	<name>SmartPS</name>
+	<name>smartps</name>
 
   <properties>
     <maven.compiler.source>1.8</maven.compiler.source>
@@ -88,15 +88,9 @@
 			<groupId>org.modelmapper</groupId>
 			<artifactId>modelmapper</artifactId>
 			<version>0.7.3</version>
-		</dependency>		
+		</dependency>				
 		
-		<!-- https://mvnrepository.com/artifact/javax.mail/javax.mail-api -->
-<!-- 		<dependency> -->
-<!-- 		    <groupId>javax.mail</groupId> -->
-<!-- 		    <artifactId>javax.mail-api</artifactId> -->
-<!-- 		    <version>1.5.0</version> -->
-<!-- 		</dependency> -->
-		
+<!-- 		mail -->
 		<dependency>
 		<groupId>javax.mail</groupId>
 			<artifactId>mail</artifactId>
