@@ -3,6 +3,8 @@ package com.smartps.model;
 import java.io.Serializable;
 
 public class Estado extends ClasificacionPS implements Serializable {
+	private static final long serialVersionUID = -8776777076416453523L;
+
 	private int id;
 	
 	public static final int PLAN_PRESENTADO=1;

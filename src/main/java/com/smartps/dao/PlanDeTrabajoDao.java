@@ -1,7 +1,10 @@
 package com.smartps.dao;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import com.smartps.model.PS;
 import com.smartps.model.PlanDeTrabajo;
 
 public class PlanDeTrabajoDao extends Dao<PlanDeTrabajo>{
@@ -97,6 +100,26 @@ public class PlanDeTrabajoDao extends Dao<PlanDeTrabajo>{
 		session.beginTransaction();
 		List<PlanDeTrabajo> planes =session.createQuery("from PlanDeTrabajo p where p.fechaAprobDesaprob is not null and p.notificadoEmail=false").getResultList();
 		session.getTransaction().commit();
+		return planes;
+	}
+	
+	//Devuelve el último plan de cada PS en estado de Plan AProbado
+	@SuppressWarnings("unchecked")
+	public List<PlanDeTrabajo> getUltimosConPSPlanApobado(){
+		this.getSession();
+		session.beginTransaction();
+		List <PS> pss = session.createQuery("from PS p where p.estado.id=3 ").getResultList();
+		session.getTransaction().commit();;
+		
+		List<PlanDeTrabajo> planes = new ArrayList<>();
+		for (PS ps : pss){
+			PlanDeTrabajo plan;
+			session.beginTransaction();
+			plan= (PlanDeTrabajo) session.createQuery("from PlanDeTrabajo p where p.ps.id=:ps order by p.id desc").setParameter("ps", ps.getId()).getResultList().get(0);
+			session.getTransaction().commit();;
+			planes.add(plan);
+		}
+		
 		return planes;
 	}
 	

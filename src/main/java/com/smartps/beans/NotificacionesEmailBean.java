@@ -11,6 +11,7 @@ import javax.faces.context.FacesContext;
 
 import com.smartps.dao.InformeFinalDao;
 import com.smartps.dao.PlanDeTrabajoDao;
+import com.smartps.dao.ReceptorEmailDao;
 import com.smartps.model.DocumentoDePS;
 import com.smartps.model.InformeFinal;
 import com.smartps.model.PlanDeTrabajo;
@@ -36,6 +37,10 @@ public class NotificacionesEmailBean {
 	}
 
 	public void enviarCorreos(){
+		if (new ReceptorEmailDao().getAll().size()==0){
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "La lista de destinatarios esta vacía. Agregue algun email antes de informar", ""));
+			return;
+		}
 		this.armarCorreo();
 		System.out.println(mensaje);
 		new GmailSender().sentAllMessages(mensaje);

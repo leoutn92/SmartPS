@@ -37,7 +37,6 @@ public class VencePlan {
 	private PS selectedPS;
 	
 	public void vencerPlan(){
-		System.out.println(selectedPS.getId());
 		selectedPS.setEstado(new EstadoDao().getById(5));
 		psdao.saveOrUpdate(selectedPS);
 	}

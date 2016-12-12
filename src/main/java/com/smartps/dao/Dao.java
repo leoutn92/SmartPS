@@ -8,7 +8,7 @@ import org.hibernate.Transaction;
 
 import com.smartps.util.HibernateUtil;
 
-public class Dao<T>{
+public class Dao<T> implements IDao<T>{
 	
 	Session session = HibernateUtil.getSessionFactory().openSession();
 	

@@ -17,7 +17,7 @@
 				<h3><p:outputLabel value="Buscar PS"/></h3>
 				<p:separator/>
 				<br></br>
-				<p:growl id="msgs" showDetail="true"/>
+				<p:growl id="msgs" showDetail="true" autoUpdate="true"/>
 				<p:panel id="ListadoPSs">
 					<p:dataTable id="pss" value="#{consultarPS.pss}" var="ps" selectionMode="single" selection="#{consultarPS.selectedPS}" rowKey="#{ps.id}" widgetVar="pssTable">
 					    <f:facet name="header">

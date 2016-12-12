@@ -1,6 +1,7 @@
 package com.smartps.dao;
 
 import java.util.List;
+import java.util.ArrayList;
 import java.util.Date;
 
 import com.smartps.model.Estado;
@@ -108,5 +109,24 @@ public class InformeFinalDao extends Dao<InformeFinal> {
 		return informes;
 	}
 	
+	//Devuelve el último informe de cada PS en estado de INforme aprobado
+		@SuppressWarnings("unchecked")
+		public List<InformeFinal> getUltimosConPSInformeApobado(){
+			this.getSession();
+			session.beginTransaction();
+			List <PS> pss = session.createQuery("from PS p where p.estado.id=8 ").getResultList();
+			session.getTransaction().commit();;
+			
+			List<InformeFinal> informes = new ArrayList<>();
+			for (PS ps : pss){
+				InformeFinal inf;
+				session.beginTransaction();
+				inf= (InformeFinal) session.createQuery("from InformeFinal p where p.ps.id=:ps order by p.id desc").setParameter("ps", ps.getId()).getResultList().get(0);
+				session.getTransaction().commit();;
+				informes.add(inf);
+			}
+			
+			return informes;
+		}
 
 }

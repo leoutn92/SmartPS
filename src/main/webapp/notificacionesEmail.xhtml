@@ -17,13 +17,13 @@
 			<h3><p:outputLabel  value="Enviar Email de notificacion" /></h3>
 			<p:separator/>
 			
-			<p:growl showDetail="true"/>
+			<p:growl showDetail="true" autoUpdate="true"/>
 			<p:panel>
 			<p:outputLabel value="Se informará a los siguientes destinatarios..."/>
 			<p:dataTable value="#{receptoresEmailBean.list}" var="rec" emptyMessage="No ha cargado destinatarios a notificar" editable="true">
 				
-		       <p:ajax event="rowEdit" listener="#{receptoresEmailBean.onRowEdit}" update="@all" />
-		       <p:ajax event="rowEditCancel" listener="#{receptoresEmailBean.onRowCancel}" update="@all" />			
+		       <p:ajax event="rowEdit" listener="#{receptoresEmailBean.onRowEdit}" update="@(.ui-datatable)" />
+		       <p:ajax event="rowEditCancel" listener="#{receptoresEmailBean.onRowCancel}" update="@(.ui-datatable)" />			
 				
 				<p:column headerText="Nombre">
 					<p:cellEditor>
@@ -42,7 +42,7 @@
 				<p:column style="width:75px;text-align: center" >
 	           		<p:panelGrid columns="2" styleClass="panelNoBorder" >
 		           		<p:rowEditor editTitle="Edit" />
-		           		<p:commandButton action="#{receptoresEmailBean.remove()}" icon="ui-icon-trash" style="width:25px" update="@all">
+		           		<p:commandButton action="#{receptoresEmailBean.remove()}" icon="ui-icon-trash" style="width:25px" update="@(.ui-datatable)">
 		           			<f:setPropertyActionListener value="#{rec}" target="#{receptoresEmailBean.selectedRecep}" />
 		           			<p:confirm header="Confirmación" message="Desea realmente quitar al destinatario de la lista?"/>
 		           		</p:commandButton>
@@ -54,7 +54,7 @@
 				<p:inputText value="#{receptoresEmailBean.recep.nombre}" />
 				<p:outputLabel value="Direccion de email"/>
 				<p:inputText value="#{receptoresEmailBean.recep.email}"/>				
-				<p:commandButton value="Agregar" actionListener="#{receptoresEmailBean.guardar()}" update="@all"/>
+				<p:commandButton value="Agregar" actionListener="#{receptoresEmailBean.guardar()}" update="@(.ui-datatable)"/>
 						
 			</p:dataTable>
 			<br></br>
@@ -63,7 +63,7 @@
 				<p:inputText value="#{receptoresEmailBean.recep.nombre}" />
 				<p:outputLabel value="Direccion de email"/>
 				<p:inputText value="#{receptoresEmailBean.recep.email}"/>				
-				<p:commandButton value="Agregar" actionListener="#{receptoresEmailBean.guardar()}" update="@all"/>
+				<p:commandButton value="Agregar" actionListener="#{receptoresEmailBean.guardar()}" update="@(.ui-datatable)"/>
 				</p:panelGrid>
 			</p:panel>
 			
