@@ -23,7 +23,7 @@
 			<p:panel>
 				
 				<p:dataTable id="informes" var="inf" value="#{vencimientosInformesBean.informes}" rowKey="#{linea.id}" 
-				emptyMessage="No hay informes aprobados en espera" rowStyleClass="#{inf.diasRestantes le 60 ? 'porvencer' : null} #{inf.diasRestantes le 0 ? 'vencido' : null}" >
+				emptyMessage="No hay informes aprobados en espera" rowStyleClass="#{inf.diasRestantes le 30 ? 'porvencer' : null} #{inf.diasRestantes le 0 ? 'vencido' : null}" >
 	
 					<p:column headerText="Titulo de PS">
 						#{inf.ps.titulo}

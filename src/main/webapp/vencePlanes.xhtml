@@ -24,7 +24,7 @@
 			<p:panel>
 				
 				<p:dataTable id="planes" var="plan" value="#{vencimientosPlanesBean.planes}" rowKey="#{linea.id}" 
-				rowStyleClass="#{plan.diasRestantes le 60 ? 'porvencer' : null} #{plan.diasRestantes le 0 ? 'vencido' : null}" emptyMessage="No hay planes aprobados en espera" >
+				rowStyleClass="#{plan.diasRestantes le 30 ? 'porvencer' : null} #{plan.diasRestantes le 0 ? 'vencido' : null}" emptyMessage="No hay planes aprobados en espera" >
 	
 					<p:column headerText="Titulo de PS">
 						#{plan.ps.titulo}
