@@ -12,8 +12,10 @@
     
     <h:body>
 
+	
  	<ui:composition template="/templates/template.xhtml">
  		<ui:define name="content"> 
+ 			<h:outputStylesheet library="css" name="style.css"  />
  		
 	 		<h3><h:outputLabel value="Planes de Trabajo aprobados por vencer"/></h3>
 	 		<p:separator></p:separator>
@@ -21,7 +23,8 @@
 			<p:growl autoUpdate="true" showDetail="true"/>
 			<p:panel>
 				
-				<p:dataTable id="planes" var="plan" value="#{vencimientosPlanesBean.planes}" rowKey="#{linea.id}" >
+				<p:dataTable id="planes" var="plan" value="#{vencimientosPlanesBean.planes}" rowKey="#{linea.id}" 
+				rowStyleClass="#{plan.diasRestantes le 60 ? 'porvencer' : null} #{plan.diasRestantes le 0 ? 'vencido' : null}" emptyMessage="No hay planes aprobados en espera" >
 	
 					<p:column headerText="Titulo de PS">
 						#{plan.ps.titulo}

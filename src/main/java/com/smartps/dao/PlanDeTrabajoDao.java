@@ -103,12 +103,12 @@ public class PlanDeTrabajoDao extends Dao<PlanDeTrabajo>{
 		return planes;
 	}
 	
-	//Devuelve el último plan de cada PS en estado de Plan AProbado
+	//Devuelve el último plan de cada PS en estado de Plan AProbado, informe presentado y informe observado
 	@SuppressWarnings("unchecked")
 	public List<PlanDeTrabajo> getUltimosConPSPlanApobado(){
 		this.getSession();
 		session.beginTransaction();
-		List <PS> pss = session.createQuery("from PS p where p.estado.id=3 ").getResultList();
+		List <PS> pss = session.createQuery("from PS p where p.estado.id=3 or p.estado.id =6 or p.estado.id=7").getResultList();
 		session.getTransaction().commit();;
 		
 		List<PlanDeTrabajo> planes = new ArrayList<>();

@@ -37,7 +37,7 @@ public class VencimientosPlanesBean {
 		PS ps = selectedPlan.getPs();
 		ps.setEstado(new EstadoDao().getById(Estado.PLAN_VENCIDO));
 		new PSDao().saveOrUpdate(ps);
-		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Exito", "Se dio por vencido el Plan"));
+		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Exito", "Se registro el plan como vencido"));
 		this.init();
 	}
 

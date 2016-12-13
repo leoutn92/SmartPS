@@ -38,7 +38,7 @@ public class VencimientosInformesBean {
 		PS ps = selectedInforme.getPs();
 		ps.setEstado(new EstadoDao().getById(Estado.INFORME_VENCIDO));
 		new PSDao().saveOrUpdate(ps);
-		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Exito", "Se dio por vencido el Informe"));
+		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Exito", "Se registro el informe como vencido"));
 		this.init();
 	}
 
