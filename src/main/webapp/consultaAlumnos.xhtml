@@ -18,6 +18,7 @@
  			<h3><p:outputLabel  value="Gestion de Alumnos" /></h3>
 			<p:separator/>
 			<br></br>
+			<p:growl autoUpdate="true" showDetail="true"/>
 			
 			<h:form >
 				<p:messages id="msg"/>
@@ -36,30 +37,66 @@
 					
 					<p:commandButton value="Agregar alumno" actionListener="#{alumnosBean.guardarAlumno()}"  update="@(.ui-datatable),msg" validateClient="true" ajax="false" icon="ui-icon-check" />
 				</p:panelGrid>
-				
-				
-				
-				
-				<p:dataTable value="#{alumnosBean.alumnos}" var="alu" widgetVar="tablaAlumnos">
-					
-				    <f:facet name="header">
-				 		<h3><p:outputLabel value=""/></h3>
-				    </f:facet>
-					
-					<p:column headerText="Legajo" filterBy="{alu.legajo}" filterMatchMode="contains" style="text-align:center" >
-						<p:outputLabel value="#{alu.legajo}" />
-					</p:column>					
-					
-					<p:column headerText="Nombre" filterBy="{alu.nombre}" filterMatchMode="contains">
-						<p:outputLabel value="#{alu.nombre}" />
-					</p:column>
-					
-					<p:column headerText="Año ingreso" filterBy="{alu.cicloLectivo}" filterMatchMode="contains">
-						<p:outputLabel value="#{alu.cicloLectivo}" />
-					</p:column>
-					
-				</p:dataTable>
 			</h:form>
+				
+				
+			<br></br>
+			
+			<p:dataTable widgetVar="tablaAlumnos" value="#{alumnosBean.alumnos}" var="alu" editable="true" emptyMessage="No se encuentran resultados"			
+						 rows="10" paginator="true"
+                         paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                         rowsPerPageTemplate="5,10,15,25,50,100">
+                         
+				<p:ajax event="rowEdit" listener="#{alumnosBean.onRowEdit}" update="@(.ui-datatable)" />
+    			<p:ajax event="rowEditCancel" listener="#{alumnosBean.onRowCancel}" update="@(.ui-datatable)" />
+				
+				
+		        <f:facet name="header">
+		            <p:outputPanel>
+		                <h:outputText value="Busqueda" />
+		                <p:inputText id="globalFilter" onkeyup="PF('tablaAlumnos').filter()" style="width:150px" placeholder="Ingrese"/>
+		            </p:outputPanel>
+		        </f:facet>
+
+				
+				<p:column headerText="Legajo"  style="text-align:center" filterMatchMode="contains" filterBy="#{alu.legajo}" >
+					<p:cellEditor>
+						<f:facet name="input"><p:outputLabel value="#{alu.legajo}" /></f:facet>
+						<f:facet name="output"><p:outputLabel value="#{alu.legajo}" /></f:facet>
+						
+					</p:cellEditor>
+				</p:column>					
+				
+				<p:column headerText="Nombre" filterMatchMode="contains" filterBy="#{alu.nombre}">
+					<p:cellEditor>
+						<f:facet name="output"><p:outputLabel value="#{alu.nombre}" /></f:facet>
+						<f:facet name="input"><p:inputText value="#{alu.nombre}"/></f:facet>
+					</p:cellEditor>
+					
+				</p:column>
+				
+				<p:column headerText="Año ingreso"  style="text-align:center" filterMatchMode="contains" filterBy="#{alu.cicloLectivo}">
+					<p:cellEditor>
+						<f:facet name="output"><p:outputLabel value="#{alu.cicloLectivo}" /></f:facet>
+						<f:facet name="input"> <p:inputText value="#{alu.cicloLectivo}" /></f:facet>
+					</p:cellEditor>
+				</p:column>
+				
+				<p:column style="width:100px">
+					<p:rowEditor style="height:30px;width:25px;float:left"/>
+	           		<p:commandButton action="#{alumnosBean.remove()}" icon="ui-icon-trash" style="width:25px;float:rigth" update="@(.ui-datatable)" immediate="true" oncomplete="PF('tablaAlumnos').clearFilters()">
+	           			<f:setPropertyActionListener value="#{alu}" target="#{alumnosBean.selectedAlumn}"  />
+	           			<p:confirm header="Confirmación" message="Desea realmente eliminar a este alumno?"/>
+	           		</p:commandButton>
+				</p:column>
+				
+			</p:dataTable>
+			
+	    	<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+		        <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+		        <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+		    </p:confirmDialog>
+			
  		</ui:define>
  		 
  	</ui:composition>

@@ -14,6 +14,8 @@
 
  	<ui:composition template="/templates/template.xhtml">
  		<ui:define name="content"> 
+			
+			
 			<h3><p:outputLabel  value="Enviar Email de notificacion" /></h3>
 			<p:separator/>
 			
@@ -39,14 +41,14 @@
 					</p:cellEditor>					
 				</p:column>
 				
-				<p:column style="width:75px;text-align: center" >
-	           		<p:panelGrid columns="2" styleClass="panelNoBorder" >
-		           		<p:rowEditor editTitle="Edit" />
-		           		<p:commandButton action="#{receptoresEmailBean.remove()}" icon="ui-icon-trash" style="width:25px" update="@(.ui-datatable)">
+				<p:column style="width:100px">
+	           		
+		           		<p:rowEditor style="height:30px;width:25px;float:left"/>
+		           		<p:commandButton action="#{receptoresEmailBean.remove()}" icon="ui-icon-trash" style="width:25px;float:rigth" update="@(.ui-datatable)">
 		           			<f:setPropertyActionListener value="#{rec}" target="#{receptoresEmailBean.selectedRecep}" />
 		           			<p:confirm header="Confirmación" message="Desea realmente quitar al destinatario de la lista?"/>
 		           		</p:commandButton>
-	           		</p:panelGrid>
+	           		
 	       		</p:column>
 				
 			

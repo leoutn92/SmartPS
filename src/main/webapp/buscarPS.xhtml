@@ -19,7 +19,10 @@
 				<br></br>
 				<p:growl id="msgs" showDetail="true" autoUpdate="true"/>
 				<p:panel id="ListadoPSs">
-					<p:dataTable id="pss" value="#{consultarPS.pss}" var="ps" selectionMode="single" selection="#{consultarPS.selectedPS}" rowKey="#{ps.id}" widgetVar="pssTable">
+					<p:dataTable id="pss" value="#{consultarPS.pss}" var="ps" selectionMode="single" selection="#{consultarPS.selectedPS}" rowKey="#{ps.id}" widgetVar="pssTable" emptyMessage="No hay Practicas registradas"
+								 rows="10" paginator="true"
+		                         paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+		                         rowsPerPageTemplate="5,10,15,25,50,100">
 					    <f:facet name="header">
 					 		<h3><p:outputLabel value=""/></h3>
 					    </f:facet>

@@ -1,5 +1,6 @@
 package com.smartps.beans;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,8 +25,8 @@ import com.smartps.model.PlanDeTrabajo;
 
 @ManagedBean
 @ViewScoped
-public class ConsultarPS {
-
+public class ConsultarPS implements Serializable{
+	private static final long serialVersionUID = -8854973801298612359L;
 	PSDao daops = new PSDao();
 	PlanDeTrabajoDao daoplanes = new PlanDeTrabajoDao();
 	InformeFinalDao daoinformes = new InformeFinalDao();

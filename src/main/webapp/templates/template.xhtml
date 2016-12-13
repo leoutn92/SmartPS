@@ -52,8 +52,11 @@
 		        <p:submenu label="Notificaciones">
 		        	<p:menuitem value="Decisiones del consejo" outcome="/notificacionesEmail" icon="ui-icon-mail-closed"/>
 		        </p:submenu>	        
-		     	<p:submenu label="Alumnos">
-		            <p:menuitem value="Buscar" outcome="/consultaAlumnos"  icon="ui-icon-search"/>
+		     	<p:submenu label="Administrar">
+		            <p:menuitem value="Alumnos" outcome="/consultaAlumnos"  icon="ui-icon-person"/>
+		            <p:menuitem value="Areas" outcome="/gestionarAreas"  icon="ui-icon-wrench"/>
+		            <p:menuitem value="Organizaciones" outcome="/gestionarOrgs"  icon="ui-icon-wrench"/>
+		            <p:menuitem value="Tipo Actividad" outcome="/gestionarAct"  icon="ui-icon-wrench"/>
 		        </p:submenu>   
 		        <p:submenu label="Ayuda">
 		            <p:menuitem value="Manual de usuario" url="http://www.primefaces.org" icon="ui-icon-help"/>

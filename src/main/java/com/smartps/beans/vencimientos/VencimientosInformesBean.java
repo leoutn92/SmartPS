@@ -1,5 +1,6 @@
 package com.smartps.beans.vencimientos;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,8 +20,8 @@ import com.smartps.model.PS;
 
 @ViewScoped
 @ManagedBean
-public class VencimientosInformesBean {
-
+public class VencimientosInformesBean implements Serializable{
+	private static final long serialVersionUID = 1807423449557327344L;
 	private InformeFinalDao dao = new InformeFinalDao();
 	private List<LineaTablaVencimiento> informes;
 	private LineaTablaVencimiento selectedInforme;

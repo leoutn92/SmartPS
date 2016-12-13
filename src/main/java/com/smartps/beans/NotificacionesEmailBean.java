@@ -1,5 +1,6 @@
 package com.smartps.beans;
 
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
@@ -19,8 +20,8 @@ import com.smartps.util.GmailSender;
 
 @ManagedBean
 @ViewScoped
-public class NotificacionesEmailBean {
-	
+public class NotificacionesEmailBean implements Serializable {
+	private static final long serialVersionUID = -7473698871041860250L;
 	PlanDeTrabajoDao daopalnes = new PlanDeTrabajoDao();
 	InformeFinalDao daoinformes = new InformeFinalDao();
 	

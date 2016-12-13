@@ -1,5 +1,6 @@
 package com.smartps.beans;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -26,8 +27,8 @@ import com.smartps.model.PlanDeTrabajo;
 
 @ManagedBean
 @ViewScoped
-public class AltaPS {
-	
+public class AltaPS implements Serializable{
+	private static final long serialVersionUID = 4821968643058374879L;
 	AreaDao daoArea = new AreaDao();
 	OrganizacionDao daoOrg = new OrganizacionDao();
 	TipoActividadDao daoTipoAct = new TipoActividadDao();

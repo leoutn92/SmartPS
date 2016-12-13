@@ -1,0 +1,83 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <h:head>
+    	<title>SmartPS</title>
+    </h:head>
+    
+    <h:body>
+
+ 	<ui:composition template="/templates/template.xhtml">
+ 		<ui:define name="content"> 
+ 			<h:outputStylesheet library="css" name="style.css"  />
+ 			<h:form>
+ 			<h3><p:outputLabel  value="Areas de desarrollo de PS" /></h3>
+			<p:separator/>
+			<br></br>
+			<p:growl autoUpdate="true" showDetail="true"/>
+			
+			<p:panelGrid columns="3">
+				<p:outputLabel value="Nombre" />
+				<p:inputText id="nombrefield" value="#{areaBean.area.nombre}"  required="true" requiredMessage="Debe ingresar un valor"/>
+				<p:message for="nombrefield" />
+				
+				<p:outputLabel value="Descripcion" />
+				<p:inputText id="descfield" value="#{areaBean.area.descripsion}"  required="true" requiredMessage="Debe ingresar una descripcion"/>
+				<p:message for="descfield"  />
+				
+				<p:commandButton value="agregar" actionListener="#{areaBean.guardar}" update="@(.ui-datatable)" validateClient="true" ajax="false"/>
+			</p:panelGrid>
+			</h:form>
+
+			<br></br>
+			
+			<p:panel>
+				<p:dataTable value="#{areaBean.areas}" var="area" editable="true" emptyMessage="No se han agregado areas">
+					
+					<p:ajax event="rowEdit" listener="#{areaBean.onRowEdit}" update="@(.ui-datatable)" />
+       				<p:ajax event="rowEditCancel" listener="#{areaBean.onRowCancel}" update="@(.ui-datatable)" />
+					
+					<p:column headerText="Nombre">
+						<p:cellEditor>
+							<f:facet name="output"> <p:outputLabel value="#{area.nombre}"/> </f:facet>
+							<f:facet name="input"> <p:inputText value="#{area.nombre}" /></f:facet>
+						</p:cellEditor>					
+					</p:column>
+					
+					<p:column headerText="Descripcion">
+						<p:cellEditor>
+							<f:facet name="output"> <p:outputLabel value="#{area.descripsion}"/> </f:facet>
+							<f:facet name="input"> <p:inputText value="#{area.descripsion}" /></f:facet>
+						</p:cellEditor>					
+					</p:column>
+					
+					<p:column style="width:100px">
+						<p:rowEditor style="height:30px;width:25px;float:left"/>
+			           		<p:commandButton action="#{areaBean.remove()}" icon="ui-icon-trash" style="width:25px;float:rigth" update="@(.ui-datatable)" immediate="true">
+			           			<f:setPropertyActionListener value="#{area}" target="#{areaBean.selectedArea}" />
+			           			<p:confirm header="Confirmación" message="Desea realmente eliminar esta area?"/>
+		           		</p:commandButton>
+	           		
+					</p:column>
+					
+				</p:dataTable>
+			</p:panel>
+			
+			
+	    	<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+		        <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+		        <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+		    </p:confirmDialog>
+		    
+			
+ 		</ui:define>
+ 		 
+ 	</ui:composition>
+
+    </h:body>
+</html>
