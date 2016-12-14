@@ -170,34 +170,42 @@ public class DesicionDelConsejoInformes {
 	
 	private void evaluar(int idInforme,Estado estado) {
 			LineaInformeParaDecision linea = buscarLineaByIdInforme(idInforme);
-			if (!tieneErrores(linea)) {
+			if (!tieneErrores(linea,estado)) {
 				InformeFinal informe= iDao.findById(idInforme);
 				informe.setFechaAprobDesaprob(linea.getFechaEvaluacion());
 				informe.setObservaciones(linea.getObservaciones());
 				informe.setOrdenanza(linea.getOrdenanza());
 				iDao.update(informe);
 				informe = iDao.getById(idInforme);
-				PS ps = pDao.findById(informe.getPs().getId()); 
+				PS ps = pDao.findById(informe.getPs().getId());
+				ps.setNroDisposicion(String.valueOf(linea.getOrdenanza()));
 				ps.setEstado(estado);
 				pDao.update(ps);
 				this.updateTablaInformesParaDecision();
 				RequestContext.getCurrentInstance().showMessageInDialog(new FacesMessage(FacesMessage.SEVERITY_INFO,"Bien hecho!","El informe fue evaluado"));
-				RequestContext.getCurrentInstance().addCallbackParam("tieneErrores",tieneErrores(linea));
+				RequestContext.getCurrentInstance().addCallbackParam("tieneErrores",tieneErrores(linea,estado));
 			} else {
-				String message = getMessage(linea);
+				String message = getMessage(linea,estado);
 				FacesContext.getCurrentInstance().addMessage("panel",new FacesMessage(FacesMessage.SEVERITY_ERROR,message,message));
-				RequestContext.getCurrentInstance().addCallbackParam("tieneErrores",tieneErrores(linea));
+				RequestContext.getCurrentInstance().addCallbackParam("tieneErrores",tieneErrores(linea,estado));
 			}
 			
 	}
 	
 
-	private String getMessage(LineaInformeParaDecision linea) {
+	private String getMessage(LineaInformeParaDecision linea, Estado estado) {
 		// TODO Auto-generated method stub
-		if(tieneErrores(linea)) {
+		if(tieneErrores(linea,estado)) {
 			 return "deben completarse todos los campos";
 		 }
 		 return "Bien hecho se registro la decision del consejo respecto del plan";
+	}
+	
+	private boolean tieneErrores(LineaInformeParaDecision linea , Estado estado ) {
+		if ("Informe aprobado".equals(estado.getNombre())) {
+			return  ((linea.getOrdenanza()==0) || tieneErrores(linea));
+		}
+		return tieneErrores(linea);
 	}
 
 	private boolean tieneErrores(LineaInformeParaDecision linea) {
