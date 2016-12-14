@@ -96,7 +96,7 @@ public class ConsultarPS implements Serializable{
 	public void editarColumnaInforme (RowEditEvent event){
 		InformeFinal inf = (InformeFinal) event.getObject();
 		daoinformes.saveOrUpdate(inf);
-		FacesMessage msg = new FacesMessage("informe editado", null);
+		FacesMessage msg = new FacesMessage("Informe editado", null);
 		FacesContext.getCurrentInstance().addMessage(null, msg);
 	}
 	
@@ -135,6 +135,8 @@ public class ConsultarPS implements Serializable{
 		selectedPS.setOrganizacion(new OrganizacionDao().getById(Integer.parseInt(orgSelec)));
 		selectedPS.setTipoActividad(new TipoActividadDao().getById(Integer.parseInt(actSelec)));
 		daops.saveOrUpdate(selectedPS);
+		FacesMessage msg = new FacesMessage("Práctica modificada", null);
+		FacesContext.getCurrentInstance().addMessage(null, msg);
 	}
 	
 	public void actualizarPresentacionesPS(){
@@ -150,6 +152,8 @@ public class ConsultarPS implements Serializable{
 		if (selectedPS.estaVigente()){
 			selectedPS.setEstado(new EstadoDao().getById(11));
 			daops.save(selectedPS);
+			FacesMessage msg = new FacesMessage("Bien", "Práctica cancelada");
+			FacesContext.getCurrentInstance().addMessage(null, msg);
 		}
 			
 	}
@@ -158,6 +162,8 @@ public class ConsultarPS implements Serializable{
 		if (puedeAprobarPS){
 			selectedPS.setEstado(new EstadoDao().getById(10));
 			daops.save(selectedPS);
+			FacesMessage msg = new FacesMessage("Bien", "Práctica Supervisada aprobada");
+			FacesContext.getCurrentInstance().addMessage(null, msg);
 		}		
 	}
 	
