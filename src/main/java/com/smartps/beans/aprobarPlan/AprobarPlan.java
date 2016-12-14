@@ -134,9 +134,12 @@ public class AprobarPlan {
 		evaluar(idPlan, estado);
 	}
 
-	private String getMessage(LineaTablaPlanesPresentados linea) {
+	private String getMessage(LineaTablaPlanesPresentados linea, PlanDeTrabajo plan) {
 		if (tieneErrores(linea)) {
 			return "deben completarse todos los campos";
+		}
+		if (!validarFechas(plan, linea)) {
+			return "la fecha de evaluacion debe ser la misma que la fecha de presentacion o posterior";
 		}
 		return "Bien hecho se registro la decision del consejo respecto del plan";
 	}
@@ -172,8 +175,8 @@ public class AprobarPlan {
 
 	private void evaluar(int idPlan, Estado estado) {
 		LineaTablaPlanesPresentados linea = buscarLineaByIdPlan(idPlan);
-		if (!tieneErrores(linea)) {
-			PlanDeTrabajo plan = planDeTrabajoDao.findByID(linea.getIdPlan());
+		PlanDeTrabajo plan = planDeTrabajoDao.findByID(linea.getIdPlan());
+		if (!tieneErrores(linea) && validarFechas(plan,linea)) {
 			plan.setFechaAprobDesaprob(linea.getFechaEvaluacion());
 			plan.setObservaciones(linea.getObservaciones());
 			plan.setOrdenanza(linea.getOrdenanza());
@@ -185,13 +188,25 @@ public class AprobarPlan {
 			this.updateTablaPlanesPresentados();
 			RequestContext.getCurrentInstance().showMessageInDialog(
 					new FacesMessage(FacesMessage.SEVERITY_INFO, "Bien hecho!", "El plan fue evaluado"));
-			RequestContext.getCurrentInstance().addCallbackParam("tieneErrores", tieneErrores(linea));
+			RequestContext.getCurrentInstance().addCallbackParam("tieneErrores", (tieneErrores(linea) || !validarFechas(plan,linea)));
 		} else {
-			String message = getMessage(linea);
+			String message = getMessage(linea,plan);
 			FacesContext.getCurrentInstance().addMessage("panel",
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, message, message));
-			RequestContext.getCurrentInstance().addCallbackParam("tieneErrores", tieneErrores(linea));
+			RequestContext.getCurrentInstance().addCallbackParam("tieneErrores", (tieneErrores(linea) || !validarFechas(plan,linea)));
 		}
+	}
+
+	private boolean validarFechas(PlanDeTrabajo plan, LineaTablaPlanesPresentados linea) {
+		// TODO Auto-generated method stub
+		if (plan.getFechaDePresentacion().equals(linea.getFechaEvaluacion())) {
+			return true;
+		} else {
+			if (plan.getFechaDePresentacion().before(linea.getFechaEvaluacion())){
+				return true;
+			}
+		}
+		return false;
 	}
 
 	public String getNombreAlumno() {

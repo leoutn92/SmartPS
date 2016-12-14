@@ -24,6 +24,7 @@ public class LineaInformeParaDecision {
 	private int idInforme;
 	private String observaciones;
 	private Integer ordenanza=1;
+	private String disposicion;
 	private Date fechaEvaluacion;
 	private String nombreAlumno;
 	private Integer legajo;
@@ -105,4 +106,10 @@ public class LineaInformeParaDecision {
 		FacesMessage message = new FacesMessage("Bien hecho! :)", event.getFile().getFileName() + " fue cargado exitosamente.");
         FacesContext.getCurrentInstance().addMessage("panel", message);
     }
+	public String getDisposicion() {
+		return disposicion;
+	}
+	public void setDisposicion(String disposicion) {
+		this.disposicion = disposicion;
+	}
 }

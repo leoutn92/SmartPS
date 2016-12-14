@@ -44,7 +44,7 @@
 			         #{linea.psTitle}
 			    </p:column>
 			    <p:column headerText="Plan de ps">
-			    		<h:commandButton value="VER PLAN" action="#{registrarPresentacionInformeBean.updatePdf()}" update="pdf">
+			    		<h:commandButton value="VER PLAN" action="#{registrarPresentacionInformeBean.updatePdf()}"  disabled="#{linea.dirPlan==null}" update="pdf">
 			    		<f:param name="legajo" value="#{linea.legajo}" />
 						</h:commandButton>
 -			    </p:column>

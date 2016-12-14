@@ -2,6 +2,8 @@ package com.smartps.beans.desicionDelConsejoInforme;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
@@ -192,18 +194,33 @@ public class DesicionDelConsejoInformes {
 			
 	}
 	
+	private boolean validarDisposicion(String disposicion) {
+		for (String componente: disposicion.split("/")) {
+			if (!componente.matches("[0-9]+")) {
+				return false;
+			} 
+		}
+		if (disposicion.endsWith("/") || !disposicion.contains("/")) {
+			return false;
+		}
+		return true;
+	}
+	
 
 	private String getMessage(LineaInformeParaDecision linea, Estado estado) {
 		// TODO Auto-generated method stub
-		if(tieneErrores(linea,estado)) {
+		if(tieneErrores(linea,estado) && linea.getDisposicion().isEmpty()) {
 			 return "deben completarse todos los campos";
-		 }
-		 return "Bien hecho se registro la decision del consejo respecto del plan";
+		}
+		if (!validarDisposicion(linea.getDisposicion())) {
+			return "el numero de disposicion debe estar en el formato año/nro";
+		}
+		return "Bien hecho se registro la decision del consejo respecto del plan";
 	}
 	
 	private boolean tieneErrores(LineaInformeParaDecision linea , Estado estado ) {
-		if ("Informe aprobado".equals(estado.getNombre())) {
-			return  ((linea.getOrdenanza()==0) || tieneErrores(linea));
+		if ("Informe aprobado".equals(estado.getNombre()) || !linea.getDisposicion().isEmpty() ) {
+			return  (tieneErrores(linea) || !validarDisposicion(linea.getDisposicion()));
 		}
 		return tieneErrores(linea);
 	}
